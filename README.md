@@ -4,6 +4,11 @@
 [![npm](https://img.shields.io/npm/dt/nativescript-canvas-plugin.svg?label=npm%20downloads)](https://www.npmjs.com/package/nativescript-canvas-plugin)
 [![Build Status](https://travis-ci.org/triniwiz/nativescript-canvas.svg?branch=master)](https://travis-ci.org/triniwiz/nativescript-canvas)
 ## WIP
+
+**Powered by**
+* [CanvasNative](https://github.com/triniwiz/canvas-native) - Rust
+* [CanvasNative](https://github.com/triniwiz/canvas-native-ios) - IOS
+* [CanvasNative](https://github.com/triniwiz/canvas-native-android) - Android
 ## Installation
 
 ```javascript
