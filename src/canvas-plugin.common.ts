@@ -2,6 +2,8 @@ import { View } from 'tns-core-modules/ui/core/view';
 
 export abstract class TNSCanvasBase extends View {
     public abstract getContext(type: string): TNSCanvasRenderingContext | null;
+
+    public abstract getBoundingClientRect(): { x: number, y: number, width: number, height: number, top: number, right: number, bottom: number, left: number }
 }
 
 export interface TNSCanvasRenderingContext {
@@ -55,7 +57,7 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     public abstract clip(fillRule: string): void;
 
-    public abstract clip(path: any, fillRule: string): void;
+    public abstract clip(path: TNSPath2DBase, fillRule: string): void;
 
     public abstract closePath(): void;
 
@@ -79,6 +81,7 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     public abstract ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
 
+    public abstract fill(): void;
     public abstract fill(fillRule?: string): void;
     public abstract fill(path: TNSPath2DBase, fillRule: string): void;
 
@@ -146,7 +149,14 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
 
 export abstract class TNSPath2DBase {
-    public abstract addPath(path: TNSPath2DBase, transform?: any): void;
+
+    protected nativeInstance: any;
+
+    constructor(instance: any) {
+        this.nativeInstance = instance;
+    }
+
+    public abstract addPath(path: TNSPath2DBase, transform?: TNSDOMMatrixBase): void;
 
     public abstract closePath(): void;
 
@@ -165,8 +175,35 @@ export abstract class TNSPath2DBase {
     public abstract ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
 
     public abstract rect(x: number, y: number, width: number, height: number): void;
+
+    get native() {
+        return this.nativeInstance;
+    }
 }
 
+export abstract class TNSDOMMatrixBase {
+    protected nativeInstance: any;
+
+    constructor(nativeInstance: any) {
+        this.nativeInstance = nativeInstance;
+    }
+
+    a: number;
+
+    b: number;
+
+    c: number;
+
+    d: number;
+
+    e: number;
+
+    f: number;
+
+    get native() {
+        return this.nativeInstance;
+    }
+}
 
 export class ImageDataBase {
     protected nativeInstance: any;
@@ -187,11 +224,9 @@ export class ImageDataBase {
 
 }
 
-
 export abstract class CanvasGradientBase {
     public abstract addColorStop(offset: number, color: any): void;
 }
-
 
 export abstract class CanvasPattern {
 }

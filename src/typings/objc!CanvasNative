@@ -10,7 +10,7 @@ declare class AnimationFrame extends NSObject {
 	static requestAnimationFrameToLoop(toLoop: (p1: number) => void): void;
 }
 
-declare class Canvas extends GLKView implements GLKViewDelegate {
+declare class Canvas extends UIView {
 
 	static alloc(): Canvas; // inherited from NSObject
 
@@ -26,48 +26,52 @@ declare class Canvas extends GLKView implements GLKViewDelegate {
 
 	static appearanceWhenContainedInInstancesOfClasses(containerTypes: NSArray<typeof NSObject> | typeof NSObject[]): Canvas; // inherited from UIAppearance
 
+	static createSVGMatrix(): CanvasDOMMatrix;
+
 	static new(): Canvas; // inherited from NSObject
 
-	readonly debugDescription: string; // inherited from NSObjectProtocol
+	canvas: number;
 
-	readonly description: string; // inherited from NSObjectProtocol
+	canvasState: NSArray<number>;
 
-	readonly hash: number; // inherited from NSObjectProtocol
+	readonly height: number;
 
-	readonly isProxy: boolean; // inherited from NSObjectProtocol
+	readonly isGL: boolean;
 
-	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
+	readonly width: number;
 
-	readonly  // inherited from NSObjectProtocol
+	constructor(o: { frame: CGRect; useGL: boolean; });
 
-	class(): typeof NSObject;
+	didDraw(): void;
 
-	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	ensureIsContextIsCurrent(): boolean;
+	doDraw(): void;
 
 	getContextWithType(type: string): CanvasRenderingContext;
 
-	glkViewDrawInRect(view: GLKView, rect: CGRect): void;
+	getId(): number;
 
-	isEqual(object: any): boolean;
+	getViewPtr(): interop.Pointer | interop.Reference<any>;
 
-	isKindOfClass(aClass: typeof NSObject): boolean;
+	initWithFrameUseGL(frame: CGRect, useGL: boolean): this;
 
-	isMemberOfClass(aClass: typeof NSObject): boolean;
+	toDataURL(): string;
 
-	performSelector(aSelector: string): any;
+	toDataURLAsyncWithCallback(callback: (p1: string) => void): void;
 
-	performSelectorWithObject(aSelector: string, object: any): any;
+	toDataURLAsyncWithTypeCallback(type: string, callback: (p1: string) => void): void;
 
-	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
+	toDataURLAsyncWithTypeFormatCallback(type: string, format: number, callback: (p1: string) => void): void;
 
-	respondsToSelector(aSelector: string): boolean;
+	toDataURLWithType(type: string): string;
 
-	retainCount(): number;
-
-	self(): this;
+	toDataURLWithTypeFormat(type: string, format: number): string;
 }
+
+interface CanvasArray {
+	array: interop.Pointer | interop.Reference<any>;
+	length: number;
+}
+declare var CanvasArray: interop.StructType<CanvasArray>;
 
 declare class CanvasColorStyle extends NSObject {
 
@@ -140,15 +144,76 @@ declare const enum CanvasCompositeOperationType {
 	Luminosity = 25
 }
 
-interface CanvasImageData {
-	array: interop.Pointer | interop.Reference<any>;
-	length: number;
+declare class CanvasDOMMatrix extends NSObject {
+
+	static alloc(): CanvasDOMMatrix; // inherited from NSObject
+
+	static new(): CanvasDOMMatrix; // inherited from NSObject
+
+	a: number;
+
+	b: number;
+
+	c: number;
+
+	d: number;
+
+	e: number;
+
+	f: number;
 }
-declare var CanvasImageData: interop.StructType<CanvasImageData>;
+
+interface CanvasDevice {
+	device: interop.Pointer | interop.Reference<any>;
+	queue: interop.Pointer | interop.Reference<any>;
+	drawable: interop.Pointer | interop.Reference<any>;
+}
+declare var CanvasDevice: interop.StructType<CanvasDevice>;
 
 declare var CanvasNativeVersionNumber: number;
 
 declare var CanvasNativeVersionString: interop.Reference<number>;
+
+declare class CanvasPath2D extends NSObject {
+
+	static alloc(): CanvasPath2D; // inherited from NSObject
+
+	static new(): CanvasPath2D; // inherited from NSObject
+
+	constructor(o: { data: string; });
+
+	constructor(o: { path: CanvasPath2D; });
+
+	addPathWithPath(path: CanvasPath2D): void;
+
+	addPathWithPathTransform(path: CanvasPath2D, transform: CanvasDOMMatrix): void;
+
+	arcToX1Y1X2Y2Radius(x1: number, y1: number, x2: number, y2: number, radius: number): void;
+
+	arcWithXYRadiusStartAngleEndAngle(x: number, y: number, radius: number, startAngle: number, endAngle: number): void;
+
+	arcWithXYRadiusStartAngleEndAngleAnticlockwise(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+
+	bezierCurveToCp1xCp1yCp2xCp2yXY(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
+
+	closePath(): void;
+
+	ellipseWithXYRadiusXRadiusYRotationStartAngleEndAngle(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number): void;
+
+	ellipseWithXYRadiusXRadiusYRotationStartAngleEndAngleAnticlockwise(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+
+	initWithData(data: string): this;
+
+	initWithPath(path: CanvasPath2D): this;
+
+	lineToXY(x: number, y: number): void;
+
+	moveToXY(x: number, y: number): void;
+
+	quadraticCurveToCpxCpyXY(cpx: number, cpy: number, x: number, y: number): void;
+
+	rectWithXYWidthHeight(x: number, y: number, width: number, height: number): void;
+}
 
 declare class CanvasRenderingContext extends NSObject {
 
@@ -211,6 +276,12 @@ declare class CanvasRenderingContext2D extends CanvasRenderingContext {
 
 	clearRectWithXYWidthHeight(x: number, y: number, width: number, height: number): void;
 
+	clip(): void;
+
+	clipWithPath(path: CanvasPath2D): void;
+
+	clipWithPathRule(path: CanvasPath2D, rule: string): void;
+
 	clipWithRule(rule: string): void;
 
 	closePath(): void;
@@ -242,6 +313,12 @@ declare class CanvasRenderingContext2D extends CanvasRenderingContext {
 	fillTextWithTextXY(text: string, x: number, y: number): void;
 
 	fillTextWithTextXYWidth(text: string, x: number, y: number, width: number): void;
+
+	fillWithPath(path: CanvasPath2D): void;
+
+	fillWithPathRule(path: CanvasPath2D, rule: string): void;
+
+	fillWithRule(rule: string): void;
 
 	getCanvas(): Canvas;
 
@@ -287,6 +364,8 @@ declare class CanvasRenderingContext2D extends CanvasRenderingContext {
 
 	strokeTextWithTextXYWidth(text: string, x: number, y: number, width: number): void;
 
+	strokeWithPath(path: CanvasPath2D): void;
+
 	transformWithABCDEF(a: number, b: number, c: number, d: number, e: number, f: number): void;
 
 	translateWithXY(x: number, y: number): void;
@@ -308,6 +387,49 @@ declare class Color extends NSObject implements ICanvasColorStyle {
 	getStyleType(): CanvasColorStyleType;
 
 	initWithColor(color: UIColor): this;
+}
+
+declare class GLRenderer extends NSObject implements GLKViewDelegate {
+
+	static alloc(): GLRenderer; // inherited from NSObject
+
+	static new(): GLRenderer; // inherited from NSObject
+
+	readonly debugDescription: string; // inherited from NSObjectProtocol
+
+	readonly description: string; // inherited from NSObjectProtocol
+
+	readonly hash: number; // inherited from NSObjectProtocol
+
+	readonly isProxy: boolean; // inherited from NSObjectProtocol
+
+	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
+
+	readonly  // inherited from NSObjectProtocol
+
+	class(): typeof NSObject;
+
+	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
+
+	glkViewDrawInRect(view: GLKView, rect: CGRect): void;
+
+	isEqual(object: any): boolean;
+
+	isKindOfClass(aClass: typeof NSObject): boolean;
+
+	isMemberOfClass(aClass: typeof NSObject): boolean;
+
+	performSelector(aSelector: string): any;
+
+	performSelectorWithObject(aSelector: string, object: any): any;
+
+	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
+
+	respondsToSelector(aSelector: string): boolean;
+
+	retainCount(): number;
+
+	self(): this;
 }
 
 declare class Gradient extends NSObject implements ICanvasColorStyle {
@@ -385,6 +507,51 @@ declare class LinearGradient extends Gradient {
 	initWithX0Y0X1Y1(x0: number, y0: number, x1: number, y1: number): this;
 }
 
+declare class MetalRenderer extends NSObject implements MTKViewDelegate {
+
+	static alloc(): MetalRenderer; // inherited from NSObject
+
+	static new(): MetalRenderer; // inherited from NSObject
+
+	readonly debugDescription: string; // inherited from NSObjectProtocol
+
+	readonly description: string; // inherited from NSObjectProtocol
+
+	readonly hash: number; // inherited from NSObjectProtocol
+
+	readonly isProxy: boolean; // inherited from NSObjectProtocol
+
+	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
+
+	readonly  // inherited from NSObjectProtocol
+
+	class(): typeof NSObject;
+
+	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
+
+	drawInMTKView(view: MTKView): void;
+
+	isEqual(object: any): boolean;
+
+	isKindOfClass(aClass: typeof NSObject): boolean;
+
+	isMemberOfClass(aClass: typeof NSObject): boolean;
+
+	mtkViewDrawableSizeWillChange(view: MTKView, size: CGSize): void;
+
+	performSelector(aSelector: string): any;
+
+	performSelectorWithObject(aSelector: string, object: any): any;
+
+	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
+
+	respondsToSelector(aSelector: string): boolean;
+
+	retainCount(): number;
+
+	self(): this;
+}
+
 declare class Pattern extends NSObject implements ICanvasColorStyle {
 
 	static alloc(): Pattern; // inherited from NSObject
@@ -450,41 +617,71 @@ declare function native_begin_path(canvas_native_ptr: number): number;
 
 declare function native_bezier_curve_to(canvas_native_ptr: number, cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): number;
 
-declare function native_clear_canvas(canvas_native_ptr: number): number;
+declare function native_clear_canvas(canvas_native_ptr: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_clear_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number): number;
+declare function native_clear_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_clip(canvas_native_ptr: number, fill_rule: string): number;
+declare function native_clip(canvas_native_ptr: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_clip_path_rule(canvas_native_ptr: number, path: number, fill_rule: string, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_clip_rule(canvas_native_ptr: number, fill_rule: string, view: interop.Pointer | interop.Reference<any>): number;
 
 declare function native_close_path(canvas_native_ptr: number): number;
 
-declare function native_create_image_data(width: number, height: number): CanvasImageData;
+declare function native_create_image_data(width: number, height: number): CanvasArray;
 
-declare function native_draw_image(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, dx: number, dy: number): number;
+declare function native_create_matrix(): number;
 
-declare function native_draw_image_dw(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, dx: number, dy: number, d_width: number, d_height: number): number;
+declare function native_create_path_2d(): number;
 
-declare function native_draw_image_sw(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, sx: number, sy: number, s_width: number, s_height: number, dx: number, dy: number, d_width: number, d_height: number): number;
+declare function native_create_path_2d_from_path_data(data: string): number;
 
-declare function native_drop_image_data(data: CanvasImageData): void;
+declare function native_create_path_from_path(path: number): number;
+
+declare function native_destroy(canvas_ptr: number): void;
+
+declare function native_draw_image(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, dx: number, dy: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_draw_image_dw(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, dx: number, dy: number, d_width: number, d_height: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_draw_image_sw(canvas_native_ptr: number, image_array: string, image_size: number, original_width: number, original_height: number, sx: number, sy: number, s_width: number, s_height: number, dx: number, dy: number, d_width: number, d_height: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_drop_image_data(data: CanvasArray): void;
 
 declare function native_drop_text_metrics(data: CanvasTextMetrics): void;
 
 declare function native_ellipse(canvas_native_ptr: number, x: number, y: number, radius_x: number, radius_y: number, rotation: number, start_angle: number, end_angle: number, anticlockwise: boolean): number;
 
-declare function native_fill(canvas_native_ptr: number): number;
+declare function native_fill(canvas_native_ptr: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_fill_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number): number;
+declare function native_fill_path_rule(canvas_native_ptr: number, path_ptr: number, rule: string, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_fill_text(canvas_native_ptr: number, text: string, x: number, y: number, width: number): number;
+declare function native_fill_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_get_image_data(canvas_native_ptr: number, sx: number, sy: number, sw: number, sh: number): CanvasImageData;
+declare function native_fill_rule(canvas_native_ptr: number, rule: string, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_fill_text(canvas_native_ptr: number, text: string, x: number, y: number, width: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_flush(canvas_ptr: number): number;
+
+declare function native_free_matrix_data(data: CanvasArray): void;
+
+declare function native_free_path_2d(path: number): void;
+
+declare function native_get_image_data(canvas_native_ptr: number, sx: number, sy: number, sw: number, sh: number): CanvasArray;
+
+declare function native_get_ios_device(canvas_native_ptr: number): CanvasDevice;
+
+declare function native_get_matrix(matrix: number): CanvasArray;
 
 declare function native_image_smoothing_enabled(canvas_native_ptr: number, enabled: boolean): number;
 
 declare function native_image_smoothing_quality(canvas_native_ptr: number, quality: string): number;
 
-declare function native_init(width: number, height: number, buffer_id: number, scale: number): number;
+declare function native_init(width: number, height: number, device: interop.Pointer | interop.Reference<any>, queue: interop.Pointer | interop.Reference<any>, view: interop.Pointer | interop.Reference<any>, scale: number): number;
+
+declare function native_init_legacy(width: number, height: number, buffer_id: number, scale: number): number;
 
 declare function native_line_dash_offset(canvas_native_ptr: number, offset: number): number;
 
@@ -498,6 +695,26 @@ declare function native_miter_limit(canvas_native_ptr: number, limit: number): n
 
 declare function native_move_to(canvas_native_ptr: number, x: number, y: number): number;
 
+declare function native_path_2d_add_path(path: number, path_to_add: number, matrix: number): number;
+
+declare function native_path_2d_arc(path: number, x: number, y: number, radius: number, start_angle: number, end_angle: number, anticlockwise: boolean): number;
+
+declare function native_path_2d_arc_to(path: number, x1: number, y1: number, x2: number, y2: number, radius: number): number;
+
+declare function native_path_2d_bezier_curve_to(path: number, cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): number;
+
+declare function native_path_2d_close_path(path: number): number;
+
+declare function native_path_2d_ellipse(path: number, x: number, y: number, radius_x: number, radius_y: number, rotation: number, start_angle: number, end_angle: number, anticlockwise: boolean): number;
+
+declare function native_path_2d_line_to(path: number, x: number, y: number): number;
+
+declare function native_path_2d_move_to(path: number, x: number, y: number): number;
+
+declare function native_path_2d_quadratic_curve_to(path: number, cpx: number, cpy: number, x: number, y: number): number;
+
+declare function native_path_2d_rect(path: number, x: number, y: number, width: number, height: number): number;
+
 declare function native_put_image_data(canvas_native_ptr: number, width: number, height: number, array: string, array_size: number, x: number, y: number, dirty_x: number, dirty_y: number, dirty_width: number, dirty_height: number): number;
 
 declare function native_quadratic_curve_to(canvas_native_ptr: number, cpx: number, cpy: number, x: number, y: number): number;
@@ -508,11 +725,11 @@ declare function native_reset_transform(canvas_native_ptr: number): number;
 
 declare function native_restore(canvas_native_ptr: number): number;
 
-declare function native_rotate(canvas_native_ptr: number, angle: number): number;
+declare function native_rotate(canvas_native_ptr: number, angle: number, view: interop.Pointer | interop.Reference<any>): number;
 
 declare function native_save(canvas_native_ptr: number): number;
 
-declare function native_scale(canvas_native_ptr: number, x: number, y: number): number;
+declare function native_scale(canvas_native_ptr: number, x: number, y: number, view: interop.Pointer | interop.Reference<any>): number;
 
 declare function native_set_fill_color_rgba(canvas_native_ptr: number, red: number, green: number, blue: number, alpha: number): number;
 
@@ -532,13 +749,15 @@ declare function native_set_line_dash(canvas_native_ptr: number, size: number, a
 
 declare function native_set_line_width(canvas_native_ptr: number, line_width: number): number;
 
+declare function native_set_matrix(matrix: number, array: interop.Pointer | interop.Reference<any>, length: number): number;
+
 declare function native_set_stroke_color_rgba(canvas_native_ptr: number, red: number, green: number, blue: number, alpha: number): number;
 
 declare function native_set_stroke_gradient_linear(canvas_native_ptr: number, x0: number, y0: number, x1: number, y1: number, colors_size: number, colors_array: interop.Pointer | interop.Reference<number>, positions_size: number, positions_array: interop.Pointer | interop.Reference<number>): number;
 
 declare function native_set_stroke_gradient_radial(canvas_native_ptr: number, x0: number, y0: number, radius_0: number, x1: number, y1: number, radius_1: number, colors_size: number, colors_array: interop.Pointer | interop.Reference<number>, positions_size: number, positions_array: interop.Pointer | interop.Reference<number>): number;
 
-declare function native_set_transform(canvas_native_ptr: number, a: number, b: number, c: number, d: number, e: number, f: number): number;
+declare function native_set_transform(canvas_native_ptr: number, a: number, b: number, c: number, d: number, e: number, f: number, view: interop.Pointer | interop.Reference<any>): number;
 
 declare function native_shadow_blur(canvas_native_ptr: number, limit: number): number;
 
@@ -548,16 +767,22 @@ declare function native_shadow_offset_x(canvas_native_ptr: number, x: number): n
 
 declare function native_shadow_offset_y(canvas_native_ptr: number, y: number): number;
 
-declare function native_stroke(canvas_native_ptr: number): number;
+declare function native_stroke(canvas_native_ptr: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_stroke_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number): number;
+declare function native_stroke_path(canvas_native_ptr: number, path: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_stroke_text(canvas_native_ptr: number, text: string, x: number, y: number, width: number): number;
+declare function native_stroke_rect(canvas_native_ptr: number, x: number, y: number, width: number, height: number, view: interop.Pointer | interop.Reference<any>): number;
 
-declare function native_surface_resized(width: number, height: number, buffer_id: number, current_canvas: number): number;
+declare function native_stroke_text(canvas_native_ptr: number, text: string, x: number, y: number, width: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_surface_resized(width: number, height: number, device: interop.Pointer | interop.Reference<any>, queue: interop.Pointer | interop.Reference<any>, scale: number, current_canvas: number): number;
+
+declare function native_surface_resized_legacy(width: number, height: number, buffer_id: number, scale: number, canvas_native_ptr: number): number;
 
 declare function native_text_align(canvas_native_ptr: number, alignment: string): number;
 
-declare function native_transform(canvas_native_ptr: number, a: number, b: number, c: number, d: number, e: number, f: number): number;
+declare function native_to_data_url(canvas_ptr: number, format: string, quality: number): string;
 
-declare function native_translate(canvas_native_ptr: number, x: number, y: number): number;
+declare function native_transform(canvas_native_ptr: number, a: number, b: number, c: number, d: number, e: number, f: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_translate(canvas_native_ptr: number, x: number, y: number, view: interop.Pointer | interop.Reference<any>): number;

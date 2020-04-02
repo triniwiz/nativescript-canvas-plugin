@@ -1,2 +1,2 @@
 platform :ios, '11.0'
-pod 'CanvasNative'
+pod 'CanvasNative' , '~> 0.2.1'
