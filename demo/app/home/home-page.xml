@@ -7,8 +7,8 @@
         <Label class="action-bar-title" text="Home"/>
     </ActionBar>
 
-    <GridLayout>
-        <canvas:TNSCanvas id="canvas" width="100%" height="100%" loaded="canvasLoaded"/>
-        <Button text="Test" tap="clear"></Button>
+    <GridLayout isPassThroughParentEnabled="true">
+        <canvas:TNSCanvas id="canvas" width="100%" height="100%" layoutChanged="canvasLoaded"/>
+        <Button height="40" text="Test" tap="clear"/>
     </GridLayout>
 </Page>
