@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { particles } from '~/app/home/particles';
 
 @Component({
     selector: "Home",
@@ -13,5 +14,9 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         // Init your component properties here.
+    }
+
+    loaded(event){
+        particles(event.object);
     }
 }
