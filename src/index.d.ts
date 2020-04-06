@@ -126,3 +126,6 @@ export declare class CanvasGradient extends CanvasGradientBase {
     static fromNative(nativeInstance: any): CanvasGradient;
     readonly native: any;
 }
+
+export declare function requestAnimationFrame(loop: any): string;
+export declare function cancelAnimationFrame(id: any): void;

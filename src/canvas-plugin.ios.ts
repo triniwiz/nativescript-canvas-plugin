@@ -3,7 +3,6 @@ import {
     ImageDataBase,
     TextMetricsBase,
     TNSCanvasBase,
-    TNSCanvasRenderingContext,
     TNSCanvasRenderingContext2DBase,
     TNSDOMMatrixBase,
     TNSPath2DBase
@@ -11,7 +10,7 @@ import {
 import { Color as TNSColor } from 'tns-core-modules/color';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ColorHandler } from './ColorHelper';
-import { screen } from 'tns-core-modules/platform';
+
 declare var Canvas, AnimationFrame;
 
 export function createSVGMatrix(): TNSDOMMatrix {
@@ -42,7 +41,16 @@ export class TNSCanvas extends TNSCanvasBase {
         const frame = (view.ios.frame as CGRect);
         const width = view.getMeasuredWidth();
         const height = view.getMeasuredHeight();
-        return {bottom: height, height: height, left: frame.origin.x, right: width, top: frame.origin.y, width: width, x: frame.origin.x, y: frame.origin.y};
+        return {
+            bottom: height,
+            height: height,
+            left: frame.origin.x,
+            right: width,
+            top: frame.origin.y,
+            width: width,
+            x: frame.origin.x,
+            y: frame.origin.y
+        };
     }
 }
 
@@ -56,6 +64,7 @@ export class ImageData extends ImageDataBase {
 
 export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase {
     private context;
+
     constructor(context: any) {
         super();
         this.context = context;
@@ -736,12 +745,13 @@ export class CanvasGradient extends CanvasGradientBase {
     }
 }
 
-(global as any).requestAnimationFrame = (loop) => {
+export function requestAnimationFrame(loop) {
     return AnimationFrame.requestAnimationFrameToLoop((called) => {
         loop(called);
     });
-};
-(global as any).cancelAnimationFrame = (id) => {
+}
+
+export function cancelAnimationFrame(id) {
     AnimationFrame.cancelAnimationFrameWithId(id);
-};
+}
 

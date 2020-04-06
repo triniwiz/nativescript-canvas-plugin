@@ -801,14 +801,14 @@ export class TNSDOMMatrix extends TNSDOMMatrixBase {
     }
 }
 
-
-(global as any).requestAnimationFrame = (loop) => {
+export function requestAnimationFrame(loop) {
     return com.github.triniwiz.canvas.AnimationFrame.requestAnimationFrame(new com.github.triniwiz.canvas.AnimationFrame.Callback({
         onFrame(called: number): void {
             loop(called);
         }
     }));
-};
-(global as any).cancelAnimationFrame = (id) => {
+}
+
+export function cancelAnimationFrame(id) {
     com.github.triniwiz.canvas.AnimationFrame.cancelAnimationFrame(id);
-};
+}
