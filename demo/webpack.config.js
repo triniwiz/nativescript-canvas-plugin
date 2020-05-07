@@ -250,6 +250,8 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
                 "process": "global.process",
+                "typeof CANVAS_RENDERER": "true",
+                "typeof WEBGL_RENDERER": "true",
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin(itemsToClean, { verbose: !!verbose }),
@@ -257,7 +259,10 @@ module.exports = env => {
             new CopyWebpackPlugin([
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.jpg" } },
+                { from: { glob: "**/*.jpeg" } },
                 { from: { glob: "**/*.png" } },
+                { from: { glob: "**/*.json" } },
+                { from: { glob: "**/*.tps" } },
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),
             new nsWebpack.GenerateNativeScriptEntryPointsPlugin("bundle"),
             // For instructions on how to set up workers with webpack

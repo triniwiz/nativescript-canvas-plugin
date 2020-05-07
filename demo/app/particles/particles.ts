@@ -1,6 +1,7 @@
 import { TNSCanvas, TNSCanvasRenderingContext2D } from 'nativescript-canvas-plugin';
 import { GestureTypes, TouchGestureEventData } from 'tns-core-modules/ui/gestures';
 import * as platform from 'tns-core-modules/platform'
+export let LAF = 0;
 export function particles(canvas: TNSCanvas) {
         const ctx = canvas.getContext('2d') as TNSCanvasRenderingContext2D;
 
@@ -126,7 +127,7 @@ export function particles(canvas: TNSCanvas) {
             drawParticle(p.x, p.y, p.r, p.c);
         });
         // Play the same song? Ok!
-        requestAnimFrame(frame);
+       LAF = requestAnimFrame(frame);
     };
 
 // Click listener

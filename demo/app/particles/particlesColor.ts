@@ -1,8 +1,9 @@
 import { screen } from 'tns-core-modules/platform';
+export let LAF = 0;
 export function particlesColor(canvas){
         var ctx = canvas.getContext('2d'),
         particles = [],
-        patriclesNum = 200,
+        patriclesNum = 100,
         w = 500 * screen.mainScreen.scale,
         h = 500 * screen.mainScreen.scale,
         colors = ['#f35d4f','#f36849','#c0d988','#6ddaf1','#f1e85b'];
@@ -84,7 +85,7 @@ export function particlesColor(canvas){
 
     (function loop(){
         draw();
-        requestAnimFrame(loop);
+        LAF = requestAnimFrame(loop);
     })();
 
 }

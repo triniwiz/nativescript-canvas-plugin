@@ -1,14 +1,25 @@
-<Page class="page"
-    loaded="loaded"
+<Page class="page" loaded="loaded"
     xmlns="http://schemas.nativescript.org/tns.xsd"
     xmlns:canvas="nativescript-canvas-plugin">
 
-    <ActionBar class="action-bar">
-        <Label class="action-bar-title" text="Home"/>
+    <ActionBar>
+        <Label text="Home"/>
     </ActionBar>
 
-    <GridLayout isPassThroughParentEnabled="true">
-        <canvas:TNSCanvas id="canvas" width="100%" height="100%" layoutChanged="canvasLoaded"/>
-        <Button height="40" text="Test" tap="clear"/>
+    <GridLayout rows="auto,auto,auto,auto">
+        <canvas:TNSCanvas rowSpan="4" id="canvas" width="100%" height="100%" layoutChanged="canvasLoaded"/>
+        <ScrollView rowSpan="4" visibility="{{ show ? 'visible': 'collapse' }}"  orientation="vertical">
+            <Repeater items="{{ items }}">
+                <Repeater.itemsLayout>
+                    <StackLayout orientation="vertical" />
+                </Repeater.itemsLayout>
+                <Repeater.itemTemplate>
+                    <Label color="{{ $parents['Repeater'].textColor }}" tap="tap" text="{{ name }}" margin="10" />
+                </Repeater.itemTemplate>
+            </Repeater>
+        </ScrollView>
+
+        <Button row="0" verticalAlignment="top" horizontalAlignment="right" width="100" height="100" text="{{ show ? 'Show Examples': 'Hide Examples' }}" tap="toggle"/>
+
     </GridLayout>
 </Page>

@@ -1,3 +1,4 @@
+export let LAF;
 export function particlesLarge(canvas) {
 
 
@@ -134,7 +135,7 @@ export function particlesLarge(canvas) {
         var self = this,
             ctx = self.ctx;
 
-        setInterval(function(){
+    LAF =  setInterval(function(){
             //clears canvas
             self.clearCanvas();
             //then redraws particles in new positions based on velocity

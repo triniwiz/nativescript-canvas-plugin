@@ -1,18 +1,18 @@
+export let LAF = 0;
 export function swarm(canvas) {
 
-    var requestAnimFrame = (callback)=>{
-        return setTimeout(callback, 1000 / 60);
-    };
+    var requestAnimFrame = requestAnimationFrame;
 
 function init(){
     // Initialize the context of the canvas
     var ctx = canvas.getContext("2d");
+   // canvas.nativeView.handleInvalidationManually = true
 
 // Set the canvas width and height to occupy full window
     var W = canvas.getMeasuredWidth(), H = canvas.getMeasuredHeight();
 
 // Some variables for later use
-    var particleCount = 150,
+    var particleCount = 100,
         particles = [],
         minDist = 70,
         dist;
@@ -138,10 +138,9 @@ function init(){
             // particle can be compared to every other particle
             // except itself
             for(var j = i + 1; j < particles.length; j++) {
-                let p2 = particles[j];
-                distance(p, p2);
-            }
-
+                    let p2 = particles[j];
+                    distance(p, p2);
+                }
         }
     }
 
@@ -158,8 +157,8 @@ function init(){
         if(dist <= minDist) {
 
             // Draw the line
-            ctx.beginPath();
-            ctx.strokeStyle = "rgba(255,255,255,"+ (1.2-dist/minDist) +")";
+           ctx.beginPath();
+           ctx.strokeStyle = "rgba(255,255,255,"+ (1.2-dist/minDist) +")";
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
@@ -181,13 +180,14 @@ function init(){
 
 // Start the main animation loop using requestAnimFrame
     function animloop() {
-        draw();
-        requestAnimFrame(animloop);
+            draw();
+           LAF = requestAnimFrame(animloop);
+         // canvas.nativeView.flush();
     }
 
     animloop();
 }
 
+init()
 
-    init()
 }

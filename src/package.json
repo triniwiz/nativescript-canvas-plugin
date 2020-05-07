@@ -1,66 +1,66 @@
 {
-	"name": "nativescript-canvas-plugin",
-	"version": "0.2.1",
-	"description": "Html Canvas Shim",
-	"main": "canvas-plugin",
-	"typings": "index.d.ts",
-	"nativescript": {
-		"platforms": {
-			"android": "5.4.0",
-			"ios": "5.4.0"
-		}
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/triniwiz/nativescript-canvas-plugin.git"
-	},
-	"scripts": {
-		"tsc": "npm i && tsc",
-		"build": "npm run tsc && npm run build.native",
-		"build.native": "node scripts/build-native.js",
-		"postclone": "npm i && node scripts/postclone.js",
-		"tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-		"plugin.tscwatch": "npm run tsc -- -w",
-		"ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
-		"prepack": "npm run build.native",
-		"demo.ios": "npm run tsc && cd ../demo && tns run ios --emulator",
-		"demo.android": "npm run tsc && cd ../demo && tns run android --emulator",
-		"demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms package-lock.json",
-		"demo-angular.ios": "npm run tsc && cd ../demo-angular && tns run ios --emulator",
-		"demo-angular.android": "npm run tsc && cd ../demo-angular && tns run android --emulator",
-		"demo-angular.reset": "cd ../demo-angular && npx rimraf -- hooks node_modules platforms package-lock.json",
-		"plugin.prepare": "npm run build && cd ../demo && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src && cd ../demo-angular && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src",
-		"clean": "npm run demo.reset && npm run demo-angular.reset && npx rimraf -- node_modules package-lock.json && npm i"
-	},
-	"keywords": [
-		"NativeScript",
-		"JavaScript",
-		"Android",
-		"iOS",
-		"Canvas",
-		"skia",
-		"2d",
-		"drawing"
-	],
-	"author": {
-		"name": "Osei Fortune",
-		"email": "fortune.osei@yahoo.com"
-	},
-	"bugs": {
-		"url": "https://github.com/triniwiz/nativescript-canvas-plugin/issues"
-	},
-	"license": "Apache-2.0",
-	"homepage": "https://github.com/triniwiz/nativescript-canvas-plugin",
-	"readmeFilename": "README.md",
-	"devDependencies": {
-		"tns-core-modules": "^5.0.0",
-		"tns-platform-declarations": "^5.0.0",
-		"typescript": "~3.3.3",
-		"prompt": "^1.0.0",
-		"rimraf": "^2.6.3",
-		"tslint": "^5.12.1",
-		"semver": "^5.6.0"
-	},
-	"dependencies": {},
-	"bootstrapper": "nativescript-plugin-seed"
+  "name": "nativescript-canvas-plugin",
+  "version": "0.3.0",
+  "description": "Html Canvas Shim",
+  "main": "canvas-plugin",
+  "typings": "index.d.ts",
+  "nativescript": {
+	"platforms": {
+	  "android": "5.4.0",
+	  "ios": "5.4.0"
+	}
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/triniwiz/nativescript-canvas-plugin.git"
+  },
+  "scripts": {
+	"tsc": "npm i && tsc",
+	"build": "npm run tsc && npm run build.native",
+	"build.native": "node scripts/build-native.js",
+	"postclone": "npm i && node scripts/postclone.js",
+	"tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
+	"plugin.tscwatch": "npm run tsc -- -w",
+	"ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
+	"prepack": "npm run build.native",
+	"demo.ios": "npm run tsc && cd ../demo && tns run ios --emulator",
+	"demo.android": "npm run tsc && cd ../demo && tns run android --emulator",
+	"demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms package-lock.json",
+	"demo-angular.ios": "npm run tsc && cd ../demo-angular && tns run ios --emulator",
+	"demo-angular.android": "npm run tsc && cd ../demo-angular && tns run android --emulator",
+	"demo-angular.reset": "cd ../demo-angular && npx rimraf -- hooks node_modules platforms package-lock.json",
+	"plugin.prepare": "npm run build && cd ../demo && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src && cd ../demo-angular && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src",
+	"clean": "npm run demo.reset && npm run demo-angular.reset && npx rimraf -- node_modules package-lock.json && npm i"
+  },
+  "keywords": [
+	"NativeScript",
+	"JavaScript",
+	"Android",
+	"iOS",
+	"Canvas",
+	"skia",
+	"2d",
+	"drawing"
+  ],
+  "author": {
+	"name": "Osei Fortune",
+	"email": "fortune.osei@yahoo.com"
+  },
+  "bugs": {
+	"url": "https://github.com/triniwiz/nativescript-canvas-plugin/issues"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/triniwiz/nativescript-canvas-plugin",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+	"tns-core-modules": "^5.0.0",
+	"tns-platform-declarations": "^5.0.0",
+	"typescript": "~3.3.3",
+	"prompt": "^1.0.0",
+	"rimraf": "^2.6.3",
+	"tslint": "^5.12.1",
+	"semver": "^5.6.0"
+  },
+  "dependencies": {},
+  "bootstrapper": "nativescript-plugin-seed"
 }

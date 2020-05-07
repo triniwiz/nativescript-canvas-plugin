@@ -1,3 +1,4 @@
+export let LAF;
 export function colorRain(canvas){
     //initial
     var w = canvas.getMeasuredWidth(),
@@ -27,7 +28,7 @@ export function colorRain(canvas){
     }
 
     function anim(){
-        requestAnimationFrame(anim);
+       LAF =  requestAnimationFrame(anim);
 
         ctx.fillStyle = repaintColor;
         ctx.fillRect(0, 0, w, h);

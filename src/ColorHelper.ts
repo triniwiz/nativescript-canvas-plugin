@@ -1,4 +1,3 @@
-
 export class ColorHandler {
 
     static HSLToRGB(hsl, isPct) {
