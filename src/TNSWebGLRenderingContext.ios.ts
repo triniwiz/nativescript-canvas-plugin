@@ -46,7 +46,7 @@ declare const Canvas_EXT_blend_minmax, Canvas_EXT_color_buffer_float, Canvas_EXT
 export * from './TNSWebGLExtensions';
 
 export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
-    private context: WebGLRenderingContext;
+    private context;
 
     constructor(context) {
         super();

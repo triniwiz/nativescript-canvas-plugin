@@ -1315,6 +1315,8 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	samplerParameteriWithSamplerPnameParam(sampler: number, pname: number, param: number): void;
 
+	texImage3DWithTargetLevelInternalformatWidthHeightDepthBorderFormatTypeAsset(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, format: number, type: number, asset: ImageAsset): void;
+
 	texImage3DWithTargetLevelInternalformatWidthHeightDepthBorderFormatTypeImage(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, format: number, type: number, source: UIImage): void;
 
 	texImage3DWithTargetLevelInternalformatWidthHeightDepthBorderFormatTypeOffset(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, format: number, type: number, offset: number): void;
@@ -1324,6 +1326,8 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 	texStorage2DWithTargetLevelsInternalformatWidthHeight(target: number, levels: number, internalformat: number, width: number, height: number): void;
 
 	texStorage3DWithTargetLevelsInternalformatWidthHeightDepth(target: number, levels: number, internalformat: number, width: number, height: number, depth: number): void;
+
+	texSubImage3DWithTargetLevelXoffsetYoffsetZoffsetWidthHeightDepthFormatTypeAsset(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, asset: ImageAsset): void;
 
 	texSubImage3DWithTargetLevelXoffsetYoffsetZoffsetWidthHeightDepthFormatTypeImage(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, srcData: UIImage): void;
 
@@ -2411,6 +2415,8 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	texParameteriWithTargetPnameParam(target: number, pname: number, param: number): void;
 
+	texSubImage2DWithTargetLevelXoffsetYoffsetFormatTypeAsset(target: number, level: number, xoffset: number, yoffset: number, format: number, type: number, asset: ImageAsset): void;
+
 	texSubImage2DWithTargetLevelXoffsetYoffsetFormatTypeNone(target: number, level: number, xoffset: number, yoffset: number, format: number, type: number, pixels: NSNull): void;
 
 	texSubImage2DWithTargetLevelXoffsetYoffsetFormatTypePixels(target: number, level: number, xoffset: number, yoffset: number, format: number, type: number, pixels: UIImage): void;
@@ -2504,6 +2510,8 @@ declare class WebGLShaderPrecisionFormat extends NSObject {
 }
 
 declare function flipInPlace(data: string | interop.Pointer | interop.Reference<any>, width: number, height: number): void;
+
+declare function flipInPlace3D(data: string | interop.Pointer | interop.Reference<any>, width: number, height: number, depth: number): void;
 
 declare function free_image(image: string | interop.Pointer | interop.Reference<any>): void;
 
