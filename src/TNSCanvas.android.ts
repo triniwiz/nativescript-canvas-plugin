@@ -51,7 +51,6 @@ export class TNSCanvas extends TNSCanvasBase {
         super.onLoaded();
         if (this._didPause) {
             this.canvas.onResume();
-            this.nativeView.resume();
             this._didPause = false;
         }
     }
