@@ -5,15 +5,20 @@
       "version": "6.4.1"
     },
     "tns-ios": {
-      "version": "6.4.0"
+      "version": "6.4.2"
     }
   },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
+    "nativescript-accelerometer": "^3.0.0",
     "nativescript-canvas-plugin": "file:../src",
+    "nativescript-http-async": "file:../nativescript-http-async-1.1.2.tgz",
     "nativescript-theme-core": "~1.0.4",
+    "nativescript-videoplayer": "^4.2.1",
+    "phaser": "^3.22.0",
+    "phaser-ce": "^2.15.0",
     "tns-core-modules": "~6.4.0"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+export let LAF = 0;
 export function rainbowOctopus(canvas) {
 
 
@@ -77,6 +78,7 @@ export function rainbowOctopus(canvas) {
         t += t_step;
 
         requestID = requestAnimationFrame(spiral)
+        LAF = requestID;
     };
 
     var initCanvas = function() {

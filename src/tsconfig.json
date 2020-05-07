@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "ES5",
         "module": "commonjs",
         "declaration": true,
         "removeComments": true,
@@ -14,7 +14,7 @@
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noEmitHelpers": true,
-        "noEmitOnError": true,
+        "noEmitOnError": false,
         "noImplicitAny": false,
         "noImplicitReturns": true,
         "noImplicitUseStrict": false,

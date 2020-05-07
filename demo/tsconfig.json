@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es5",
+		"target": "ES2015",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"noEmitHelpers": true,
@@ -22,8 +22,7 @@
 	},
 	"exclude": [
 		"node_modules",
-		"platforms",
-		"../src/node_modules"
+		"platforms"
 	],
 	"include": [
 		"../src",
