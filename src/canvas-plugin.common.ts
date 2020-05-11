@@ -490,707 +490,15 @@ export class WebGLUniformLocation {
 
 export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRenderingContext {
 
-    readonly ACTIVE_ATTRIBUTES: number;
+    _native: any;
+    constructor(context){
+        this._native = context;
+    }
+
+    get native(){
+        return this._native;
+    }
 
-    readonly ACTIVE_TEXTURE: number;
-
-    readonly ACTIVE_UNIFORMS: number;
-
-    readonly ALIASED_LINE_WIDTH_RANGE: number;
-
-    readonly ALIASED_POINT_SIZE_RANGE: number;
-
-    readonly ALPHA: number;
-
-    readonly ALPHA_BITS: number;
-
-    readonly ALWAYS: number;
-
-    readonly ARRAY_BUFFER: number;
-
-    readonly ARRAY_BUFFER_BINDING: number;
-
-    readonly ATTACHED_SHADERS: number;
-
-    readonly BACK: number;
-
-    readonly BLEND: number;
-
-    readonly BLEND_COLOR: number;
-
-    readonly BLEND_DST_ALPHA: number;
-
-    readonly BLEND_DST_RGB: number;
-
-    readonly BLEND_EQUATION: number;
-
-    readonly BLEND_EQUATION_ALPHA: number;
-
-    readonly BLEND_EQUATION_RGB: number;
-
-    readonly BLEND_SRC_ALPHA: number;
-
-    readonly BLEND_SRC_RGB: number;
-
-    readonly BLUE_BITS: number;
-
-    readonly BOOL: number;
-
-    readonly BOOL_VEC2: number;
-
-    readonly BOOL_VEC3: number;
-
-    readonly BOOL_VEC4: number;
-
-    readonly CCW: number;
-
-    readonly CLAMP_TO_EDGE: number;
-
-    readonly COLOR_ATTACHMENT0: number;
-
-    readonly COLOR_ATTACHMENT0_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT10_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT11_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT12_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT13_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT14_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT15_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT1_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT2_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT3_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT4_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT5_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT6_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT7_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT8_WEBGL: number;
-
-    readonly COLOR_ATTACHMENT9_WEBGL: number;
-
-    readonly COLOR_BUFFER_BIT: number;
-
-    readonly COLOR_CLEAR_VALUE: number;
-
-    readonly COLOR_WRITEMASK: number;
-
-    readonly COMPILE_STATUS: number;
-
-    readonly COMPRESSED_R11_EAC: number;
-
-    readonly COMPRESSED_RED_GREEN_RGTC2_EXT: number;
-
-    readonly COMPRESSED_RED_RGTC1_EXT: number;
-
-    readonly COMPRESSED_RG11_EAC: number;
-
-    readonly COMPRESSED_RGB8_ETC2: number;
-
-    readonly COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
-
-    readonly COMPRESSED_RGBA8_ETC2_EAC: number;
-
-    readonly COMPRESSED_RGBA_ASTC_10x10_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_10x5_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_10x6_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_12x10_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_12x12_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_4x4_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_5x4_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_5x5_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_6x5_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_6x6_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_8x5_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_8x6_KHR: number;
-
-    readonly COMPRESSED_RGBA_ASTC_8x8_KHR: number;
-
-    readonly COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL: number;
-
-    readonly COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL: number;
-
-    readonly COMPRESSED_RGBA_BPTC_UNORM_EXT: number;
-
-    readonly COMPRESSED_RGBA_PVRTC_2BPPV1_IMG: number;
-
-    readonly COMPRESSED_RGBA_PVRTC_4BPPV1_IMG: number;
-
-    readonly COMPRESSED_RGBA_S3TC_DXT1_EXT: number;
-
-    readonly COMPRESSED_RGBA_S3TC_DXT3_EXT: number;
-
-    readonly COMPRESSED_RGBA_S3TC_DXT5_EXT: number;
-
-    readonly COMPRESSED_RGB_ATC_WEBGL: number;
-
-    readonly COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT: number;
-
-    readonly COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT: number;
-
-    readonly COMPRESSED_RGB_ETC1_WEBGL: number;
-
-    readonly COMPRESSED_RGB_PVRTC_2BPPV1_IMG: number;
-
-    readonly COMPRESSED_RGB_PVRTC_4BPPV1_IMG: number;
-
-    readonly COMPRESSED_RGB_S3TC_DXT1_EXT: number;
-
-    readonly COMPRESSED_SIGNED_R11_EAC: number;
-
-    readonly COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT: number;
-
-    readonly COMPRESSED_SIGNED_RED_RGTC1_EXT: number;
-
-    readonly COMPRESSED_SIGNED_RG11_EAC: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR: number;
-
-    readonly COMPRESSED_SRGB8_ALPHA8_ETC2_EAC: number;
-
-    readonly COMPRESSED_SRGB8_ETC2: number;
-
-    readonly COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
-
-    readonly COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT: number;
-
-    readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT: number;
-
-    readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT: number;
-
-    readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT: number;
-
-    readonly COMPRESSED_SRGB_S3TC_DXT1_EXT: number;
-
-    readonly COMPRESSED_TEXTURE_FORMATS: number;
-
-    readonly CONTEXT_LOST_WEBGL: number;
-
-    readonly CULL_FACE: number;
-
-    readonly CULL_FACE_MODE: number;
-
-    readonly CURRENT_PROGRAM: number;
-
-    readonly CURRENT_VERTEX_ATTRIB: number;
-
-    readonly CW: number;
-
-    readonly DECR: number;
-
-    readonly DECR_WRAP: number;
-
-    readonly DELETE_STATUS: number;
-
-    readonly DEPTH_ATTACHMENT: number;
-
-    readonly DEPTH_BITS: number;
-
-    readonly DEPTH_BUFFER_BIT: number;
-
-    readonly DEPTH_CLEAR_VALUE: number;
-
-    readonly DEPTH_COMPONENT16: number;
-
-    readonly DEPTH_FUNC: number;
-
-    readonly DEPTH_RANGE: number;
-
-    readonly DEPTH_STENCIL: number;
-
-    readonly DEPTH_STENCIL_ATTACHMENT: number;
-
-    readonly DEPTH_TEST: number;
-
-    readonly DEPTH_WRITEMASK: number;
-
-    readonly DITHER: number;
-
-    readonly DONT_CARE: number;
-
-    readonly DYNAMIC_DRAW: number;
-
-    readonly ELEMENT_ARRAY_BUFFER: number;
-
-    readonly ELEMENT_ARRAY_BUFFER_BINDING: number;
-
-    readonly EQUAL: number;
-
-    readonly FASTEST: number;
-
-    readonly FLOAT: number;
-
-    readonly FLOAT_MAT2: number;
-
-    readonly FLOAT_MAT3: number;
-
-    readonly FLOAT_MAT4: number;
-
-    readonly FLOAT_VEC2: number;
-
-    readonly FLOAT_VEC3: number;
-
-    readonly FLOAT_VEC4: number;
-
-    readonly FRAGMENT_SHADER: number;
-
-    readonly FRAGMENT_SHADER_DERIVATIVE_HINT_OES: number;
-
-    readonly FRAMEBUFFER: number;
-
-    readonly FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
-
-    readonly FRAMEBUFFER_ATTACHMENT_OBJECT_NAME: number;
-
-    readonly FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE: number;
-
-    readonly FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE: number;
-
-    readonly FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL: number;
-
-    readonly FRAMEBUFFER_BINDING: number;
-
-    readonly FRAMEBUFFER_COMPLETE: number;
-
-    readonly FRAMEBUFFER_INCOMPLETE_ATTACHMENT: number;
-
-    readonly FRAMEBUFFER_INCOMPLETE_DIMENSIONS: number;
-
-    readonly FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: number;
-
-    readonly FRAMEBUFFER_UNSUPPORTED: number;
-
-    readonly FRONT: number;
-
-    readonly FRONT_AND_BACK: number;
-
-    readonly FRONT_FACE: number;
-
-    readonly FUNC_ADD: number;
-
-    readonly FUNC_REVERSE_SUBTRACT: number;
-
-    readonly FUNC_SUBTRACT: number;
-
-    readonly GENERATE_MIPMAP_HINT: number;
-
-    readonly GEQUAL: number;
-
-    readonly GREATER: number;
-
-    readonly GREEN_BITS: number;
-
-    readonly IMPLEMENTATION_COLOR_READ_FORMAT: number;
-
-    readonly IMPLEMENTATION_COLOR_READ_TYPE: number;
-
-    readonly INCR: number;
-
-    readonly INCR_WRAP: number;
-
-    readonly INT: number;
-
-    readonly INT_VEC2: number;
-
-    readonly INT_VEC3: number;
-
-    readonly INT_VEC4: number;
-
-    readonly INVALID_ENUM: number;
-
-    readonly INVALID_FRAMEBUFFER_OPERATION: number;
-
-    readonly INVALID_OPERATION: number;
-
-    readonly INVALID_VALUE: number;
-
-    readonly INVERT: number;
-
-    readonly KEEP: number;
-
-    readonly LEQUAL: number;
-
-    readonly LESS: number;
-
-    readonly LINEAR: number;
-
-    readonly LINEAR_MIPMAP_LINEAR: number;
-
-    readonly LINEAR_MIPMAP_NEAREST: number;
-
-    readonly LINES: number;
-
-    readonly LINE_LOOP: number;
-
-    readonly LINE_STRIP: number;
-
-    readonly LINE_WIDTH: number;
-
-    readonly LINK_STATUS: number;
-
-    readonly LUMINANCE: number;
-
-    readonly LUMINANCE_ALPHA: number;
-
-    readonly MAX_COMBINED_TEXTURE_IMAGE_UNITS: number;
-
-    readonly MAX_CUBE_MAP_TEXTURE_SIZE: number;
-
-    readonly MAX_FRAGMENT_UNIFORM_VECTORS: number;
-
-    readonly MAX_RENDERBUFFER_SIZE: number;
-
-    readonly MAX_TEXTURE_IMAGE_UNITS: number;
-
-    readonly MAX_TEXTURE_SIZE: number;
-
-    readonly MAX_VARYING_VECTORS: number;
-
-    readonly MAX_VERTEX_ATTRIBS: number;
-
-    readonly MAX_VERTEX_TEXTURE_IMAGE_UNITS: number;
-
-    readonly MAX_VERTEX_UNIFORM_VECTORS: number;
-
-    readonly MAX_VIEWPORT_DIMS: number;
-
-    readonly MIRRORED_REPEAT: number;
-
-    readonly NEAREST: number;
-
-    readonly NEAREST_MIPMAP_LINEAR: number;
-
-    readonly NEAREST_MIPMAP_NEAREST: number;
-
-    readonly NEVER: number;
-
-    readonly NICEST: number;
-
-    readonly NOTEQUAL: number;
-
-    readonly NO_ERROR: number;
-
-    readonly ONE: number;
-
-    readonly OUT_OF_MEMORY: number;
-
-    readonly PACK_ALIGNMENT: number;
-
-    readonly POINTS: number;
-
-    readonly POLYGON_OFFSET_FACTOR: number;
-
-    readonly POLYGON_OFFSET_FILL: number;
-
-    readonly POLYGON_OFFSET_UNITS: number;
-
-    readonly RED_BITS: number;
-
-    readonly RENDERBUFFER: number;
-
-    readonly RENDERBUFFER_ALPHA_SIZE: number;
-
-    readonly RENDERBUFFER_BINDING: number;
-
-    readonly RENDERBUFFER_BLUE_SIZE: number;
-
-    readonly RENDERBUFFER_DEPTH_SIZE: number;
-
-    readonly RENDERBUFFER_GREEN_SIZE: number;
-
-    readonly RENDERBUFFER_HEIGHT: number;
-
-    readonly RENDERBUFFER_INTERNAL_FORMAT: number;
-
-    readonly RENDERBUFFER_RED_SIZE: number;
-
-    readonly RENDERBUFFER_STENCIL_SIZE: number;
-
-    readonly RENDERBUFFER_WIDTH: number;
-
-    readonly RENDERER: number;
-
-    readonly REPEAT: number;
-
-    readonly REPLACE: number;
-
-    readonly RGB: number;
-
-    readonly RGB32F_EXT: number;
-
-    readonly RGB565: number;
-
-    readonly RGB5_A1: number;
-
-    readonly RGBA: number;
-
-    readonly RGBA32F_EXT: number;
-
-    readonly RGBA4: number;
-
-    readonly SAMPLER_2D: number;
-
-    readonly SAMPLER_CUBE: number;
-
-    readonly SAMPLES: number;
-
-    readonly SAMPLE_ALPHA_TO_COVERAGE: number;
-
-    readonly SAMPLE_BUFFERS: number;
-
-    readonly SAMPLE_COVERAGE: number;
-
-    readonly SAMPLE_COVERAGE_INVERT: number;
-
-    readonly SAMPLE_COVERAGE_VALUE: number;
-
-    readonly SCISSOR_BOX: number;
-
-    readonly SCISSOR_TEST: number;
-
-    readonly SHADER_TYPE: number;
-
-    readonly SHADING_LANGUAGE_VERSION: number;
-
-    readonly SRGB8_ALPHA8_EXT: number;
-
-    readonly STATIC_DRAW: number;
-
-    readonly STENCIL_ATTACHMENT: number;
-
-    readonly STENCIL_BACK_FAIL: number;
-
-    readonly STENCIL_BACK_FUNC: number;
-
-    readonly STENCIL_BACK_PASS_DEPTH_FAIL: number;
-
-    readonly STENCIL_BACK_PASS_DEPTH_PASS: number;
-
-    readonly STENCIL_BACK_REF: number;
-
-    readonly STENCIL_BACK_VALUE_MASK: number;
-
-    readonly STENCIL_BACK_WRITEMASK: number;
-
-    readonly STENCIL_BITS: number;
-
-    readonly STENCIL_BUFFER_BIT: number;
-
-    readonly STENCIL_CLEAR_VALUE: number;
-
-    readonly STENCIL_FAIL: number;
-
-    readonly STENCIL_FUNC: number;
-
-    readonly STENCIL_INDEX8: number;
-
-    readonly STENCIL_PASS_DEPTH_FAIL: number;
-
-    readonly STENCIL_PASS_DEPTH_PASS: number;
-
-    readonly STENCIL_REF: number;
-
-    readonly STENCIL_TEST: number;
-
-    readonly STENCIL_VALUE_MASK: number;
-
-    readonly STENCIL_WRITEMASK: number;
-
-    readonly STREAM_DRAW: number;
-
-    readonly SUBPIXEL_BITS: number;
-
-    readonly TEXTURE0: number;
-
-    readonly TEXTURE1: number;
-
-    readonly TEXTURE10: number;
-
-    readonly TEXTURE11: number;
-
-    readonly TEXTURE12: number;
-
-    readonly TEXTURE13: number;
-
-    readonly TEXTURE14: number;
-
-    readonly TEXTURE15: number;
-
-    readonly TEXTURE16: number;
-
-    readonly TEXTURE17: number;
-
-    readonly TEXTURE18: number;
-
-    readonly TEXTURE19: number;
-
-    readonly TEXTURE2: number;
-
-    readonly TEXTURE20: number;
-
-    readonly TEXTURE21: number;
-
-    readonly TEXTURE22: number;
-
-    readonly TEXTURE23: number;
-
-    readonly TEXTURE24: number;
-
-    readonly TEXTURE25: number;
-
-    readonly TEXTURE26: number;
-
-    readonly TEXTURE27: number;
-
-    readonly TEXTURE28: number;
-
-    readonly TEXTURE29: number;
-
-    readonly TEXTURE3: number;
-
-    readonly TEXTURE30: number;
-
-    readonly TEXTURE31: number;
-
-    readonly TEXTURE4: number;
-
-    readonly TEXTURE5: number;
-
-    readonly TEXTURE6: number;
-
-    readonly TEXTURE7: number;
-
-    readonly TEXTURE8: number;
-
-    readonly TEXTURE9: number;
-
-    readonly TEXTURE_2D: number;
-
-    readonly TEXTURE_BINDING_2D: number;
-
-    readonly TEXTURE_BINDING_CUBE_MAP: number;
-
-    readonly TEXTURE_CUBE_MAP: number;
-
-    readonly TEXTURE_CUBE_MAP_NEGATIVE_X: number;
-
-    readonly TEXTURE_CUBE_MAP_NEGATIVE_Y: number;
-
-    readonly TEXTURE_CUBE_MAP_NEGATIVE_Z: number;
-
-    readonly TEXTURE_CUBE_MAP_POSITIVE_X: number;
-
-    readonly TEXTURE_CUBE_MAP_POSITIVE_Y: number;
-
-    readonly TEXTURE_CUBE_MAP_POSITIVE_Z: number;
-
-    readonly TEXTURE_MAG_FILTER: number;
-
-    readonly TEXTURE_MAX_ANISOTROPY_EXT: number;
-
-    readonly TEXTURE_MIN_FILTER: number;
-
-    readonly TEXTURE_WRAP_S: number;
-
-    readonly TEXTURE_WRAP_T: number;
-
-    readonly TRIANGLES: number;
-
-    readonly TRIANGLE_FAN: number;
-
-    readonly TRIANGLE_STRIP: number;
-
-    readonly UNPACK_ALIGNMENT: number;
-
-    readonly UNPACK_COLORSPACE_CONVERSION_WEBGL: number;
-
-    readonly UNPACK_FLIP_Y_WEBGL: number;
-
-    readonly UNPACK_PREMULTIPLY_ALPHA_WEBGL: number;
-
-    readonly UNSIGNED_BYTE: number;
-
-    readonly UNSIGNED_INT: number;
-
-    readonly UNSIGNED_SHORT: number;
-
-    readonly UNSIGNED_SHORT_4_4_4_4: number;
-
-    readonly UNSIGNED_SHORT_5_5_5_1: number;
-
-    readonly UNSIGNED_SHORT_5_6_5: number;
-
-    readonly VALIDATE_STATUS: number;
-
-    readonly VENDOR: number;
-
-    readonly VERSION: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_BUFFER_BINDING: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_ENABLED: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_NORMALIZED: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_POINTER: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_SIZE: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_STRIDE: number;
-
-    readonly VERTEX_ATTRIB_ARRAY_TYPE: number;
-
-    readonly VERTEX_SHADER: number;
-
-    readonly VIEWPORT: number;
-
-    readonly ZERO: number;
 
     readonly drawingBufferHeight: number;
 
@@ -1199,7 +507,7 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     _canvas: any;
     get canvas(): any {
         return this._canvas;
-    };
+    }
 
     _type: string = 'none';
     get type() {
@@ -1487,8 +795,698 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     abstract vertexAttribPointer(index: number, size: number, type: number, normalized: boolean, stride: number, offset: number): void;
 
     abstract viewport(x: number, y: number, width: number, height: number): void;
-}
 
+
+     /* Clearing buffers */
+
+     public get DEPTH_BUFFER_BIT(): number { return this.native.DEPTH_BUFFER_BIT }
+
+     public get COLOR_BUFFER_BIT(): number { return this.native.COLOR_BUFFER_BIT }
+
+     public get STENCIL_BUFFER_BIT(): number { return this.native.STENCIL_BUFFER_BIT }
+
+     /* Clearing buffers */
+
+     /* Rendering primitives */
+
+     public get POINTS(): number { return this.native.POINTS }
+
+     public get LINES(): number { return this.native.LINES }
+
+     public get LINE_LOOP(): number { return this.native.LINE_LOOP }
+
+     public get LINE_STRIP(): number { return this.native.LINE_STRIP }
+
+     public get TRIANGLES(): number { return this.native.TRIANGLES }
+
+     public get TRIANGLE_STRIP(): number { return this.native.TRIANGLE_STRIP }
+
+     public get TRIANGLE_FAN(): number { return this.native.TRIANGLE_FAN }
+
+     /* Rendering primitives */
+
+     /* Blending modes */
+
+
+     public get ONE(): number { return this.native.ONE }
+
+     public get ZERO(): number { return this.native.ZERO }
+     public get SRC_COLOR(): number { return this.native.SRC_COLOR }
+
+     public get ONE_MINUS_SRC_COLOR(): number { return this.native.ONE_MINUS_SRC_COLOR }
+
+     public get SRC_ALPHA(): number { return this.native.SRC_ALPHA }
+
+     public get ONE_MINUS_SRC_ALPHA(): number { return this.native.ONE_MINUS_SRC_ALPHA }
+
+     public get DST_ALPHA(): number { return this.native.DST_ALPHA }
+
+     public get ONE_MINUS_DST_ALPHA(): number { return this.native.ONE_MINUS_DST_ALPHA }
+
+     public get DST_COLOR(): number { return this.native.DST_COLOR }
+
+     public get ONE_MINUS_DST_COLOR(): number { return this.native.ONE_MINUS_DST_COLOR }
+
+     public get SRC_ALPHA_SATURATE(): number { return this.native.SRC_ALPHA_SATURATE }
+
+     public get CONSTANT_COLOR(): number { return this.native.CONSTANT_COLOR }
+     public get ONE_MINUS_CONSTANT_COLOR(): number { return this.native.ONE_MINUS_CONSTANT_COLOR }
+
+     public get CONSTANT_ALPHA(): number { return this.native.CONSTANT_ALPHA }
+     public get ONE_MINUS_CONSTANT_ALPHA(): number { return this.native.ONE_MINUS_CONSTANT_ALPHA }
+
+     /* Blending modes */
+
+     /* Blending equations */
+     public get FUNC_ADD(): number { return this.native.FUNC_ADD }
+
+     public get FUNC_SUBTRACT(): number { return this.native.FUNC_SUBTRACT }
+
+     public get FUNC_REVERSE_SUBTRACT(): number { return this.native.FUNC_REVERSE_SUBTRACT }
+
+     /* Blending equations */
+
+
+     /* Getting GL parameter information */
+
+     public get BLEND_EQUATION(): number { return this.native.BLEND_EQUATION }
+
+     public get BLEND_EQUATION_RGB(): number { return this.native.BLEND_EQUATION_RGB }
+
+     public get BLEND_EQUATION_ALPHA(): number { return this.native.BLEND_EQUATION_ALPHA }
+
+     public get BLEND_DST_RGB(): number { return this.native.BLEND_DST_RGB }
+
+     public get BLEND_SRC_RGB(): number { return this.native.BLEND_SRC_RGB }
+
+     public get BLEND_DST_ALPHA(): number { return this.native.BLEND_DST_ALPHA }
+
+     public get BLEND_SRC_ALPHA(): number { return this.native.BLEND_SRC_ALPHA }
+
+     public get BLEND_COLOR(): number { return this.native.BLEND_COLOR }
+
+     public get ARRAY_BUFFER_BINDING(): number { return this.native.ARRAY_BUFFER_BINDING }
+
+     public get ELEMENT_ARRAY_BUFFER_BINDING(): number { return this.native.ELEMENT_ARRAY_BUFFER_BINDING }
+
+     public get LINE_WIDTH(): number { return this.native.LINE_WIDTH }
+
+     public get ALIASED_POINT_SIZE_RANGE(): number { return this.native.ALIASED_POINT_SIZE_RANGE }
+
+     public get ALIASED_LINE_WIDTH_RANGE(): number { return this.native.ALIASED_LINE_WIDTH_RANGE }
+
+     public get CULL_FACE_MODE(): number { return this.native.CULL_FACE_MODE }
+
+     public get FRONT_FACE(): number { return this.native.FRONT_FACE }
+
+     public get DEPTH_RANGE(): number { return this.native.DEPTH_RANGE }
+
+     public get DEPTH_WRITEMASK(): number { return this.native.DEPTH_WRITEMASK }
+
+     public get DEPTH_CLEAR_VALUE(): number { return this.native.DEPTH_CLEAR_VALUE }
+
+     public get DEPTH_FUNC(): number { return this.native.DEPTH_FUNC }
+
+     public get STENCIL_CLEAR_VALUE(): number { return this.native.STENCIL_CLEAR_VALUE }
+
+     public get STENCIL_FUNC(): number { return this.native.STENCIL_FUNC }
+
+     public get STENCIL_FAIL(): number { return this.native.STENCIL_FAIL }
+
+     public get STENCIL_PASS_DEPTH_FAIL(): number { return this.native.STENCIL_PASS_DEPTH_FAIL }
+
+     public get STENCIL_PASS_DEPTH_PASS(): number { return this.native.STENCIL_PASS_DEPTH_PASS }
+
+     public get STENCIL_REF(): number { return this.native.STENCIL_REF }
+
+     public get STENCIL_VALUE_MASK(): number { return this.native.STENCIL_VALUE_MASK }
+
+     public get STENCIL_WRITEMASK(): number { return this.native.STENCIL_WRITEMASK }
+
+     public get STENCIL_BACK_FUNC(): number { return this.native.STENCIL_BACK_FUNC }
+
+     public get STENCIL_BACK_FAIL(): number { return this.native.STENCIL_BACK_FAIL }
+
+     public get STENCIL_BACK_PASS_DEPTH_FAIL(): number { return this.native.STENCIL_BACK_PASS_DEPTH_FAIL }
+
+     public get STENCIL_BACK_PASS_DEPTH_PASS(): number { return this.native.STENCIL_BACK_PASS_DEPTH_PASS }
+
+     public get STENCIL_BACK_REF(): number { return this.native.STENCIL_BACK_REF }
+
+     public get STENCIL_BACK_VALUE_MASK(): number { return this.native.STENCIL_BACK_VALUE_MASK }
+
+     public get STENCIL_BACK_WRITEMASK(): number { return this.native.STENCIL_BACK_WRITEMASK }
+
+     public get VIEWPORT(): number { return this.native.VIEWPORT }
+
+     public get SCISSOR_BOX(): number { return this.native.SCISSOR_BOX }
+
+     public get COLOR_CLEAR_VALUE(): number { return this.native.COLOR_CLEAR_VALUE }
+
+     public get COLOR_WRITEMASK(): number { return this.native.COLOR_WRITEMASK }
+
+     public get UNPACK_ALIGNMENT(): number { return this.native.UNPACK_ALIGNMENT }
+
+     public get PACK_ALIGNMENT(): number { return this.native.PACK_ALIGNMENT }
+
+     public get MAX_TEXTURE_SIZE(): number { return this.native.MAX_TEXTURE_SIZE }
+
+     public get MAX_VIEWPORT_DIMS(): number { return this.native.MAX_VIEWPORT_DIMS }
+
+     public get SUBPIXEL_BITS(): number { return this.native.SUBPIXEL_BITS }
+
+     public get RED_BITS(): number { return this.native.RED_BITS }
+
+     public get GREEN_BITS(): number { return this.native.GREEN_BITS }
+
+     public get BLUE_BITS(): number { return this.native.BLUE_BITS }
+
+     public get ALPHA_BITS(): number { return this.native.ALPHA_BITS }
+
+     public get DEPTH_BITS(): number { return this.native.DEPTH_BITS }
+
+     public get STENCIL_BITS(): number { return this.native.STENCIL_BITS }
+
+     public get POLYGON_OFFSET_UNITS(): number { return this.native.POLYGON_OFFSET_UNITS }
+
+     public get POLYGON_OFFSET_FACTOR(): number { return this.native.POLYGON_OFFSET_FACTOR }
+
+     public get TEXTURE_BINDING_2D(): number { return this.native.TEXTURE_BINDING_2D }
+
+     public get SAMPLE_BUFFERS(): number { return this.native.SAMPLE_BUFFERS }
+
+     public get SAMPLES(): number { return this.native.SAMPLES }
+
+     public get SAMPLE_COVERAGE_VALUE(): number { return this.native.SAMPLE_COVERAGE_VALUE }
+
+     public get SAMPLE_COVERAGE_INVERT(): number { return this.native.SAMPLE_COVERAGE_INVERT }
+
+     public get COMPRESSED_TEXTURE_FORMATS(): number { return this.native.COMPRESSED_TEXTURE_FORMATS }
+
+     public get VENDOR(): number { return this.native.VENDOR }
+
+     public get RENDERER(): number { return this.native.RENDERER }
+
+     public get VERSION(): number { return this.native.VERSION }
+
+     public get IMPLEMENTATION_COLOR_READ_TYPE(): number { return this.native.IMPLEMENTATION_COLOR_READ_TYPE }
+
+     public get IMPLEMENTATION_COLOR_READ_FORMAT(): number { return this.native.IMPLEMENTATION_COLOR_READ_FORMAT }
+
+     public get BROWSER_DEFAULT_WEBGL(): number { return  this.native.BROWSER_DEFAULT_WEBGL }
+
+     /* Getting GL parameter information */
+
+     /* Buffers */
+
+     public get STATIC_DRAW(): number { return this.native.STATIC_DRAW }
+
+     public get STREAM_DRAW(): number { return this.native.STREAM_DRAW }
+
+     public get DYNAMIC_DRAW(): number { return this.native.DYNAMIC_DRAW }
+
+     public get ARRAY_BUFFER(): number { return this.native.ARRAY_BUFFER }
+
+     public get ELEMENT_ARRAY_BUFFER(): number { return this.native.ELEMENT_ARRAY_BUFFER }
+
+     public get BUFFER_SIZE(): number { return this.native.BUFFER_SIZE }
+
+     public get BUFFER_USAGE(): number { return this.native.BUFFER_USAGE }
+
+     /* Buffers */
+
+     /* Vertex attributes */
+
+     public get CURRENT_VERTEX_ATTRIB(): number { return this.native.CURRENT_VERTEX_ATTRIB }
+
+     public get VERTEX_ATTRIB_ARRAY_ENABLED(): number { return this.native.VERTEX_ATTRIB_ARRAY_ENABLED }
+
+     public get VERTEX_ATTRIB_ARRAY_SIZE(): number { return this.native.VERTEX_ATTRIB_ARRAY_SIZE }
+
+     public get VERTEX_ATTRIB_ARRAY_STRIDE(): number { return this.native.VERTEX_ATTRIB_ARRAY_STRIDE }
+
+     public get VERTEX_ATTRIB_ARRAY_TYPE(): number { return this.native.VERTEX_ATTRIB_ARRAY_TYPE }
+
+     public get VERTEX_ATTRIB_ARRAY_NORMALIZED(): number { return this.native.VERTEX_ATTRIB_ARRAY_NORMALIZED }
+
+     public get VERTEX_ATTRIB_ARRAY_POINTER(): number { return this.native.VERTEX_ATTRIB_ARRAY_POINTER }
+
+     public get VERTEX_ATTRIB_ARRAY_BUFFER_BINDING(): number { return this.native.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING }
+
+     /* Vertex attributes */
+
+     /* Culling */
+
+     public get CULL_FACE(): number { return this.native.CULL_FACE }
+
+     public get FRONT(): number { return this.native.FRONT }
+
+     public get BACK(): number { return this.native.BACK }
+
+     public get FRONT_AND_BACK(): number { return this.native.FRONT_AND_BACK }
+
+     /* Culling */
+
+     /* Enabling and disabling */
+
+     public get BLEND(): number { return this.native.BLEND }
+
+     public get DEPTH_TEST(): number { return this.native.DEPTH_TEST }
+
+     public get DITHER(): number { return this.native.DITHER }
+
+     public get POLYGON_OFFSET_FILL(): number { return this.native.POLYGON_OFFSET_FILL }
+
+     public get SAMPLE_ALPHA_TO_COVERAGE(): number { return this.native.SAMPLE_ALPHA_TO_COVERAGE }
+
+     public get SAMPLE_COVERAGE(): number { return this.native.SAMPLE_COVERAGE }
+
+     public get SCISSOR_TEST(): number { return this.native.SCISSOR_TEST }
+
+     public get STENCIL_TEST(): number { return this.native.STENCIL_TEST }
+
+     /* Enabling and disabling */
+
+     /* Errors */
+     public get NO_ERROR(): number { return this.native.NO_ERROR }
+
+     public get INVALID_ENUM(): number { return this.native.INVALID_ENUM }
+
+     public get INVALID_VALUE(): number { return this.native.INVALID_VALUE }
+
+     public get INVALID_OPERATION(): number { return this.native.INVALID_OPERATION }
+
+     public get INVALID_FRAMEBUFFER_OPERATION(): number { return this.native.INVALID_FRAMEBUFFER_OPERATION }
+
+     public get OUT_OF_MEMORY(): number { return this.native.OUT_OF_MEMORY }
+
+     public get CONTEXT_LOST_WEBGL(): number { return this.native.CONTEXT_LOST_WEBGL }
+     /* Errors */
+
+     /* Front face directions */
+
+     public get CW(): number { return this.native.CW }
+
+     public get CCW(): number { return this.native.CCW }
+
+     /* Front face directions */
+
+
+     /* Hints */
+
+     public get DONT_CARE(): number { return this.native.DONT_CARE }
+
+     public get FASTEST(): number { return this.native.FASTEST }
+
+     public get NICEST(): number { return this.native.NICEST }
+
+     public get GENERATE_MIPMAP_HINT(): number { return this.native.GENERATE_MIPMAP_HINT }
+
+     /* Hints */
+
+
+     /* Data types */
+
+     public get BYTE(): number { return this.native.BYTE }
+
+     public get UNSIGNED_BYTE(): number { return this.native.UNSIGNED_BYTE }
+
+     public get UNSIGNED_SHORT(): number { return this.native.UNSIGNED_SHORT }
+
+     public get SHORT(): number { return this.native.SHORT }
+
+     public get UNSIGNED_INT(): number { return this.native.UNSIGNED_INT }
+
+     public get INT(): number { return this.native.INT }
+
+     public get FLOAT(): number { return this.native.FLOAT }
+
+     /* Data types */
+
+
+     /* Pixel formats */
+
+     public get DEPTH_COMPONENT(): number { return this.native.DEPTH_COMPONENT }
+
+     public get ALPHA(): number { return this.native.ALPHA }
+
+     public get RGB(): number { return this.native.RGB }
+
+     public get RGBA(): number { return this.native.RGBA }
+
+     public get LUMINANCE(): number { return this.native.LUMINANCE }
+
+     public get LUMINANCE_ALPHA(): number { return this.native.LUMINANCE_ALPHA }
+
+     /* Pixel formats */
+
+     /* Pixel types */
+
+     // public get UNSIGNED_BYTE(): number { return this.native.UNSIGNED_BYTE }
+
+     public get UNSIGNED_SHORT_4_4_4_4(): number { return this.native.UNSIGNED_SHORT_4_4_4_4 }
+
+     public get UNSIGNED_SHORT_5_5_5_1(): number { return this.native.UNSIGNED_SHORT_5_5_5_1 }
+
+     public get UNSIGNED_SHORT_5_6_5(): number { return this.native.UNSIGNED_SHORT_5_6_5 }
+
+     /* Pixel types */
+
+     /* Shaders */
+
+     public get FRAGMENT_SHADER(): number { return this.native.FRAGMENT_SHADER }
+
+     public get VERTEX_SHADER(): number { return this.native.VERTEX_SHADER }
+
+     public get COMPILE_STATUS(): number { return this.native.COMPILE_STATUS }
+
+     public get DELETE_STATUS(): number { return this.native.DELETE_STATUS }
+
+     public get LINK_STATUS(): number { return this.native.LINK_STATUS }
+
+     public get VALIDATE_STATUS(): number { return this.native.VALIDATE_STATUS }
+
+     public get ATTACHED_SHADERS(): number { return this.native.ATTACHED_SHADERS }
+
+     public get ACTIVE_ATTRIBUTES(): number { return this.native.ACTIVE_ATTRIBUTES }
+
+     public get ACTIVE_UNIFORMS(): number { return this.native.ACTIVE_UNIFORMS }
+
+     public get MAX_VERTEX_UNIFORM_VECTORS(): number { return this.native.MAX_VERTEX_UNIFORM_VECTORS }
+
+     public get MAX_VARYING_VECTORS(): number { return this.native.MAX_VARYING_VECTORS }
+
+     public get MAX_COMBINED_TEXTURE_IMAGE_UNITS(): number { return this.native.MAX_COMBINED_TEXTURE_IMAGE_UNITS }
+
+     public get MAX_VERTEX_TEXTURE_IMAGE_UNITS(): number { return this.native.MAX_VERTEX_TEXTURE_IMAGE_UNITS }
+
+     public get MAX_TEXTURE_IMAGE_UNITS(): number { return this.native.MAX_TEXTURE_IMAGE_UNITS }
+
+     public get MAX_VERTEX_ATTRIBS(): number { return this.native.MAX_VERTEX_ATTRIBS }
+
+     public get MAX_FRAGMENT_UNIFORM_VECTORS(): number { return this.native.MAX_FRAGMENT_UNIFORM_VECTORS }
+
+     public get SHADER_TYPE(): number { return this.native.SHADER_TYPE }
+
+     public get SHADING_LANGUAGE_VERSION(): number { return this.native.SHADING_LANGUAGE_VERSION }
+
+     public get CURRENT_PROGRAM(): number { return this.native.CURRENT_PROGRAM }
+
+     /* Shaders */
+
+     /* Depth or stencil tests */
+
+     public get NEVER(): number { return this.native.NEVER }
+
+     public get LESS(): number { return this.native.LESS }
+
+     public get EQUAL(): number { return this.native.EQUAL }
+
+     public get LEQUAL(): number { return this.native.LEQUAL }
+
+     public get GREATER(): number { return this.native.GREATER }
+
+     public get NOTEQUAL(): number { return this.native.NOTEQUAL }
+
+     public get GEQUAL(): number { return this.native.GEQUAL }
+
+     public get ALWAYS(): number { return this.native.ALWAYS }
+
+     /* Depth or stencil tests */
+
+     /* Stencil actions */
+
+     public get KEEP(): number { return this.native.KEEP }
+
+     public get REPLACE(): number { return this.native.REPLACE }
+
+     public get INCR(): number { return this.native.INCR }
+
+     public get DECR(): number { return this.native.DECR }
+
+     public get INVERT(): number { return this.native.INVERT }
+
+     public get INCR_WRAP(): number { return this.native.INCR_WRAP }
+
+     public get DECR_WRAP(): number { return this.native.DECR_WRAP }
+
+     /* Stencil actions */
+
+     /* Textures */
+
+     public get NEAREST(): number { return this.native.NEAREST }
+
+     public get LINEAR(): number { return this.native.LINEAR }
+
+     public get NEAREST_MIPMAP_NEAREST(): number { return this.native.NEAREST_MIPMAP_NEAREST }
+
+     public get LINEAR_MIPMAP_NEAREST(): number { return this.native.LINEAR_MIPMAP_NEAREST }
+
+     public get NEAREST_MIPMAP_LINEAR(): number { return this.native.NEAREST_MIPMAP_LINEAR }
+
+     public get LINEAR_MIPMAP_LINEAR(): number { return this.native.LINEAR_MIPMAP_LINEAR }
+
+     public get TEXTURE_MAG_FILTER(): number { return this.native.TEXTURE_MAG_FILTER }
+
+     public get TEXTURE_MIN_FILTER(): number { return this.native.TEXTURE_MIN_FILTER }
+
+     public get TEXTURE_WRAP_S(): number { return this.native.TEXTURE_WRAP_S }
+
+     public get TEXTURE_WRAP_T(): number { return this.native.TEXTURE_WRAP_T }
+
+     public get TEXTURE_2D(): number { return this.native.TEXTURE_2D }
+
+     public get TEXTURE(): number { return this.native.TEXTURE }
+
+     public get TEXTURE_CUBE_MAP(): number { return this.native.TEXTURE_CUBE_MAP }
+
+     public get TEXTURE_BINDING_CUBE_MAP(): number { return this.native.TEXTURE_BINDING_CUBE_MAP }
+
+     public get TEXTURE_CUBE_MAP_POSITIVE_X(): number { return this.native.TEXTURE_CUBE_MAP_POSITIVE_X }
+
+     public get TEXTURE_CUBE_MAP_NEGATIVE_X(): number { return this.native.TEXTURE_CUBE_MAP_NEGATIVE_X }
+
+     public get TEXTURE_CUBE_MAP_POSITIVE_Y(): number { return this.native.TEXTURE_CUBE_MAP_POSITIVE_Y }
+
+     public get TEXTURE_CUBE_MAP_NEGATIVE_Y(): number { return this.native.TEXTURE_CUBE_MAP_NEGATIVE_Y }
+
+     public get TEXTURE_CUBE_MAP_POSITIVE_Z(): number { return this.native.TEXTURE_CUBE_MAP_POSITIVE_Z }
+
+     public get TEXTURE_CUBE_MAP_NEGATIVE_Z(): number { return this.native.TEXTURE_CUBE_MAP_NEGATIVE_Z }
+
+     public get MAX_CUBE_MAP_TEXTURE_SIZE(): number { return this.native.MAX_CUBE_MAP_TEXTURE_SIZE }
+
+     public get TEXTURE0(): number { return this.native.TEXTURE0 }
+
+     public get TEXTURE1(): number { return this.native.TEXTURE1 }
+
+     public get TEXTURE2(): number { return this.native.TEXTURE2 }
+
+     public get TEXTURE3(): number { return this.native.TEXTURE3 }
+
+     public get TEXTURE4(): number { return this.native.TEXTURE4 }
+
+     public get TEXTURE5(): number { return this.native.TEXTURE5 }
+
+     public get TEXTURE6(): number { return this.native.TEXTURE6 }
+
+     public get TEXTURE7(): number { return this.native.TEXTURE7 }
+
+     public get TEXTURE8(): number { return this.native.TEXTURE8 }
+
+     public get TEXTURE9(): number { return this.native.TEXTURE9 }
+
+     public get TEXTURE10(): number { return this.native.TEXTURE10 }
+
+     public get TEXTURE11(): number { return this.native.TEXTURE11 }
+
+     public get TEXTURE12(): number { return this.native.TEXTURE12 }
+
+     public get TEXTURE13(): number { return this.native.TEXTURE13 }
+
+     public get TEXTURE14(): number { return this.native.TEXTURE14 }
+
+     public get TEXTURE15(): number { return this.native.TEXTURE15 }
+
+     public get TEXTURE16(): number { return this.native.TEXTURE16 }
+
+     public get TEXTURE17(): number { return this.native.TEXTURE17 }
+
+     public get TEXTURE18(): number { return this.native.TEXTURE18 }
+
+     public get TEXTURE19(): number { return this.native.TEXTURE19 }
+
+     public get TEXTURE20(): number { return this.native.TEXTURE20 }
+
+     public get TEXTURE21(): number { return this.native.TEXTURE21 }
+
+     public get TEXTURE22(): number { return this.native.TEXTURE22 }
+
+     public get TEXTURE23(): number { return this.native.TEXTURE23 }
+
+     public get TEXTURE24(): number { return this.native.TEXTURE24 }
+
+     public get TEXTURE25(): number { return this.native.TEXTURE25 }
+
+     public get TEXTURE26(): number { return this.native.TEXTURE26 }
+
+     public get TEXTURE27(): number { return this.native.TEXTURE27 }
+
+     public get TEXTURE28(): number { return this.native.TEXTURE28 }
+
+     public get TEXTURE29(): number { return this.native.TEXTURE29 }
+
+     public get TEXTURE30(): number { return this.native.TEXTURE30 }
+
+     public get TEXTURE31(): number { return this.native.TEXTURE31 }
+
+     public get ACTIVE_TEXTURE(): number { return this.native.ACTIVE_TEXTURE }
+
+     public get REPEAT(): number { return this.native.REPEAT }
+
+     public get CLAMP_TO_EDGE(): number { return this.native.CLAMP_TO_EDGE }
+
+     public get MIRRORED_REPEAT(): number { return this.native.MIRRORED_REPEAT }
+
+     /* Textures */
+
+
+
+     /* Uniform types */
+
+     public get FLOAT_VEC2(): number { return this.native.FLOAT_VEC2 }
+
+     public get FLOAT_VEC3(): number { return this.native.FLOAT_VEC3 }
+
+     public get FLOAT_VEC4(): number { return this.native.FLOAT_VEC4 }
+
+     public get INT_VEC2(): number { return this.native.INT_VEC2 }
+
+     public get INT_VEC3(): number { return this.native.INT_VEC3 }
+
+     public get INT_VEC4(): number { return this.native.INT_VEC4 }
+
+
+     public get BOOL(): number { return this.native.BOOL }
+
+
+     public get BOOL_VEC2(): number { return this.native.BOOL_VEC2 }
+
+     public get BOOL_VEC3(): number { return this.native.BOOL_VEC3 }
+
+     public get BOOL_VEC4(): number { return this.native.BOOL_VEC4 }
+
+
+     public get FLOAT_MAT2(): number { return this.native.FLOAT_MAT2 }
+
+
+     public get FLOAT_MAT3(): number { return this.native.FLOAT_MAT3 }
+
+
+     public get FLOAT_MAT4(): number { return this.native.FLOAT_MAT4 }
+
+     public get SAMPLER_2D(): number { return this.native.SAMPLER_2D }
+
+     public get SAMPLER_CUBE(): number { return this.native.SAMPLER_CUBE }
+
+     /* Uniform types */
+
+     /* Shader precision-specified types */
+
+     public get LOW_FLOAT(): number { return this.native.LOW_FLOAT }
+     public get MEDIUM_FLOAT(): number { return this.native.MEDIUM_FLOAT }
+     public get HIGH_FLOAT(): number { return this.native.HIGH_FLOAT }
+     public get LOW_INT(): number { return this.native.LOW_INT }
+     public get MEDIUM_INT(): number { return this.native.MEDIUM_INT }
+     public get HIGH_INT(): number { return this.native.HIGH_INT }
+
+     /* Shader precision-specified types */
+
+
+     /* Framebuffers and renderbuffers */
+
+     public get FRAMEBUFFER(): number { return this.native.FRAMEBUFFER }
+
+     public get RENDERBUFFER(): number { return this.native.RENDERBUFFER }
+
+     public get RGBA4(): number { return this.native.RGBA4 }
+
+     public get RGB565(): number { return this.native.RGB565 }
+
+     public get RGB5_A1(): number { return this.native.RGB5_A1 }
+
+     public get DEPTH_COMPONENT16(): number { return this.native.DEPTH_COMPONENT16 }
+
+     public get STENCIL_INDEX8(): number { return this.native.STENCIL_INDEX8 }
+
+     public get DEPTH_STENCIL():number { return this.native.DEPTH_STENCIL }
+
+     public get RENDERBUFFER_WIDTH(): number { return this.native.RENDERBUFFER_WIDTH }
+
+     public get RENDERBUFFER_HEIGHT(): number { return this.native.RENDERBUFFER_HEIGHT }
+
+     public get RENDERBUFFER_INTERNAL_FORMAT(): number { return this.native.RENDERBUFFER_INTERNAL_FORMAT }
+
+     public get RENDERBUFFER_RED_SIZE(): number { return this.native.RENDERBUFFER_RED_SIZE }
+
+     public get RENDERBUFFER_GREEN_SIZE(): number { return this.native.RENDERBUFFER_GREEN_SIZE }
+
+     public get RENDERBUFFER_BLUE_SIZE(): number { return this.native.RENDERBUFFER_BLUE_SIZE }
+
+     public get RENDERBUFFER_ALPHA_SIZE(): number { return this.native.RENDERBUFFER_ALPHA_SIZE }
+
+     public get RENDERBUFFER_DEPTH_SIZE(): number { return this.native.RENDERBUFFER_DEPTH_SIZE }
+
+     public get RENDERBUFFER_STENCIL_SIZE(): number { return this.native.RENDERBUFFER_STENCIL_SIZE }
+
+     public get FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE(): number { return this.native.FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE }
+
+     public get FRAMEBUFFER_ATTACHMENT_OBJECT_NAME(): number { return this.native.FRAMEBUFFER_ATTACHMENT_OBJECT_NAME }
+
+     public get FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL(): number { return this.native.FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL }
+
+     public get FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE(): number { return this.native.FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE }
+
+     public get COLOR_ATTACHMENT0(): number { return this.native.COLOR_ATTACHMENT0 }
+
+     public get DEPTH_ATTACHMENT(): number { return this.native.DEPTH_ATTACHMENT }
+
+     public get STENCIL_ATTACHMENT(): number { return this.native.STENCIL_ATTACHMENT }
+
+     public get DEPTH_STENCIL_ATTACHMENT(): number { return this.native.DEPTH_STENCIL_ATTACHMENT }
+
+     public get NONE(): number { return this.native.NONE }
+
+     public get FRAMEBUFFER_COMPLETE(): number { return this.native.FRAMEBUFFER_COMPLETE }
+
+     public get FRAMEBUFFER_INCOMPLETE_ATTACHMENT(): number { return this.native.FRAMEBUFFER_INCOMPLETE_ATTACHMENT }
+
+     public get FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT(): number { return this.native.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT }
+
+     public get FRAMEBUFFER_INCOMPLETE_DIMENSIONS(): number { return this.native.FRAMEBUFFER_INCOMPLETE_DIMENSIONS }
+
+     public get FRAMEBUFFER_UNSUPPORTED(): number { return this.native.FRAMEBUFFER_UNSUPPORTED }
+
+     public get FRAMEBUFFER_BINDING(): number { return this.native.FRAMEBUFFER_BINDING }
+
+     public get RENDERBUFFER_BINDING(): number { return this.native.RENDERBUFFER_BINDING }
+
+     public get MAX_RENDERBUFFER_SIZE(): number { return this.native.MAX_RENDERBUFFER_SIZE }
+
+     //public get INVALID_FRAMEBUFFER_OPERATION(): number { return this.native.INVALID_FRAMEBUFFER_OPERATION }
+
+     /* Framebuffers and renderbuffers */
+
+     /* Pixel storage modes */
+
+     public get UNPACK_COLORSPACE_CONVERSION_WEBGL(): number { return this.native.UNPACK_COLORSPACE_CONVERSION_WEBGL }
+
+     public get UNPACK_FLIP_Y_WEBGL(): number { return this.native.UNPACK_FLIP_Y_WEBGL }
+
+     public get UNPACK_PREMULTIPLY_ALPHA_WEBGL(): number { return this.native.UNPACK_PREMULTIPLY_ALPHA_WEBGL }
+
+     /* Pixel storage modes */
+}
 
 export abstract class TNSPath2DBase {
 

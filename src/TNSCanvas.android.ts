@@ -55,6 +55,9 @@ export class TNSCanvas extends TNSCanvasBase {
         }
     }
 
+    flush(){
+        this.canvas.flush();
+    }
 
     disposeNativeView(): void {
         this.off('touch, pan', this._touchEvents);

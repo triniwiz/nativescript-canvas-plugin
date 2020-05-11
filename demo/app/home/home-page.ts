@@ -63,10 +63,10 @@ function getHeight() {
 }
 
 let ctx: TNSCanvasRenderingContext2D;
-import { main } from "../webgl/cube-example";
+import { main , LAF  as mainLAF} from "../webgl/cube-example";
 import { textures } from "../webgl/textures";
-import { cubeRotation } from "../webgl/cube-rotation";
-import { interactiveCube } from "../webgl/interactive-cube";
+import { cubeRotation , LAF  as cubeRotationLAF } from "../webgl/cube-rotation";
+import { interactiveCube, LAF as interactiveCubeLAF } from "../webgl/interactive-cube";
 import { cubeRotationRotation } from "../webgl/cuberotation-rotation";
 import {
     drawElements,
@@ -79,8 +79,8 @@ import {
 import { imageProcessing } from "../webgl/webgl-image-processing";
 import { imageFilter } from "../webgl/image-filter";
 import { draw_image_space } from "../webgl2/draw_image_space";
-import { environmentMap } from "../webgl2/environment-map";
-import { fog } from "../webgl2/fog";
+import { environmentMap, LAF as  environmentMapLAF} from "../webgl2/environment-map";
+import { fog, LAF as fogLAF } from "../webgl2/fog";
 export function canvasLoaded(args) {
     canvas = args.object;
 
@@ -177,16 +177,20 @@ function cleanup() {
         case "drawElements":
             break;
         case "interactiveCube":
+            cancelAnimationFrame(interactiveCubeLAF)
             break;
         case "main":
+            cancelAnimationFrame(mainLAF)
             break;
         case "draw_instanced":
             break;
         case "draw_image_space":
             break;
         case "fog":
+            cancelAnimationFrame(fogLAF)
             break;
         case "environmentMap":
+            cancelAnimationFrame(environmentMapLAF)
             break;
         default:
             break;

@@ -1,6 +1,6 @@
 {
 	"name": "nativescript-canvas-plugin",
-	"version": "0.3.2",
+	"version": "0.4.1",
 	"description": "Html Canvas Shim",
 	"main": "canvas-plugin",
 	"typings": "index.d.ts",

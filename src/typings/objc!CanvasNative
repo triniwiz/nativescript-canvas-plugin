@@ -392,6 +392,25 @@ interface CanvasTextMetrics {
 }
 declare var CanvasTextMetrics: interop.StructType<CanvasTextMetrics>;
 
+declare class Canvas_ANGLE_instanced_arrays extends NSObject {
+
+	static alloc(): Canvas_ANGLE_instanced_arrays; // inherited from NSObject
+
+	static new(): Canvas_ANGLE_instanced_arrays; // inherited from NSObject
+
+	readonly VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE: number;
+
+	constructor(o: { context: WebGLRenderingContext; });
+
+	drawArraysInstancedANGLEWithModeFirstCountPrimcount(mode: number, first: number, count: number, primcount: number): void;
+
+	drawElementsInstancedANGLEWithModeCountTypeOffsetPrimcount(mode: number, count: number, type: number, offset: number, primcount: number): void;
+
+	initWithContext(context: WebGLRenderingContext): this;
+
+	vertexAttribDivisorANGLEWithIndexDivisor(index: number, divisor: number): void;
+}
+
 declare class Canvas_EXT_blend_minmax extends NSObject {
 
 	static alloc(): Canvas_EXT_blend_minmax; // inherited from NSObject
@@ -877,6 +896,12 @@ declare class MetalRenderer extends NSObject implements MTKViewDelegate {
 
 	self(): this;
 }
+
+interface NativeByteArray {
+	array: string;
+	length: number;
+}
+declare var NativeByteArray: interop.StructType<NativeByteArray>;
 
 declare class Pattern extends NSObject implements ICanvasColorStyle {
 
@@ -2513,6 +2538,10 @@ declare function flipInPlace(data: string | interop.Pointer | interop.Reference<
 
 declare function flipInPlace3D(data: string | interop.Pointer | interop.Reference<any>, width: number, height: number, depth: number): void;
 
+declare function flipInPlace3DFunction(data: string | interop.Pointer | interop.Reference<any>, width: number, height: number, depth: number): void;
+
+declare function flipInPlaceRaw(data: interop.Pointer | interop.Reference<any>, width: number, height: number): void;
+
 declare function free_image(image: string | interop.Pointer | interop.Reference<any>): void;
 
 declare function image_load_error(): string;
@@ -2597,11 +2626,15 @@ declare function native_get_matrix(matrix: number): CanvasArray;
 
 declare function native_image_asset_flip_x(asset: number): number;
 
+declare function native_image_asset_flip_x_in_place_owned(width: number, height: number, buf: string | interop.Pointer | interop.Reference<any>, length: number): void;
+
 declare function native_image_asset_flip_y(asset: number): number;
 
-declare function native_image_asset_free_bytes(data: CanvasArray): void;
+declare function native_image_asset_flip_y_in_place_owned(width: number, height: number, buf: string | interop.Pointer | interop.Reference<any>, length: number): void;
 
-declare function native_image_asset_get_bytes(asset: number): CanvasArray;
+declare function native_image_asset_free_bytes(data: NativeByteArray): void;
+
+declare function native_image_asset_get_bytes(asset: number): NativeByteArray;
 
 declare function native_image_asset_get_error(asset: number): string;
 
