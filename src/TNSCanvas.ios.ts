@@ -29,6 +29,12 @@ export class TNSCanvas extends TNSCanvasBase {
         return this.getMeasuredHeight();
     }
 
+    flush(){
+        if(this.nativeView){
+            this.nativeView.flush();
+        }
+    }
+
     createNativeView() {
         return Canvas.alloc().initWithFrameUseGL(CGRectZero, !this.useMetal);
     }
