@@ -1008,7 +1008,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
             // DEPTH24_STENCIL8 = 35056
             // DEPTH24_STENCIL8_OES = 0x88F0
             // 35056;
-            internalFormat = 35056;//0x88F0;
+            internalFormat = 0x88F0;
         }
         this.context.renderbufferStorageWithTargetInternalFormatWidthHeight(target, internalFormat, width, height);
     }

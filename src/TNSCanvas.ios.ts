@@ -47,6 +47,7 @@ export class TNSCanvas extends TNSCanvasBase {
         super.onUnloaded();
     }
 
+    private _isReady: boolean = false;
     onLoaded() {
         super.onLoaded();
         if (this._didPause) {
@@ -54,6 +55,15 @@ export class TNSCanvas extends TNSCanvasBase {
             this._didPause = false;
         }
     }
+
+    public onLayout(left: number, top: number, right: number, bottom: number) {
+        super.onLayout(left, top, right, bottom);
+        if(!this._isReady){
+            this._readyEvent();
+            this._isReady = true;
+        }
+    }
+
 
     disposeNativeView(): void {
         this.off('touch, pan', this._touchEvents);

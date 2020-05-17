@@ -9,6 +9,8 @@ export * from './TNSPath2D';
 export * from './TNSWebGLRenderingContext';
 export * from './TNSWebGL2RenderingContext';
 export * from './TNSImageAsset';
+export * from './TNSTextEncoder';
+export * from './TNSTextDecoder';
 declare var AnimationFrame;
 
 export function requestAnimationFrame(loop) {

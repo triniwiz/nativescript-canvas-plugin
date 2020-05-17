@@ -460,6 +460,7 @@ declare module com {
 					public getContext(param0: string): com.github.triniwiz.canvas.CanvasRenderingContext;
 					public static createSVGMatrix(): com.github.triniwiz.canvas.CanvasDOMMatrix;
 					public static isEmulator(): boolean;
+					public setListener(listener: com.github.triniwiz.canvas.CanvasView.Listener);
 				}
 				export module CanvasView {
 					export class DataURLListener {
@@ -937,6 +938,38 @@ declare module com {
 					public setSrc(param0: string): void;
 					public onDraw(param0: globalAndroid.graphics.Canvas): void;
 					public onSizeChanged(param0: number, param1: number, param2: number, param3: number): void;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class TextDecoder {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.TextDecoder>;
+					public constructor(param0: string);
+					public constructor();
+					public getEncoding(): string;
+					public decode(param0: native.Array<number>): string;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class TextEncoder {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.TextEncoder>;
+					public constructor(param0: string);
+					public constructor();
+					public getEncoding(): string;
+					public encode(param0: string): native.Array<number>;
 				}
 			}
 		}
@@ -1674,7 +1707,6 @@ declare module com {
 					public readPixels(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number, param6: native.Array<number>): void;
 					public stencilOpSeparate(param0: number, param1: number, param2: number, param3: number): void;
 					public uniform3f(param0: number, param1: number, param2: number, param3: number): void;
-					public getTexParameter(param0: number, param1: number): any;
 					public constructor(param0: com.github.triniwiz.canvas.CanvasView);
 					public clearStencil(param0: number): void;
 					public commit(): void;
@@ -1802,6 +1834,7 @@ declare module com {
 					public deleteBuffer(param0: number): void;
 					public getShaderParameter(param0: number, param1: number): any;
 					public uniform1i(param0: number, param1: number): void;
+					public getTexParameter(param0: number, param1: number): number;
 					public enableVertexAttribArray(param0: number): void;
 					public bindBuffer(param0: number, param1: number): void;
 					public createRenderbuffer(): number;

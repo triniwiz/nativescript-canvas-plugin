@@ -1,21 +1,34 @@
 import { ContainerView, CSSType } from 'tns-core-modules/ui/core/view';
 import { GestureStateTypes } from 'tns-core-modules/ui/gestures/gestures';
 import { screen } from 'tns-core-modules/platform';
-
 export * from 'tns-core-modules/ui/core/view';
 
-@CSSType('TNSCanvas')
-export abstract class TNSCanvasBase extends ContainerView {
-    _touchEvents: any;
 
+
+export interface ITNSCanvasBase {
+    on(eventName: "ready", callback: (data: any) => void, thisArg?: any): void;
+}
+
+@CSSType('TNSCanvas')
+export abstract class TNSCanvasBase extends ContainerView  implements ITNSCanvasBase{
+    _touchEvents: any;
+    public static readyEvent = "ready";
     constructor() {
         super();
         this._touchEvents = this._touchEventsFN.bind(this);
         this.on('touch, pan', this._touchEvents);
+
     }
 
     private _emitEvent(name, event) {
         this.notify(this._getTouchEvent(name, event, this));
+    }
+
+    _readyEvent() {
+        this.notify({
+            eventName: 'ready',
+            object: this
+        });
     }
 
     private _touchEventsFN(event: any) {
@@ -151,6 +164,41 @@ class TouchList extends Array {
         return this[index];
     }
 }
+
+
+export class TNSTextEncoderBase {
+    private nativeInstance: any;
+    public readonly encoding: string;
+    constructor(nativeInstance) {
+        this.nativeInstance = nativeInstance;
+    }
+
+    get native(): any {
+      return this.nativeInstance;
+    }
+
+    encode(text: string): Uint8Array {
+      return null;
+    }
+  }
+
+  export class TNSTextDecoderBase {
+    private nativeInstance: any;
+    public readonly encoding: string;
+    constructor(nativeInstance) {
+        this.nativeInstance = nativeInstance;
+    }
+
+    get native(): any {
+      return this.nativeInstance;
+    }
+
+    decode(buffer: ArrayBuffer | ArrayBufferView, options?: any): string {
+      return null;
+    }
+  }
+
+
 
 export class TNSImageAssetBase {
     private nativeInstance: any;

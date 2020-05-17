@@ -102,7 +102,7 @@ export function canvasLoaded(args) {
     // ctx = canvas.getContext("2d") as any;
     //swarm(canvas);
     // canvas.nativeView.handleInvalidationManually = true;
-    setTimeout(() => {
+  //  setTimeout(() => {
         //draw_instanced(canvas);
         //draw_image_space(canvas);
         //  fog(canvas);
@@ -116,7 +116,7 @@ export function canvasLoaded(args) {
         //drawElements(canvas)
         //drawModes(canvas,'line_strip')
         //fog(canvas);
-    }, 1000);
+   // }, 1000);
     // cubeRotation(canvas);
     //},3000)
     //drawModes(canvas,'triangles')

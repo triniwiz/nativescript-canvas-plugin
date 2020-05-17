@@ -112,7 +112,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         stencil: number
     ): void {
         this._glCheckError('clearBufferfi');
-        this.native.clearBufferfi(buffer.native, drawbuffer, depth, stencil);
+        const value = buffer ? buffer.native: 0;
+        this.native.clearBufferfi(value, drawbuffer, depth, stencil);
     }
 
     clearBufferfv(
@@ -121,10 +122,11 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         values: number[] | Float32Array
     ): void {
         this._glCheckError('clearBufferfv');
+        const value = buffer ? buffer.native: 0;
         if (values instanceof Float32Array) {
             values = this.toNativeArray(values, 'float');
         }
-        this.native.clearBufferfv(buffer.native, drawbuffer, values as any);
+        this.native.clearBufferfv(value, drawbuffer, values as any);
     }
 
     clearBufferiv(
@@ -133,10 +135,11 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         values: number[] | Int32Array
     ): void {
         this._glCheckError('clearBufferiv');
+        const value = buffer ? buffer.native: 0;
         if (values instanceof Int32Array) {
             values = this.toNativeArray(values, 'int');
         }
-        this.native.clearBufferiv(buffer.native, drawbuffer, values as any);
+        this.native.clearBufferiv(value, drawbuffer, values as any);
     }
 
     clearBufferuiv(
@@ -145,15 +148,17 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         values: number[] | Uint32Array
     ): void {
         this._glCheckError('clearBufferuiv');
+        const value = buffer ? buffer.native: 0;
         if (values instanceof Uint32Array) {
             values = this.toNativeArray(values, 'int');
         }
-        this.native.clearBufferuiv(buffer.native, drawbuffer, values as any);
+        this.native.clearBufferuiv(value, drawbuffer, values as any);
     }
 
     clientWaitSync(sync: WebGLSync, flags: number, timeout: number): number {
         this._glCheckError('clientWaitSync');
-        return this.native.clientWaitSync(sync.native, flags, timeout);
+        const value = sync ? sync.native: 0;
+        return this.native.clientWaitSync(value, flags, timeout);
     }
 
     compressedTexSubImage3D(
@@ -199,6 +204,7 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                 srcOffset
             );
         } else if (srcData && srcData.buffer) {
+           if(srcData instanceof Uint8Array){
             this.native.compressedTexSubImage3D(
                 target,
                 level,
@@ -209,10 +215,11 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                 height,
                 depth,
                 format,
-                srcData as any,
+                this.toNativeArray(srcData as any, 'byte'),
                 srcOffset,
                 srcLengthOverride
             );
+           }
         }
     }
 
@@ -280,27 +287,32 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     deleteQueryWithQuery(query: WebGLQuery): void {
         this._glCheckError('deleteQueryWithQuery');
-        this.native.deleteQuery(query.native);
+        const value = query ? query.native: 0;
+        this.native.deleteQuery(value);
     }
 
     deleteSamplerWithSampler(sampler: WebGLSampler): void {
         this._glCheckError('deleteSamplerWithSampler');
-        this.native.deleteSampler(sampler.native);
+        const value = sampler ? sampler.native: 0;
+        this.native.deleteSampler(value);
     }
 
     deleteSyncWithSync(sync: WebGLSync): void {
         this._glCheckError('deleteSyncWithSync');
-        this.native.deleteSync(sync.native);
+        const value = sync ? sync.native: 0;
+        this.native.deleteSync(value);
     }
 
     deleteTransformFeedback(transformFeedback: WebGLTransformFeedback): void {
         this._glCheckError('deleteTransformFeedback');
-        this.native.deleteTransformFeedback(transformFeedback.native);
+        const value = transformFeedback ? transformFeedback.native: 0;
+        this.native.deleteTransformFeedback(value);
     }
 
     deleteVertexArray(vertexArray: WebGLVertexArrayObject): void {
         this._glCheckError('deleteVertexArray');
-        this.native.deleteVertexArray(vertexArray.native);
+        const value = vertexArray ? vertexArray.native: 0;
+        this.native.deleteVertexArray(value);
     }
 
     drawArraysInstanced(
@@ -364,10 +376,11 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         layer: number
     ): void {
         this._glCheckError('framebufferTextureLayer');
+        const value = texture ? texture.native: 0;
         this.native.framebufferTextureLayer(
             target,
             attachment,
-            texture.native,
+            value,
             level,
             layer
         );
@@ -378,8 +391,9 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         uniformBlockIndex: number
     ): string {
         this._glCheckError('getActiveUniformBlockName');
+        const value = program ? program.native: 0;
         return this.native.getActiveUniformBlockName(
-            program.native,
+            value,
             uniformBlockIndex
         );
     }
@@ -390,15 +404,37 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         pname: number
     ): any {
         this._glCheckError('getActiveUniformBlockParameter');
+        const value = program ? program.native: 0;
         const param = this.native.getActiveUniformBlockParameter(
-            program.native,
+            value,
             uniformBlockIndex,
             pname
         );
         if (pname === this.UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES) {
             return new Uint32Array(this.getJSArray(param));
         }
-        return param;
+        return TNSWebGL2RenderingContext.toPrimitive(param);
+    }
+
+    static toPrimitive(value): any {
+        if (value instanceof java.lang.Integer) {
+            return value.intValue();
+        } else if (value instanceof java.lang.Long) {
+            return value.longValue();
+        } else if (value instanceof java.lang.Short) {
+            return value.shortValue();
+        } else if (value instanceof java.lang.Byte) {
+            return value.byteValue();
+        } else if (value instanceof java.lang.Boolean) {
+            return value.booleanValue();
+        } else if (value instanceof java.lang.String) {
+            return value.toString();
+        } else if (value instanceof java.lang.Float) {
+            return value.floatValue();
+        } else if (value instanceof java.lang.Double) {
+            return value.doubleValue();
+        }
+        return value;
     }
 
     getActiveUniforms(
@@ -407,8 +443,9 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         pname: number
     ): any {
         this._glCheckError('getActiveUniforms');
+        const value = program ? program.native: 0;
         return this.getJSArray(
-            this.native.getActiveUniforms(program.native, uniformIndices, pname)
+            this.native.getActiveUniforms(value, uniformIndices, pname)
         );
     }
 
@@ -431,7 +468,9 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     getFragDataLocation(program: WebGLProgram, name: string): number {
         this._glCheckError('getFragDataLocation');
-        return this.native.getFragDataLocation(program.native, name);
+        const value = program ? program.native: 0;
+        const result = this.native.getFragDataLocation(value, name);
+        return result !== -1 ? result: null;
     }
 
     getIndexedParameter(target: number, index: number): any {
@@ -443,7 +482,7 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         ) {
             return new WebGLBuffer(param);
         }
-        return param;
+        return TNSWebGL2RenderingContext.toPrimitive(param);
     }
 
     getInternalformatParameter(
@@ -460,17 +499,19 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         if (pname === this.SAMPLES) {
             return new Int32Array(this.getJSArray(param));
         }
-        return param;
+        return TNSWebGL2RenderingContext.toPrimitive(param);;
     }
 
     getQueryParameter(query: WebGLQuery, pname: number): any {
         this._glCheckError('getQueryParameter');
-        return this.native.getQueryParameter(query.native, pname);
+        const value = query ? query.native: 0;
+        const result = this.native.getQueryParameter(value, pname);
+        if(result === 0) {return null;}
+        return TNSWebGL2RenderingContext.toPrimitive(result);
     }
 
     getQuery(target: number, pname: number): any {
         this._glCheckError('getQuery');
-
         const query = this.native.getQuery(target, pname);
         if (query) {
             return new WebGLQuery(query);
@@ -480,17 +521,20 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     getSamplerParameter(sampler: WebGLSampler, pname: number): any {
         this._glCheckError('getSamplerParameter');
-        return this.native.getSamplerParameter(sampler.native, pname);
+        const value = sampler ? sampler.native: 0;
+        return TNSWebGL2RenderingContext.toPrimitive(this.native.getSamplerParameter(value, pname));
     }
 
     getSyncParameter(sync: WebGLSync, pname: number): any {
         this._glCheckError('getSyncParameter');
-        return this.native.getSyncParameter(sync.native, pname);
+        const value = sync ? sync.native: 0;
+        return TNSWebGL2RenderingContext.toPrimitive(this.native.getSyncParameter(value, pname));
     }
 
     getTransformFeedbackVarying(program: WebGLProgram, index: number): any {
         this._glCheckError('getTransformFeedbackVarying');
-        const info = this.native.getTransformFeedbackVarying(program.native, index);
+        const value = program ? program.native: 0;
+        const info = this.native.getTransformFeedbackVarying(value, index);
         if (info) {
             return new WebGLActiveInfo(info.name, info.size, info.size);
         }
@@ -502,13 +546,15 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         uniformBlockName: string
     ): number {
         this._glCheckError('getUniformBlockIndex');
-        return this.native.getUniformBlockIndex(program.native, uniformBlockName);
+        const value = program ? program.native: 0;
+        return this.native.getUniformBlockIndex(value, uniformBlockName);
     }
 
     getUniformIndices(program: WebGLProgram, uniformNames: string[]): number[] {
         this._glCheckError('getUniformIndices');
+        const value = program ? program.native: 0;
         return this.getJSArray(
-            this.native.getUniformIndices(program.native, uniformNames)
+            this.native.getUniformIndices(value, uniformNames)
         );
     }
 
@@ -538,27 +584,32 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     isQuery(query: WebGLQuery): boolean {
         this._glCheckError('isQuery');
-        return this.native.isQuery(query.native);
+        const value = query ? query.native: 0;
+        return this.native.isQuery(value);
     }
 
     isSampler(sampler: WebGLSampler): boolean {
         this._glCheckError('isSampler');
-        return this.native.isSampler(sampler.native);
+        const value = sampler ? sampler.native: 0;
+        return this.native.isSampler(value);
     }
 
     isSync(sync: WebGLSync): boolean {
         this._glCheckError('isSync');
-        return this.native.isSync(sync.native);
+        const value = sync ? sync.native: 0;
+        return this.native.isSync(value);
     }
 
     isTransformFeedback(transformFeedback: WebGLTransformFeedback): boolean {
         this._glCheckError('isTransformFeedback');
-        return this.native.isTransformFeedback(transformFeedback.native);
+        const value = transformFeedback ? transformFeedback.native: 0;
+        return this.native.isTransformFeedback(value);
     }
 
     isVertexArray(vertexArray: WebGLVertexArrayObject): boolean {
         this._glCheckError('isVertexArray');
-        return this.native.isVertexArray(vertexArray.native);
+        const value = vertexArray ? vertexArray.native: 0;
+        return this.native.isVertexArray(value);
     }
 
     pauseTransformFeedback(): void {
@@ -595,12 +646,14 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     samplerParameterf(sampler: WebGLSampler, pname: number, param: number): void {
         this._glCheckError('samplerParameterf');
-        this.native.samplerParameterf(sampler.native, pname, param);
+        const value = sampler ? sampler.native: 0;
+        this.native.samplerParameterf(value, pname, param);
     }
 
     samplerParameteri(sampler: WebGLSampler, pname: number, param: number): void {
         this._glCheckError('samplerParameteri');
-        this.native.samplerParameteri(sampler.native, pname, param);
+        const value = sampler ? sampler.native: 0;
+        this.native.samplerParameteri(value, pname, param);
     }
 
     texImage3D(
@@ -642,18 +695,20 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                 source
             );
         } else if (source && source.buffer) {
-            this.native.texImage3D(
-                target,
-                level,
-                internalformat,
-                width,
-                height,
-                depth,
-                border,
-                format,
-                type,
-                new Uint8Array(source.slice(0)) as any
-            );
+            if(source instanceof Uint8Array){
+                this.native.texImage3D(
+                    target,
+                    level,
+                    internalformat,
+                    width,
+                    height,
+                    depth,
+                    border,
+                    format,
+                    type,
+                    this.toNativeArray(source as any, 'byte')
+                );
+            }
         } else if (source instanceof android.graphics.Bitmap) {
             this.native.texImage3D(
                 target,
@@ -841,6 +896,7 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                 srcData
             );
         } else if (srcData && srcData.buffer) {
+           if(srcData instanceof Uint8Array){
             if (srcOffset) {
                 this.native.texSubImage3D(
                     target,
@@ -853,7 +909,7 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                     depth,
                     format,
                     type,
-                    srcData,
+                    this.toNativeArray(srcData as any, 'byte'),
                     srcOffset
                 );
             } else {
@@ -868,9 +924,10 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
                     depth,
                     format,
                     type,
-                    srcData
+                    this.toNativeArray(srcData as any, 'byte')
                 );
             }
+           }
         } else if (srcData instanceof android.graphics.Bitmap) {
             this.native.texSubImage3D(
                 target,
@@ -985,53 +1042,62 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         bufferMode: number
     ): void {
         this._glCheckError('transformFeedbackVaryings');
-        this.native.transformFeedbackVaryings(program.native, varyings, bufferMode);
+        const value = program ? program.native : 0;
+        this.native.transformFeedbackVaryings(value, varyings, bufferMode);
     }
 
-    uniform1ui(location: number, v0: number): void {
+    uniform1ui(location: WebGLUniformLocation, v0: number): void {
         this._glCheckError('uniform1ui');
-        this.native.uniform1ui(location, v0);
+        const value = location ? location.native : 0;
+        this.native.uniform1ui(value, v0);
     }
 
-    uniform1uiv(location: number, data: Uint32Array): void {
+    uniform1uiv(location: WebGLUniformLocation, data: Uint32Array): void {
         this._glCheckError('uniform1uiv');
-        this.native.uniform1uiv(location, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniform1uiv(value, data as any);
     }
 
-    uniform2ui(location: number, v0: number, v1: number): void {
+    uniform2ui(location: WebGLUniformLocation, v0: number, v1: number): void {
         this._glCheckError('uniform2ui');
-        this.native.uniform2ui(location, v0, v1);
+        const value = location ? location.native : 0;
+        this.native.uniform2ui(value, v0, v1);
     }
 
-    uniform2uiv(location: number, data: Uint32Array): void {
+    uniform2uiv(location: WebGLUniformLocation, data: Uint32Array): void {
         this._glCheckError('uniform2uiv');
-        this.native.uniform2uiv(location, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniform2uiv(value, data as any);
     }
 
-    uniform3ui(location: number, v0: number, v1: number, v2: number): void {
+    uniform3ui(location: WebGLUniformLocation, v0: number, v1: number, v2: number): void {
         this._glCheckError('uniform3ui');
-        this.native.uniform3ui(location, v0, v1, v2);
+        const value = location ? location.native : 0;
+        this.native.uniform3ui(value, v0, v1, v2);
     }
 
-    uniform3uiv(location: number, data: Uint32Array): void {
+    uniform3uiv(location: WebGLUniformLocation, data: Uint32Array): void {
         this._glCheckError('uniform3uiv');
-        this.native.uniform3uiv(location, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniform3uiv(value, data as any);
     }
 
     uniform4ui(
-        location: number,
+        location: WebGLUniformLocation,
         v0: number,
         v1: number,
         v2: number,
         v3: number
     ): void {
         this._glCheckError('uniform4ui');
-        this.native.uniform4ui(location, v0, v1, v2, v3);
+        const value = location ? location.native : 0;
+        this.native.uniform4ui(value, v0, v1, v2, v3);
     }
 
-    uniform4uiv(location: number, data: Uint32Array): void {
+    uniform4uiv(location: WebGLUniformLocation, data: Uint32Array): void {
         this._glCheckError('uniform4uiv');
-        this.native.uniform4uiv(location, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniform4uiv(value, data as any);
     }
 
     uniformBlockBinding(
@@ -1040,8 +1106,9 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
         uniformBlockBinding: number
     ): void {
         this._glCheckError('uniformBlockBinding');
+        const value = program ? program.native : 0;
         this.native.uniformBlockBinding(
-            program.native,
+            value,
             uniformBlockIndex,
             uniformBlockBinding
         );
@@ -1056,7 +1123,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix2x3fv');
-        this.native.uniformMatrix2x3fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix2x3fv(value, transpose, data as any);
     }
 
     uniformMatrix2x4fv(
@@ -1068,7 +1136,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix2x4fv');
-        this.native.uniformMatrix2x4fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix2x4fv(value, transpose, data as any);
     }
 
     uniformMatrix3x2fv(
@@ -1080,7 +1149,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix3x2fv');
-        this.native.uniformMatrix3x2fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix3x2fv(value, transpose, data as any);
     }
 
     uniformMatrix3x4fv(
@@ -1092,7 +1162,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix3x4fv');
-        this.native.uniformMatrix3x4fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix3x4fv(value, transpose, data as any);
     }
 
     uniformMatrix4x2fv(
@@ -1104,7 +1175,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix4x2fv');
-        this.native.uniformMatrix4x2fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix4x2fv(value, transpose, data as any);
     }
 
     uniformMatrix4x3fv(
@@ -1116,7 +1188,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
             data = this.toNativeArray(data, 'float');
         }
         this._glCheckError('uniformMatrix4x3fv');
-        this.native.uniformMatrix4x3fv(location.native, transpose, data as any);
+        const value = location ? location.native : 0;
+        this.native.uniformMatrix4x3fv(value, transpose, data as any);
     }
 
     vertexAttribDivisor(index: number, divisor: number): void {
