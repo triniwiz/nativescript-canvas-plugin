@@ -102,43 +102,43 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     attachShader(program: WebGLProgram, shader: WebGLShader): void {
         this._glCheckError('attachShader');
         this._checkArgs('attachShader', arguments);
-        const value = program ? program.native : null;
-        const value2 = shader ? shader.native : null;
+        const value = program ? program.native : 0;
+        const value2 = shader ? shader.native : 0;
         this.context.attachShader(value, value2);
     }
 
     bindAttribLocation(program: WebGLProgram, index: number, name: string): void {
         this._glCheckError('bindAttribLocation');
         this._checkArgs('bindAttribLocation', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         this.context.bindAttribLocation(value, index, name);
     }
 
     bindBuffer(target: number, buffer: WebGLBuffer): void {
         this._glCheckError('bindBuffer');
         this._checkArgs('bindBuffer', arguments);
-        let value = buffer ? buffer.native : null;
+        let value = buffer ? buffer.native : 0;
         this.context.bindBuffer(target, value);
     }
 
     bindFramebuffer(target: number, framebuffer: WebGLFramebuffer): void {
         this._glCheckError('bindFramebuffer');
         this._checkArgs('bindFramebuffer', arguments);
-        const value = framebuffer ? framebuffer.native : null;
+        const value = framebuffer ? framebuffer.native : 0;
         this.context.bindFramebuffer(target, value);
     }
 
     bindRenderbuffer(target: number, renderbuffer: WebGLRenderbuffer): void {
         this._glCheckError('bindRenderbuffer');
         this._checkArgs('bindRenderbuffer', arguments);
-        const value = renderbuffer ? renderbuffer.native : null;
+        const value = renderbuffer ? renderbuffer.native : 0;
         this.context.bindRenderbuffer(target, value);
     }
 
     bindTexture(target: number, texture: WebGLTexture): void {
         this._glCheckError('bindTexture');
         this._checkArgs('bindTexture', arguments);
-        const value = texture ? texture.native : null;
+        const value = texture ? texture.native : 0;
         this.context.bindTexture(target, value);
     }
 
@@ -173,11 +173,41 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     }
 
     toNativeArray(value: any[], type: string) {
+        // if (value && value.length && typeof type === 'string') {
+        //     const size = value.length;
+        //     const nativeArray = Array.create(type, size);
+        //     for (let i = 0; i < size; i++) {
+        //         nativeArray[i] = value[i];
+        //     }
+        //     return nativeArray;
+        // }
+
+
         if (value && value.length && typeof type === 'string') {
-            const size = value.length;
-            const nativeArray = Array.create(type, size);
-            for (let i = 0; i < size; i++) {
-                nativeArray[i] = value[i];
+            const array = Array.from(value);
+            let nativeArray;
+            switch(type){
+                case 'byte':
+                    nativeArray = java.nio.ByteBuffer.wrap(array).array();
+                    break;
+                    case 'short':
+                        nativeArray = java.nio.ShortBuffer.wrap(array).array();
+                    break;
+                    case 'float':
+                        nativeArray = java.nio.FloatBuffer.wrap(array).array();
+                    break;
+                    case 'int':
+                        nativeArray = java.nio.IntBuffer.wrap(array).array();
+                    break;
+                    case 'double':
+                        nativeArray = java.nio.DoubleBuffer.wrap(array).array();
+                    break;
+                    case 'long':
+                        nativeArray = java.nio.LongBuffer.wrap(array).array();
+                    break;
+                    default:
+                        nativeArray = array;
+                        break;
             }
             return nativeArray;
         }
@@ -192,7 +222,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         if (typeof srcData === 'number') {
             this.context.bufferData(target, srcData, usage);
         } else if (srcData instanceof ArrayBuffer) {
-            this.context.bufferData(target, this.toNativeArray(new Uint8Array(srcData.slice(0) as any) as any, 'byte'), usage);
+            this.context.bufferData(target, this.toNativeArray(new Uint8Array(srcData as any) as any, 'byte'), usage);
         } else if (srcData && srcData.buffer instanceof ArrayBuffer) {
             if (srcData instanceof Uint8Array) {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'byte'), usage);
@@ -203,6 +233,8 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
             } else if (srcData instanceof Float32Array) {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'float'), usage);
             }
+        }else if(arguments.length === 3 && !srcData){
+            this.context.bufferData(target, 0, usage);
         }
     }
 
@@ -210,7 +242,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('bufferSubData');
         this._checkArgs('bufferSubData', arguments);
         if (srcData instanceof ArrayBuffer) {
-            this.context.bufferSubData(target, offset, new Uint8Array(srcData.slice(0) as any));
+            this.context.bufferSubData(target, offset, this.toNativeArray(new Uint8Array(srcData as any) as any, 'byte'));
         } else if (srcData && srcData.buffer instanceof ArrayBuffer) {
             if (srcData instanceof Uint8Array) {
                 this.context.bufferSubData(target, offset, this.toNativeArray(srcData as any, 'byte'));
@@ -268,13 +300,14 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     compileShader(shader: WebGLShader): void {
         this._glCheckError('compileShader');
         this._checkArgs('compileShader', arguments);
-        const value = shader ? shader.native : null;
+        const value = shader ? shader.native : 0;
         this.context.compileShader(value);
     }
 
     compressedTexImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, pixels: ArrayBufferView): void {
         this._glCheckError('compressedTexImage2D');
         this._checkArgs('compressedTexImage2D', arguments);
+
         if (pixels && pixels.buffer instanceof ArrayBuffer) {
             if (pixels instanceof Uint8Array) {
                 this.context.compressedTexImage2D(
@@ -325,7 +358,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 width,
                 height,
                 border,
-                this.toNativeArray(new Uint8Array(pixels.slice(0) as any) as any, 'byte')
+                this.toNativeArray(new Uint8Array(pixels as any) as any, 'byte')
             );
         }
     }
@@ -388,7 +421,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 width,
                 height,
                 format,
-                this.toNativeArray(new Uint8Array(pixels.slice(0) as any) as any, 'byte')
+                this.toNativeArray(new Uint8Array(pixels as any) as any, 'byte')
             );
         }
     }
@@ -451,42 +484,42 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     deleteBuffer(buffer: WebGLBuffer): void {
         this._glCheckError('deleteBuffer');
         this._checkArgs('deleteBuffer', arguments);
-        const value = buffer ? buffer.native : null;
+        const value = buffer ? buffer.native : 0;
         this.context.deleteBuffer(value);
     }
 
     deleteFramebuffer(frameBuffer: WebGLFramebuffer): void {
         this._glCheckError('deleteFramebuffer');
         this._checkArgs('deleteFramebuffer', arguments);
-        const value = frameBuffer ? frameBuffer.native : null;
+        const value = frameBuffer ? frameBuffer.native : 0;
         this.context.deleteFramebuffer(value);
     }
 
     deleteProgram(program: WebGLProgram): void {
         this._glCheckError('deleteProgram');
         this._checkArgs('deleteProgram', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         this.context.deleteProgram(value);
     }
 
     deleteRenderbuffer(renderBuffer: WebGLRenderbuffer): void {
         this._glCheckError('deleteRenderbuffer');
         this._checkArgs('deleteRenderbuffer', arguments);
-        const value = renderBuffer ? renderBuffer.native : null;
+        const value = renderBuffer ? renderBuffer.native : 0;
         this.context.deleteRenderbuffer(value);
     }
 
     deleteShader(shader: WebGLRenderbuffer): void {
         this._glCheckError('deleteShader');
         this._checkArgs('deleteShader', arguments);
-        const value = shader ? shader.native : null;
+        const value = shader ? shader.native : 0;
         this.context.deleteShader(value);
     }
 
     deleteTexture(texture: WebGLTexture): void {
         this._glCheckError('deleteTexture');
         this._checkArgs('deleteTexture', arguments);
-        const value = texture ? texture.native : null;
+        const value = texture ? texture.native : 0;
         this.context.deleteTexture(value);
     }
 
@@ -511,8 +544,8 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     detachShader(program: WebGLProgram, shader: WebGLShader): void {
         this._glCheckError('detachShader');
         this._checkArgs('detachShader', arguments);
-        const value = program ? program.native : null;
-        const value2 = shader ? shader.native : null;
+        const value = program ? program.native : 0;
+        const value2 = shader ? shader.native : 0;
         this.context.detachShader(value, value2);
     }
 
@@ -538,6 +571,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('drawElements');
         this._checkArgs('drawElements', arguments);
         this.context.drawElements(mode, count, type, offset);
+        this.canvas.flush();
     }
 
     enableVertexAttribArray(index: number): void {
@@ -565,14 +599,14 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     framebufferRenderbuffer(target: number, attachment: number, renderbuffertarget: number, renderbuffer: WebGLRenderbuffer): void {
         this._glCheckError('framebufferRenderbuffer');
         this._checkArgs('framebufferRenderbuffer', arguments);
-        const value = renderbuffer ? renderbuffer.native : null;
+        const value = renderbuffer ? renderbuffer.native : 0;
         this.context.framebufferRenderbuffer(target, attachment, renderbuffertarget, value);
     }
 
     framebufferTexture2D(target: number, attachment: number, textarget: number, texture: WebGLTexture, level: number): void {
         this._glCheckError('framebufferTexture2D');
         this._checkArgs('activeTexture', arguments);
-        const value = texture ? texture.native : null;
+        const value = texture ? texture.native : 0;
         this.context.framebufferTexture2D(target, attachment, textarget, value, level);
     }
 
@@ -591,7 +625,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getActiveAttrib(program: WebGLProgram, index: number): WebGLActiveInfo {
         this._glCheckError('getActiveAttrib');
         this._checkArgs('getActiveAttrib', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         const attrib = this.context.getActiveAttrib(value, index);
         return new WebGLActiveInfo(attrib.getName(), attrib.getSize(), attrib.getType());
     }
@@ -599,7 +633,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getActiveUniform(program: WebGLProgram, index: number): WebGLActiveInfo {
         this._glCheckError('getActiveUniform');
         this._checkArgs('getActiveUniform', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         const uniform = this.context.getActiveUniform(value, index);
         return new WebGLActiveInfo(uniform.getName(), uniform.getSize(), uniform.getType());
     }
@@ -607,14 +641,14 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getAttachedShaders(program: WebGLProgram): WebGLShader[] {
         this._glCheckError('getAttachedShaders');
         this._checkArgs('getAttachedShaders', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         return this.getJSArray(this.context.getAttachedShaders(value)).map(shader => new WebGLShader(shader));
     }
 
     getAttribLocation(program: WebGLProgram, name: string): number {
         this._glCheckError('getAttribLocation');
         this._checkArgs('getAttribLocation', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         return this.context.getAttribLocation(value, name);
     }
 
@@ -658,8 +692,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 case 'com.github.triniwiz.canvas.extensions.EXT_color_buffer_half_float':
                     return new EXT_color_buffer_half_float(ext);
                 case 'com.github.triniwiz.canvas.extensions.EXT_disjoint_timer_query':
-                    return null;
-                    //return new EXT_disjoint_timer_query(ext);
+                    return new EXT_disjoint_timer_query(ext);
                 case 'com.github.triniwiz.canvas.extensions.EXT_sRGB':
                     return new EXT_sRGB(ext);
                 case 'com.github.triniwiz.canvas.extensions.EXT_shader_texture_lod':
@@ -730,16 +763,16 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 return this.getJSArray(value);
             case this.ARRAY_BUFFER_BINDING:
             case this.ELEMENT_ARRAY_BUFFER_BINDING:
-                return new WebGLBuffer(value);
+                return new WebGLBuffer(TNSWebGLRenderingContext.toPrimitive(value));
             case this.CURRENT_PROGRAM:
-                return new WebGLProgram(value);
+                return new WebGLProgram(TNSWebGLRenderingContext.toPrimitive(value));
             case this.COMPRESSED_TEXTURE_FORMATS:
                 return new Uint32Array(this.getJSArray(value));
             case this.RENDERBUFFER_BINDING:
-                return new WebGLRenderbuffer(value);
+                return new WebGLRenderbuffer(TNSWebGLRenderingContext.toPrimitive(value));
             case this.FRAMEBUFFER_BINDING:
                 if (value) {
-                    return new WebGLFramebuffer(value);
+                    return new WebGLFramebuffer(TNSWebGLRenderingContext.toPrimitive(value));
                 }
                 return null;
             case this.VIEWPORT:
@@ -749,26 +782,27 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
             case this.TEXTURE_BINDING_CUBE_MAP:
             case this.TEXTURE_BINDING_2D:
                 if (value) {
-                    return new WebGLTexture(value);
+                    return new WebGLTexture(TNSWebGLRenderingContext.toPrimitive(value));
                 }
                 return null;
             default:
-                return value;
+                return TNSWebGLRenderingContext.toPrimitive(value);
         }
     }
 
     getProgramInfoLog(program: WebGLProgram): string {
         this._glCheckError('getProgramInfoLog');
         this._checkArgs('getProgramInfoLog', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         return this.context.getProgramInfoLog(value);
     }
 
     getProgramParameter(program: WebGLProgram, pname: number): number | boolean {
         this._glCheckError('getProgramParameter');
         this._checkArgs('getProgramParameter', arguments);
-        const value = program ? program.native : null;
-        return TNSWebGLRenderingContext.toPrimitive(this.context.getProgramParameter(value, pname));
+        const value = program ? program.native : 0;
+        const result = this.context.getProgramParameter(value, pname);
+        return TNSWebGLRenderingContext.toPrimitive(result);
     }
 
     getRenderbufferParameter(target: number, pname: number): number {
@@ -780,8 +814,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getShaderInfoLog(shader: WebGLShader): string {
         this._glCheckError('getShaderInfoLog');
         this._checkArgs('getShaderInfoLog', arguments);
-        const value = shader ? shader.native : null;
-        return this.context.getShaderInfoLog(value);
+        const value = shader ? shader.native : 0;
+        const result = this.context.getShaderInfoLog(value);
+        return  result;
     }
 
     static toPrimitive(value): any {
@@ -808,8 +843,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getShaderParameter(shader: WebGLShader, pname: number): boolean | number {
         this._glCheckError('getShaderParameter');
         this._checkArgs('getShaderParameter', arguments);
-        const value = shader ? shader.native : null;
-        return TNSWebGLRenderingContext.toPrimitive(this.context.getShaderParameter(value, pname));
+        const value = shader ? shader.native : 0;
+        const result = this.context.getShaderParameter(value, pname);
+        return TNSWebGLRenderingContext.toPrimitive(result);
     }
 
     getShaderPrecisionFormat(shaderType: number, precisionType: number): WebGLShaderPrecisionFormat {
@@ -822,7 +858,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getShaderSource(shader: WebGLShader): string {
         this._glCheckError('getShaderSource');
         this._checkArgs('getShaderSource', arguments);
-        const value = shader ? shader.native : null;
+        const value = shader ? shader.native : 0;
         return this.context.getShaderSource(value);
     }
 
@@ -840,7 +876,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getUniformLocation(program: WebGLProgram, name: string): WebGLUniformLocation {
         this._glCheckError('getUniformLocation');
         this._checkArgs('getUniformLocation', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         const id = this.context.getUniformLocation(value, name);
         if(id === -1){return null};
         return new WebGLUniformLocation(id);
@@ -849,13 +885,13 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getUniform(program: WebGLProgram, location: WebGLUniformLocation): any {
         this._glCheckError('getUniform');
         this._checkArgs('getUniform', arguments);
-        const value = program ? program.native : null;
-        const value2 = location ? location.native : null;
+        const value = program ? program.native : 0;
+        const value2 = location ? location.native : 0;
         const uniform = this.context.getUniform(value, value2);
         if (uniform && uniform.length) {
             return this.getJSArray(uniform);
         }
-        return uniform;
+        return TNSWebGLRenderingContext.toPrimitive(uniform);
     }
 
     getVertexAttribOffset(index: number, pname: number): number {
@@ -871,7 +907,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         if (pname === this.CURRENT_VERTEX_ATTRIB) {
             return this.getJSArray(value);
         }
-        return value;
+        return TNSWebGLRenderingContext.toPrimitive(value);
     }
 
     hint(target: number, mode: number): void {
@@ -883,7 +919,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     isBuffer(buffer: WebGLBuffer): boolean {
         this._glCheckError('isBuffer');
         this._checkArgs('isBuffer', arguments);
-        const value = buffer ? buffer.native : null;
+        const value = buffer ? buffer.native : 0;
         return this.context.isBuffer(value);
     }
 
@@ -901,35 +937,35 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     isFramebuffer(framebuffer: WebGLFramebuffer): boolean {
         this._glCheckError('isFramebuffer');
         this._checkArgs('isFramebuffer', arguments);
-        const value = framebuffer ? framebuffer.native : null;
+        const value = framebuffer ? framebuffer.native : 0;
         return this.context.isFramebuffer(value);
     }
 
     isProgram(program: WebGLProgram): boolean {
         this._glCheckError('isProgram');
         this._checkArgs('isProgram', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         return this.context.isProgram(value);
     }
 
     isRenderbuffer(renderbuffer: WebGLRenderbuffer): boolean {
         this._glCheckError('isRenderbuffer');
         this._checkArgs('isRenderbuffer', arguments);
-        const value = renderbuffer ? renderbuffer.native : null;
+        const value = renderbuffer ? renderbuffer.native : 0;
         return this.context.isRenderbuffer(value);
     }
 
     isShader(shader: WebGLShader): boolean {
         this._glCheckError('isShader');
         this._checkArgs('isShader', arguments);
-        const value = shader ? shader.native : null;
+        const value = shader ? shader.native : 0;
         return this.context.isShader(value);
     }
 
     isTexture(texture: WebGLTexture): boolean {
         this._glCheckError('isTexture');
         this._checkArgs('isTexture', arguments);
-        const value = texture ? texture.native : null;
+        const value = texture ? texture.native : 0;
         return this.context.isTexture(value);
     }
 
@@ -942,7 +978,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     linkProgram(program: WebGLProgram): void {
         this._glCheckError('linkProgram');
         this._checkArgs('linkProgram', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         this.context.linkProgram(value);
     }
 
@@ -977,13 +1013,13 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'byte'));
             } else if (pixels instanceof Uint16Array  || pixels instanceof Int16Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'short'));
-            } else if (pixels instanceof Uint32Array) {
+            } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'int'));
             } else if (pixels instanceof Float32Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'float'));
             }
         } else if (pixels instanceof ArrayBuffer) {
-            this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(new Uint8Array(pixels.slice(0) as any) as any, 'byte'));
+            this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(new Uint8Array(pixels as any) as any, 'byte'));
         }
     }
 
@@ -1013,8 +1049,8 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     shaderSource(shader: WebGLShader, source: string): void {
         this._glCheckError('shaderSource');
         this._checkArgs('shaderSource', arguments);
-        const value = shader ? shader.native : null;
-        this.context.shaderSource(value, source ? source : '');
+        const value = shader ? shader.native : 0;
+        this.context.shaderSource(value, source);
     }
 
     stencilFuncSeparate(face: number, func: number, ref: number, mask: number): void {
@@ -1072,7 +1108,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         type,
                         this.toNativeArray(pixels as any, 'byte')
                     );
-                } else if (pixels instanceof Uint16Array) {
+                } else if (pixels instanceof Uint16Array || pixels instanceof Int16Array) {
                     this.context.texImage2D(
                         target,
                         level,
@@ -1084,7 +1120,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         type,
                         this.toNativeArray(pixels as any, 'short')
                     );
-                } else if (pixels instanceof Uint32Array) {
+                } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                     this.context.texImage2D(
                         target,
                         level,
@@ -1119,7 +1155,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     border,
                     format,
                     type,
-                    this.toNativeArray(new Uint8Array(pixels.slice(0) as any) as any, 'float')
+                    this.toNativeArray(new Uint8Array(pixels as any) as any, 'byte')
                 );
             } else {
                 this.context.texImage2D(
@@ -1189,7 +1225,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         type,
                         this.toNativeArray(pixels as any, 'byte')
                     );
-                } else if (pixels instanceof Uint16Array) {
+                } else if (pixels instanceof Uint16Array || pixels instanceof Int16Array) {
                     this.context.texSubImage2D(
                         target,
                         level,
@@ -1201,7 +1237,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         type,
                         this.toNativeArray(pixels as any, 'short')
                     );
-                } else if (pixels instanceof Uint32Array) {
+                } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                     this.context.texSubImage2D(
                         target,
                         level,
@@ -1237,7 +1273,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     height,
                     format,
                     type,
-                    this.toNativeArray(new Uint8Array(pixels.slice(0) as any) as any, 'byte')
+                    this.toNativeArray(new Uint8Array(pixels as any) as any, 'byte')
                 );
             }
         } else if (arguments.length === 7) {
@@ -1315,7 +1351,6 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         height,
                         result ? result.android : null
                 )
-                    ;
                 }
             }
         }
@@ -1324,139 +1359,158 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     uniform1f(location: WebGLUniformLocation, v0: number): void {
         this._glCheckError('uniform1f');
         this._checkArgs('uniform1f', arguments);
-        this.context.uniform1f(location.native, v0);
+        const loc = location ? location.native : 0;
+        this.context.uniform1f(loc, v0);
     }
 
     uniform1iv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform1iv');
         this._checkArgs('uniform1iv', arguments);
         value = this.toNativeArray(value, 'int');
-        this.context.uniform1iv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform1iv(loc, value);
     }
 
     uniform1fv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform1fv');
         this._checkArgs('uniform1fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniform1fv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform1fv(loc, value);
     }
 
     uniform1i(location: WebGLUniformLocation, v0: number): void {
         this._glCheckError('uniform1i');
         this._checkArgs('uniform1i', arguments);
-        this.context.uniform1i(location.native, v0);
+        const loc = location ? location.native : 0;
+        this.context.uniform1i(loc, Number(v0));
     }
 
     uniform2f(location: WebGLUniformLocation, v0: number, v1: number): void {
         this._glCheckError('uniform2f');
         this._checkArgs('uniform2f', arguments);
-        this.context.uniform2f(location.native, v0, v1);
+        const loc = location ? location.native : 0;
+        this.context.uniform2f(loc, v0, v1);
     }
 
     uniform2iv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform2iv');
         this._checkArgs('uniform2iv', arguments);
         value = this.toNativeArray(value, 'int');
-        this.context.uniform2iv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform2iv(loc, value);
     }
 
     uniform2fv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform2fv');
         this._checkArgs('uniform2fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniform2fv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform2fv(loc, value);
     }
 
     uniform2i(location: WebGLUniformLocation, v0: number, v1: number): void {
         this._glCheckError('uniform2i');
         this._checkArgs('uniform2i', arguments);
-        this.context.uniform2i(location.native, v0, v1);
+        const loc = location ? location.native : 0;
+        this.context.uniform2i(loc, v0, v1);
     }
 
     uniform3f(location: WebGLUniformLocation, v0: number, v1: number, v2: number): void {
         this._glCheckError('uniform3f');
         this._checkArgs('uniform3f', arguments);
-        this.context.uniform3f(location.native, v0, v1, v2);
+        const loc = location ? location.native : 0;
+        this.context.uniform3f(loc, v0, v1, v2);
     }
 
     uniform3iv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform3iv');
         this._checkArgs('uniform3iv', arguments);
         value = this.toNativeArray(value, 'int');
-        this.context.uniform3iv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform3iv(loc, value);
     }
 
     uniform3fv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform3fv');
         this._checkArgs('uniform3fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniform3fv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform3fv(loc, value);
     }
 
     uniform3i(location: WebGLUniformLocation, v0: number, v1: number, v2: number): void {
         this._glCheckError('uniform3i');
         this._checkArgs('uniform3i', arguments);
-        this.context.uniform3i(location.native, v0, v1, v2);
+        const loc = location ? location.native : 0;
+        this.context.uniform3i(loc, v0, v1, v2);
     }
 
     uniform4f(location: WebGLUniformLocation, v0: number, v1: number, v2: number, v3: number): void {
         this._glCheckError('uniform4f');
         this._checkArgs('uniform4f', arguments);
-        this.context.uniform4f(location.native, v0, v1, v2, v3);
+        const loc = location ? location.native : 0;
+        this.context.uniform4f(loc, v0, v1, v2, v3);
     }
 
     uniform4iv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform4iv');
         this._checkArgs('uniform4iv', arguments);
         value = this.toNativeArray(value, 'int');
-        this.context.uniform4iv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform4iv(loc, value);
     }
 
     uniform4fv(location: WebGLUniformLocation, value: number[]): void {
         this._glCheckError('uniform4fv');
         this._checkArgs('uniform4fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniform4fv(location.native, value);
+        const loc = location ? location.native : 0;
+        this.context.uniform4fv(loc, value);
     }
 
     uniform4i(location: WebGLUniformLocation, v0: number, v1: number, v2: number, v3: number): void {
         this._glCheckError('uniform4i');
         this._checkArgs('uniform4i', arguments);
-        this.context.uniform4i(location.native, v0, v1, v2, v3);
+        const loc = location ? location.native : 0;
+        this.context.uniform4i(loc, v0, v1, v2, v3);
     }
 
     uniformMatrix2fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void {
         this._glCheckError('uniformMatrix2fv');
         this._checkArgs('uniformMatrix2fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniformMatrix2fv(location.native, transpose, value);
+        const loc = location ? location.native : 0;
+        this.context.uniformMatrix2fv(loc, transpose, value);
     }
 
     uniformMatrix3fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void {
         this._glCheckError('uniformMatrix3fv');
         this._checkArgs('uniformMatrix3fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniformMatrix3fv(location.native, transpose, value);
+        const loc = location ? location.native : 0;
+        this.context.uniformMatrix3fv(loc, transpose, value);
     }
 
     uniformMatrix4fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void {
         this._glCheckError('uniformMatrix4fv');
         this._checkArgs('uniformMatrix4fv', arguments);
         value = this.toNativeArray(value, 'float');
-        this.context.uniformMatrix4fv(location.native, transpose, value);
+        const loc = location ? location.native : 0;
+        this.context.uniformMatrix4fv(loc, transpose, value);
     }
 
     useProgram(program: WebGLProgram): void {
         this._glCheckError('useProgram');
         this._checkArgs('useProgram', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         this.context.useProgram(value);
     }
 
     validateProgram(program: WebGLProgram): void {
         this._glCheckError('validateProgram');
         this._checkArgs('validateProgram', arguments);
-        const value = program ? program.native : null;
+        const value = program ? program.native : 0;
         this.context.validateProgram(value);
     }
 

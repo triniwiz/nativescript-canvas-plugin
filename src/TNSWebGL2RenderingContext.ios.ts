@@ -234,7 +234,8 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     getFragDataLocation(program: WebGLProgram, name: string): number {
         this._glCheckError('getFragDataLocation');
-        return this.native.getFragDataLocationWithProgramName(program.native, name);
+        const result = this.native.getFragDataLocationWithProgramName(program.native, name);
+        return result !== -1 ? result: null;
     }
 
     getIndexedParameter(target: number, index: number): any {
@@ -257,12 +258,15 @@ export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
 
     getQueryParameter(query: WebGLQuery, pname: number): any {
         this._glCheckError('getQueryParameter');
-        return this.native.getQueryParameterWithQueryPname(query.native, pname);
+        const result = this.native.getQueryParameterWithQueryPname(query.native, pname);
+        if(result === 0){
+            return null;
+        }
+        return result;
     }
 
     getQuery(target: number, pname: number): any {
         this._glCheckError('getQuery');
-
         const query = this.native.getQueryParameterWithQueryPname(target, pname);
         if (query) {
             return new WebGLQuery(query);

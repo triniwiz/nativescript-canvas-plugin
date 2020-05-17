@@ -551,6 +551,14 @@ declare class Canvas_OES_vertex_array_object extends NSObject {
 	static new(): Canvas_OES_vertex_array_object; // inherited from NSObject
 
 	readonly VERTEX_ARRAY_BINDING_OES: number;
+
+	bindVertexArrayOESWithArrayObject(arrayObject: number): void;
+
+	createVertexArrayOES(): number;
+
+	deleteVertexArrayOESWithArrayObject(arrayObject: number): void;
+
+	isVertexArrayOESWithArrayObject(arrayObject: number): boolean;
 }
 
 declare class Canvas_WEBGL_color_buffer_float extends NSObject {
@@ -626,6 +634,83 @@ declare class Canvas_WEBGL_depth_texture extends NSObject {
 	static new(): Canvas_WEBGL_depth_texture; // inherited from NSObject
 
 	readonly UNSIGNED_INT_24_8_WEBGL: number;
+}
+
+declare class Canvas_WEBGL_draw_buffers extends NSObject {
+
+	static alloc(): Canvas_WEBGL_draw_buffers; // inherited from NSObject
+
+	static new(): Canvas_WEBGL_draw_buffers; // inherited from NSObject
+
+	readonly COLOR_ATTACHMENT0_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT10_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT11_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT12_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT13_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT14_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT15_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT1_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT2_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT3_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT4_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT5_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT6_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT7_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT8_WEBGL: number;
+
+	readonly COLOR_ATTACHMENT9_WEBGL: number;
+
+	readonly DRAW_BUFFER0_WEBGL: number;
+
+	readonly DRAW_BUFFER10_WEBGL: number;
+
+	readonly DRAW_BUFFER11_WEBGL: number;
+
+	readonly DRAW_BUFFER12_WEBGL: number;
+
+	readonly DRAW_BUFFER13_WEBGL: number;
+
+	readonly DRAW_BUFFER14_WEBGL: number;
+
+	readonly DRAW_BUFFER15_WEBGL: number;
+
+	readonly DRAW_BUFFER1_WEBGL: number;
+
+	readonly DRAW_BUFFER2_WEBGL: number;
+
+	readonly DRAW_BUFFER3_WEBGL: number;
+
+	readonly DRAW_BUFFER4_WEBGL: number;
+
+	readonly DRAW_BUFFER5_WEBGL: number;
+
+	readonly DRAW_BUFFER6_WEBGL: number;
+
+	readonly DRAW_BUFFER7_WEBGL: number;
+
+	readonly DRAW_BUFFER8_WEBGL: number;
+
+	readonly DRAW_BUFFER9_WEBGL: number;
+
+	readonly MAX_COLOR_ATTACHMENTS_WEBGL: number;
+
+	readonly MAX_DRAW_BUFFERS_WEBGL: number;
+
+	drawBuffersWEBGLWithBuffers(buffers: NSArray<number> | number[]): void;
 }
 
 declare class Canvas_WEBGL_lose_context extends NSObject {
@@ -903,6 +988,36 @@ interface NativeByteArray {
 }
 declare var NativeByteArray: interop.StructType<NativeByteArray>;
 
+declare class NativeTextDecoder extends NSObject {
+
+	static alloc(): NativeTextDecoder; // inherited from NSObject
+
+	static new(): NativeTextDecoder; // inherited from NSObject
+
+	readonly encoding: string;
+
+	constructor(o: { encoding: string; });
+
+	decodeWithBytes(bytes: NSData): string;
+
+	initWithEncoding(encoding: string): this;
+}
+
+declare class NativeTextEncoder extends NSObject {
+
+	static alloc(): NativeTextEncoder; // inherited from NSObject
+
+	static new(): NativeTextEncoder; // inherited from NSObject
+
+	readonly encoding: string;
+
+	constructor(o: { encoding: string; });
+
+	encodeWithText(text: string): NSData;
+
+	initWithEncoding(encoding: string): this;
+}
+
 declare class Pattern extends NSObject implements ICanvasColorStyle {
 
 	static alloc(): Pattern; // inherited from NSObject
@@ -966,13 +1081,13 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	static new(): WebGL2RenderingContext; // inherited from NSObject
 
+	readonly ACTIVE_UNIFORM_BLOCKS: number;
+
 	readonly ALREADY_SIGNALED: number;
 
 	readonly ANY_SAMPLES_PASSED: number;
 
 	readonly ANY_SAMPLES_PASSED_CONSERVATIVE: number;
-
-	readonly BYTE: number;
 
 	readonly COLOR: number;
 
@@ -1006,11 +1121,17 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly COLOR_ATTACHMENT9: number;
 
+	readonly COMPARE_REF_TO_TEXTURE: number;
+
 	readonly CONDITION_SATISFIED: number;
 
 	readonly COPY_READ_BUFFER: number;
 
+	readonly COPY_READ_BUFFER_BINDING: number;
+
 	readonly COPY_WRITE_BUFFER: number;
+
+	readonly COPY_WRITE_BUFFER_BINDING: number;
 
 	readonly CURRENT_QUERY: number;
 
@@ -1024,23 +1145,175 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly DEPTH_COMPONENT32F: number;
 
+	readonly DRAW_BUFFER0: number;
+
+	readonly DRAW_BUFFER1: number;
+
+	readonly DRAW_BUFFER10: number;
+
+	readonly DRAW_BUFFER11: number;
+
+	readonly DRAW_BUFFER12: number;
+
+	readonly DRAW_BUFFER13: number;
+
+	readonly DRAW_BUFFER14: number;
+
+	readonly DRAW_BUFFER15: number;
+
+	readonly DRAW_BUFFER2: number;
+
+	readonly DRAW_BUFFER3: number;
+
+	readonly DRAW_BUFFER4: number;
+
+	readonly DRAW_BUFFER5: number;
+
+	readonly DRAW_BUFFER6: number;
+
+	readonly DRAW_BUFFER7: number;
+
+	readonly DRAW_BUFFER8: number;
+
+	readonly DRAW_BUFFER9: number;
+
 	readonly DRAW_FRAMEBUFFER: number;
+
+	readonly DRAW_FRAMEBUFFER_BINDING: number;
+
+	readonly DYNAMIC_COPY: number;
+
+	readonly DYNAMIC_READ: number;
 
 	readonly FLOAT_32_UNSIGNED_INT_24_8_REV: number;
 
-	readonly GL_QUERY_COUNTER_BITS: number;
+	readonly FLOAT_MAT2x3: number;
 
-	readonly GL_QUERY_COUNTER_BITS_EXT: number;
+	readonly FLOAT_MAT2x4: number;
+
+	readonly FLOAT_MAT3x2: number;
+
+	readonly FLOAT_MAT3x4: number;
+
+	readonly FLOAT_MAT4x2: number;
+
+	readonly FLOAT_MAT4x3: number;
+
+	readonly FRAGMENT_SHADER_DERIVATIVE_HINT: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_BLUE_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_GREEN_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_RED_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE: number;
+
+	readonly FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER: number;
+
+	readonly FRAMEBUFFER_DEFAULT: number;
+
+	readonly FRAMEBUFFER_INCOMPLETE_MULTISAMPLE: number;
+
+	readonly HALF_FLOAT: number;
 
 	readonly INTERLEAVED_ATTRIBS: number;
 
+	readonly INT_2_10_10_10_REV: number;
+
+	readonly INT_SAMPLER_2D: number;
+
+	readonly INT_SAMPLER_2D_ARRAY: number;
+
+	readonly INT_SAMPLER_3D: number;
+
+	readonly INT_SAMPLER_CUBE: number;
+
+	readonly INVALID_INDEX: number;
+
+	readonly MAX: number;
+
+	readonly MAX_3D_TEXTURE_SIZE: number;
+
+	readonly MAX_ARRAY_TEXTURE_LAYERS: number;
+
 	readonly MAX_CLIENT_WAIT_TIMEOUT_WEBGL: number;
+
+	readonly MAX_COLOR_ATTACHMENTS: number;
+
+	readonly MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS: number;
+
+	readonly MAX_COMBINED_UNIFORM_BLOCKS: number;
+
+	readonly MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS: number;
+
+	readonly MAX_DRAW_BUFFERS: number;
+
+	readonly MAX_ELEMENTS_INDICES: number;
+
+	readonly MAX_ELEMENTS_VERTICES: number;
+
+	readonly MAX_ELEMENT_INDEX: number;
+
+	readonly MAX_FRAGMENT_INPUT_COMPONENTS: number;
+
+	readonly MAX_FRAGMENT_UNIFORM_BLOCKS: number;
+
+	readonly MAX_FRAGMENT_UNIFORM_COMPONENTS: number;
+
+	readonly MAX_PROGRAM_TEXEL_OFFSET: number;
+
+	readonly MAX_SAMPLES: number;
+
+	readonly MAX_SERVER_WAIT_TIMEOUT: number;
+
+	readonly MAX_TEXTURE_LOD_BIAS: number;
+
+	readonly MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS: number;
+
+	readonly MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS: number;
+
+	readonly MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS: number;
+
+	readonly MAX_UNIFORM_BLOCK_SIZE: number;
+
+	readonly MAX_UNIFORM_BUFFER_BINDINGS: number;
+
+	readonly MAX_VARYING_COMPONENTS: number;
+
+	readonly MAX_VERTEX_OUTPUT_COMPONENTS: number;
+
+	readonly MAX_VERTEX_UNIFORM_BLOCKS: number;
+
+	readonly MAX_VERTEX_UNIFORM_COMPONENTS: number;
+
+	readonly MIN: number;
+
+	readonly MIN_PROGRAM_TEXEL_OFFSET: number;
 
 	readonly OBJECT_TYPE: number;
 
+	readonly PACK_ROW_LENGTH: number;
+
+	readonly PACK_SKIP_PIXELS: number;
+
+	readonly PACK_SKIP_ROWS: number;
+
 	readonly PIXEL_PACK_BUFFER: number;
 
+	readonly PIXEL_PACK_BUFFER_BINDING: number;
+
 	readonly PIXEL_UNPACK_BUFFER: number;
+
+	readonly PIXEL_UNPACK_BUFFER_BINDING: number;
 
 	readonly QUERY_RESULT: number;
 
@@ -1062,13 +1335,27 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly R8: number;
 
-	readonly R8G: number;
-
 	readonly R8I: number;
 
 	readonly R8UI: number;
 
+	readonly R8_SNORM: number;
+
+	readonly RASTERIZER_DISCARD: number;
+
+	readonly READ_BUFFER: number;
+
 	readonly READ_FRAMEBUFFER: number;
+
+	readonly READ_FRAMEBUFFER_BINDING: number;
+
+	readonly RED: number;
+
+	readonly RED_INTEGER: number;
+
+	readonly RENDERBUFFER_SAMPLES: number;
+
+	readonly RG: number;
 
 	readonly RG16F: number;
 
@@ -1082,9 +1369,13 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly RG32UI: number;
 
+	readonly RG8: number;
+
 	readonly RG8I: number;
 
 	readonly RG8UI: number;
+
+	readonly RG8_SNORM: number;
 
 	readonly RGB10_A2: number;
 
@@ -1092,11 +1383,23 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly RGB16F: number;
 
+	readonly RGB16I: number;
+
+	readonly RGB16UI: number;
+
 	readonly RGB32F: number;
+
+	readonly RGB32I: number;
+
+	readonly RGB32UI: number;
 
 	readonly RGB8: number;
 
+	readonly RGB8I: number;
+
 	readonly RGB8UI: number;
+
+	readonly RGB8_SNORM: number;
 
 	readonly RGB9_E5: number;
 
@@ -1112,27 +1415,53 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly RGBA32UI: number;
 
-	readonly RGBA4444: number;
-
 	readonly RGBA8: number;
 
 	readonly RGBA8I: number;
 
 	readonly RGBA8UI: number;
 
+	readonly RGBA8_SNORM: number;
+
+	readonly RGBA_INTEGER: number;
+
+	readonly RGB_INTEGER: number;
+
+	readonly RG_INTEGER: number;
+
+	readonly SAMPLER_2D_ARRAY: number;
+
+	readonly SAMPLER_2D_ARRAY_SHADOW: number;
+
+	readonly SAMPLER_2D_SHADOW: number;
+
+	readonly SAMPLER_3D: number;
+
+	readonly SAMPLER_BINDING: number;
+
+	readonly SAMPLER_CUBE_SHADOW: number;
+
 	readonly SEPARATE_ATTRIBS: number;
 
-	readonly SHORT: number;
-
 	readonly SIGNALED: number;
+
+	readonly SIGNED_NORMALIZED: number;
+
+	readonly SRGB: number;
 
 	readonly SRGB8: number;
 
 	readonly SRGB8_ALPHA8: number;
 
-	readonly SRGB_APLHA8: number;
+	readonly STATIC_COPY: number;
+
+	readonly STATIC_READ: number;
 
 	readonly STENCIL: number;
+
+	readonly STREAM_COPY: number;
+
+	readonly STREAM_READ: number;
 
 	readonly SYNC_CONDITION: number;
 
@@ -1150,9 +1479,21 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly TEXTURE_3D: number;
 
+	readonly TEXTURE_BASE_LEVEL: number;
+
+	readonly TEXTURE_BINDING_2D_ARRAY: number;
+
+	readonly TEXTURE_BINDING_3D: number;
+
 	readonly TEXTURE_COMPARE_FUNC: number;
 
 	readonly TEXTURE_COMPARE_MODE: number;
+
+	readonly TEXTURE_IMMUTABLE_FORMAT: number;
+
+	readonly TEXTURE_IMMUTABLE_LEVELS: number;
+
+	readonly TEXTURE_MAX_LEVEL: number;
 
 	readonly TEXTURE_MAX_LOD: number;
 
@@ -1162,15 +1503,29 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly TIMEOUT_EXPIRED: number;
 
+	readonly TIMEOUT_IGNORED: number;
+
+	readonly TRANSFORM_FEEDBACK: number;
+
+	readonly TRANSFORM_FEEDBACK_ACTIVE: number;
+
+	readonly TRANSFORM_FEEDBACK_BINDING: number;
+
 	readonly TRANSFORM_FEEDBACK_BUFFER: number;
 
 	readonly TRANSFORM_FEEDBACK_BUFFER_BINDING: number;
+
+	readonly TRANSFORM_FEEDBACK_BUFFER_MODE: number;
 
 	readonly TRANSFORM_FEEDBACK_BUFFER_SIZE: number;
 
 	readonly TRANSFORM_FEEDBACK_BUFFER_START: number;
 
+	readonly TRANSFORM_FEEDBACK_PAUSED: number;
+
 	readonly TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN: number;
+
+	readonly TRANSFORM_FEEDBACK_VARYINGS: number;
 
 	readonly UNIFORM_ARRAY_STRIDE: number;
 
@@ -1192,6 +1547,8 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly UNIFORM_BUFFER_BINDING: number;
 
+	readonly UNIFORM_BUFFER_OFFSET_ALIGNMENT: number;
+
 	readonly UNIFORM_BUFFER_SIZE: number;
 
 	readonly UNIFORM_BUFFER_START: number;
@@ -1206,6 +1563,16 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 
 	readonly UNIFORM_TYPE: number;
 
+	readonly UNPACK_IMAGE_HEIGHT: number;
+
+	readonly UNPACK_ROW_LENGTH: number;
+
+	readonly UNPACK_SKIP_IMAGES: number;
+
+	readonly UNPACK_SKIP_PIXELS: number;
+
+	readonly UNPACK_SKIP_ROWS: number;
+
 	readonly UNSIGNALED: number;
 
 	readonly UNSIGNED_INT_10F_11F_11F_REV: number;
@@ -1215,6 +1582,28 @@ declare class WebGL2RenderingContext extends WebGLRenderingContext {
 	readonly UNSIGNED_INT_2_10_10_10_REV: number;
 
 	readonly UNSIGNED_INT_5_9_9_9_REV: number;
+
+	readonly UNSIGNED_INT_SAMPLER_2D: number;
+
+	readonly UNSIGNED_INT_SAMPLER_2D_ARRAY: number;
+
+	readonly UNSIGNED_INT_SAMPLER_3D: number;
+
+	readonly UNSIGNED_INT_SAMPLER_CUBE: number;
+
+	readonly UNSIGNED_INT_VEC2: number;
+
+	readonly UNSIGNED_INT_VEC3: number;
+
+	readonly UNSIGNED_INT_VEC4: number;
+
+	readonly UNSIGNED_NORMALIZED: number;
+
+	readonly VERTEX_ARRAY_BINDING: number;
+
+	readonly VERTEX_ATTRIB_ARRAY_DIVISOR: number;
+
+	readonly VERTEX_ATTRIB_ARRAY_INTEGER: number;
 
 	readonly WAIT_FAILED: number;
 
@@ -1482,43 +1871,17 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly BROWSER_DEFAULT_WEBGL: number;
 
+	readonly BUFFER_SIZE: number;
+
+	readonly BUFFER_USAGE: number;
+
+	readonly BYTE: number;
+
 	readonly CCW: number;
 
 	readonly CLAMP_TO_EDGE: number;
 
 	readonly COLOR_ATTACHMENT0: number;
-
-	readonly COLOR_ATTACHMENT0_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT10_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT11_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT12_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT13_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT14_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT15_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT1_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT2_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT3_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT4_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT5_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT6_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT7_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT8_WEBGL: number;
-
-	readonly COLOR_ATTACHMENT9_WEBGL: number;
 
 	readonly COLOR_BUFFER_BIT: number;
 
@@ -1527,126 +1890,6 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 	readonly COLOR_WRITEMASK: number;
 
 	readonly COMPILE_STATUS: number;
-
-	readonly COMPRESSED_R11_EAC: number;
-
-	readonly COMPRESSED_RED_GREEN_RGTC2_EXT: number;
-
-	readonly COMPRESSED_RED_RGTC1_EXT: number;
-
-	readonly COMPRESSED_RG11_EAC: number;
-
-	readonly COMPRESSED_RGB8_ETC2: number;
-
-	readonly COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
-
-	readonly COMPRESSED_RGBA8_ETC2_EAC: number;
-
-	readonly COMPRESSED_RGBA_ASTC_10x10_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_10x5_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_10x6_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_12x10_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_12x12_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_4x4_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_5x4_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_5x5_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_6x5_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_6x6_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_8x5_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_8x6_KHR: number;
-
-	readonly COMPRESSED_RGBA_ASTC_8x8_KHR: number;
-
-	readonly COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL: number;
-
-	readonly COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL: number;
-
-	readonly COMPRESSED_RGBA_BPTC_UNORM_EXT: number;
-
-	readonly COMPRESSED_RGBA_PVRTC_2BPPV1_IMG: number;
-
-	readonly COMPRESSED_RGBA_PVRTC_4BPPV1_IMG: number;
-
-	readonly COMPRESSED_RGBA_S3TC_DXT1_EXT: number;
-
-	readonly COMPRESSED_RGBA_S3TC_DXT3_EXT: number;
-
-	readonly COMPRESSED_RGBA_S3TC_DXT5_EXT: number;
-
-	readonly COMPRESSED_RGB_ATC_WEBGL: number;
-
-	readonly COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT: number;
-
-	readonly COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT: number;
-
-	readonly COMPRESSED_RGB_ETC1_WEBGL: number;
-
-	readonly COMPRESSED_RGB_PVRTC_2BPPV1_IMG: number;
-
-	readonly COMPRESSED_RGB_PVRTC_4BPPV1_IMG: number;
-
-	readonly COMPRESSED_RGB_S3TC_DXT1_EXT: number;
-
-	readonly COMPRESSED_SIGNED_R11_EAC: number;
-
-	readonly COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT: number;
-
-	readonly COMPRESSED_SIGNED_RED_RGTC1_EXT: number;
-
-	readonly COMPRESSED_SIGNED_RG11_EAC: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR: number;
-
-	readonly COMPRESSED_SRGB8_ALPHA8_ETC2_EAC: number;
-
-	readonly COMPRESSED_SRGB8_ETC2: number;
-
-	readonly COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
-
-	readonly COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT: number;
-
-	readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT: number;
-
-	readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT: number;
-
-	readonly COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT: number;
-
-	readonly COMPRESSED_SRGB_S3TC_DXT1_EXT: number;
 
 	readonly COMPRESSED_TEXTURE_FORMATS: number;
 
@@ -1679,6 +1922,8 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 	readonly DEPTH_BUFFER_BIT: number;
 
 	readonly DEPTH_CLEAR_VALUE: number;
+
+	readonly DEPTH_COMPONENT: number;
 
 	readonly DEPTH_COMPONENT16: number;
 
@@ -1728,11 +1973,7 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly FRAGMENT_SHADER: number;
 
-	readonly FRAGMENT_SHADER_DERIVATIVE_HINT_OES: number;
-
 	readonly FRAMEBUFFER: number;
-
-	readonly FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
 
 	readonly FRAMEBUFFER_ATTACHMENT_OBJECT_NAME: number;
 
@@ -1774,7 +2015,9 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly GREEN_BITS: number;
 
-	readonly HALF_FLOAT: number;
+	readonly HIGH_FLOAT: number;
+
+	readonly HIGH_INT: number;
 
 	readonly IMPLEMENTATION_COLOR_READ_FORMAT: number;
 
@@ -1824,6 +2067,10 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly LINK_STATUS: number;
 
+	readonly LOW_FLOAT: number;
+
+	readonly LOW_INT: number;
+
 	readonly LUMINANCE: number;
 
 	readonly LUMINANCE_ALPHA: number;
@@ -1831,8 +2078,6 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 	readonly MAX_COMBINED_TEXTURE_IMAGE_UNITS: number;
 
 	readonly MAX_CUBE_MAP_TEXTURE_SIZE: number;
-
-	readonly MAX_EXT: number;
 
 	readonly MAX_FRAGMENT_UNIFORM_VECTORS: number;
 
@@ -1852,7 +2097,9 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly MAX_VIEWPORT_DIMS: number;
 
-	readonly MIN_EXT: number;
+	readonly MEDIUM_FLOAT: number;
+
+	readonly MEDIUM_INT: number;
 
 	readonly MIRRORED_REPEAT: number;
 
@@ -1930,15 +2177,11 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly RGB: number;
 
-	readonly RGB32F_EXT: number;
-
 	readonly RGB565: number;
 
 	readonly RGB5_A1: number;
 
 	readonly RGBA: number;
-
-	readonly RGBA32F_EXT: number;
 
 	readonly RGBA4: number;
 
@@ -1966,13 +2209,13 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 
 	readonly SHADING_LANGUAGE_VERSION: number;
 
+	readonly SHORT: number;
+
 	readonly SRC_ALPHA: number;
 
 	readonly SRC_ALPHA_SATURATE: number;
 
 	readonly SRC_COLOR: number;
-
-	readonly SRGB8_ALPHA8_EXT: number;
 
 	readonly STATIC_DRAW: number;
 
@@ -2019,6 +2262,8 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 	readonly STREAM_DRAW: number;
 
 	readonly SUBPIXEL_BITS: number;
+
+	readonly TEXTURE: number;
 
 	readonly TEXTURE0: number;
 
@@ -2105,8 +2350,6 @@ declare class WebGLRenderingContext extends CanvasRenderingContext {
 	readonly TEXTURE_CUBE_MAP_POSITIVE_Z: number;
 
 	readonly TEXTURE_MAG_FILTER: number;
-
-	readonly TEXTURE_MAX_ANISOTROPY_EXT: number;
 
 	readonly TEXTURE_MIN_FILTER: number;
 
@@ -2582,6 +2825,10 @@ declare function native_create_path_2d_from_path_data(data: string | interop.Poi
 
 declare function native_create_path_from_path(path: number): number;
 
+declare function native_create_text_decoder(decoding: string | interop.Pointer | interop.Reference<any>): number;
+
+declare function native_create_text_encoder(encoding: string | interop.Pointer | interop.Reference<any>): number;
+
 declare function native_destroy(canvas_ptr: number): void;
 
 declare function native_draw_image(canvas_native_ptr: number, image_array: string | interop.Pointer | interop.Reference<any>, image_size: number, original_width: number, original_height: number, dx: number, dy: number, view: interop.Pointer | interop.Reference<any>): number;
@@ -2613,6 +2860,8 @@ declare function native_fill_rule(canvas_native_ptr: number, rule: string | inte
 declare function native_fill_text(canvas_native_ptr: number, text: string | interop.Pointer | interop.Reference<any>, x: number, y: number, width: number, view: interop.Pointer | interop.Reference<any>): number;
 
 declare function native_flush(canvas_ptr: number): number;
+
+declare function native_free_byte_array(array: NativeByteArray): void;
 
 declare function native_free_matrix_data(data: CanvasArray): void;
 
@@ -2761,6 +3010,18 @@ declare function native_surface_resized(width: number, height: number, device: i
 declare function native_surface_resized_legacy(width: number, height: number, buffer_id: number, scale: number, canvas_native_ptr: number): number;
 
 declare function native_text_align(canvas_native_ptr: number, alignment: string | interop.Pointer | interop.Reference<any>): number;
+
+declare function native_text_decoder_decode(decoder: number, data: string | interop.Pointer | interop.Reference<any>, len: number): string;
+
+declare function native_text_decoder_free(decoder: number): void;
+
+declare function native_text_decoder_get_encoding(decoder: number): string;
+
+declare function native_text_encoder_encode(encoder: number, text: string | interop.Pointer | interop.Reference<any>): NativeByteArray;
+
+declare function native_text_encoder_free(encoder: number): void;
+
+declare function native_text_encoder_get_encoding(encoder: number): string;
 
 declare function native_to_data_url(canvas_ptr: number, format: string | interop.Pointer | interop.Reference<any>, quality: number): string;
 
