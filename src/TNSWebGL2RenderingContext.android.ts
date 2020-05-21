@@ -14,6 +14,7 @@ import {
 import { TNSImageAsset } from './TNSImageAsset';
 import { fromFile, ImageSource, } from 'tns-core-modules/image-source/image-source';
 
+
 export class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
     constructor(context) {
         super(context);

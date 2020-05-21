@@ -1,0 +1,36 @@
+{
+  "name": "demo-vue",
+  "version": "1.0.0",
+  "description": "A native application built with NativeScript-Vue",
+  "author": "Osei Fortune <fortune.osei@yahoo.com>",
+  "license": "MIT",
+  "nativescript": {
+    "id": "com.github.triniwiz.canvas.vue",
+    "templateVersion": "v2",
+    "tns-android": {
+      "version": "6.5.0"
+    },
+    "tns-ios": {
+      "version": "6.5.0"
+    }
+  },
+  "dependencies": {
+    "nativescript-canvas-plugin": "file:../src",
+    "nativescript-vue": "^2.6.1",
+    "tns-core-modules": "^6.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.1.0",
+    "nativescript-dev-webpack": "^1.5.1",
+    "nativescript-vue-template-compiler": "^2.6.0",
+    "nativescript-worker-loader": "~0.11.0",
+    "node-sass": "^4.13.1",
+    "tns-platform-declarations": "^6.5.1",
+    "typescript": "^3.8.3",
+    "@types/node": "^13.11.1",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.9.1"
+  }
+}

@@ -1,5 +1,5 @@
 import { TNSTextEncoderBase } from './canvas-plugin.common';
-
+declare var com;
 export class TNSTextEncoder extends TNSTextEncoderBase {
   constructor(encoding: string = 'utf8') {
     super(new com.github.triniwiz.canvas.TextEncoder(encoding));
