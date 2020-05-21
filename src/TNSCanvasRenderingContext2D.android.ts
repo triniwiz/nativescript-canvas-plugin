@@ -7,9 +7,9 @@ import { ImageData } from './ImageData';
 import { TextMetrics } from './TextMetrics';
 import { Color } from 'tns-core-modules/color';
 import { TNSImageAsset } from './TNSImageAsset';
-
+declare var com;
 export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase {
-    private context: com.github.triniwiz.canvas.CanvasRenderingContext2D;
+    private context//: com.github.triniwiz.canvas.CanvasRenderingContext2D;
 
     constructor(context: any) {
         super();
@@ -265,7 +265,6 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
             nativeStyle = color.nativeInstance;
             this._fillStyle = color;
         } else {
-
             if (color.startsWith('hsla')) {
                 color = ColorHandler.HSLAToRGBA(color, false);
             } else if (color.startsWith('hsl')) {

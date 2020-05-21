@@ -1620,10 +1620,14 @@ export abstract class CanvasPattern {
 }
 
 export class TextMetricsBase {
-    protected nativeInstance: any;
+    nativeInstance: any;
 
     constructor(nativeInstance: any) {
         this.nativeInstance = nativeInstance;
+    }
+
+    get native(){
+        return this.nativeInstance;
     }
 }
 

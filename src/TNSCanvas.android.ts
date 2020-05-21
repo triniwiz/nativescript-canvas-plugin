@@ -4,6 +4,7 @@ import { TNSCanvasRenderingContext2D } from './TNSCanvasRenderingContext2D';
 import { TNSWebGLRenderingContext } from './TNSWebGLRenderingContext';
 import { TNSWebGL2RenderingContext } from './TNSWebGL2RenderingContext';
 import * as app from 'tns-core-modules/application';
+declare var com;
 export function createSVGMatrix(): TNSDOMMatrix {
   return new TNSDOMMatrix(
     com.github.triniwiz.canvas.CanvasView.createSVGMatrix()
