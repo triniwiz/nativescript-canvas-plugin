@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
         // Init your component properties here.
     }
 
-    loaded(event){
+    ready(event){
         particles(event.object);
     }
 }
