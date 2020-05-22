@@ -28,3 +28,4 @@ demo/report/stats.json
 !demo-vue/app/app.js
 demo-react/platforms
 demo-react/lib
+!src/vue/*.js
