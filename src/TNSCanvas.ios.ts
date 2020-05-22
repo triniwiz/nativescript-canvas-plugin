@@ -17,10 +17,6 @@ export class TNSCanvas extends TNSCanvasBase {
     private _webglContext: TNSWebGLRenderingContext;
     useMetal: boolean = false;
 
-    constructor() {
-        super();
-    }
-
     get clientWidth() {
         return this.getMeasuredWidth();
     }
@@ -29,8 +25,8 @@ export class TNSCanvas extends TNSCanvasBase {
         return this.getMeasuredHeight();
     }
 
-    flush(){
-        if(this.nativeView){
+    flush() {
+        if (this.nativeView) {
             this.nativeView.flush();
         }
     }
@@ -48,6 +44,7 @@ export class TNSCanvas extends TNSCanvasBase {
     }
 
     private _isReady: boolean = false;
+
     onLoaded() {
         super.onLoaded();
         if (this._didPause) {
@@ -58,7 +55,7 @@ export class TNSCanvas extends TNSCanvasBase {
 
     public onLayout(left: number, top: number, right: number, bottom: number) {
         super.onLayout(left, top, right, bottom);
-        if(!this._isReady){
+        if (!this._isReady) {
             this._readyEvent();
             this._isReady = true;
         }

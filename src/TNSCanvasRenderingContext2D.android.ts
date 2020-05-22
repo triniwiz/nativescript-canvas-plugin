@@ -2,14 +2,16 @@ import { TNSCanvasRenderingContext2DBase } from './canvas-plugin.common';
 import { CanvasGradient } from './CanvasGradient';
 import { ColorHandler } from './ColorHelper';
 import { TNSPath2D } from './TNSPath2D';
-import { fromFile, ImageSource } from 'tns-core-modules/image-source';
+import { ImageSource } from '@nativescript/core/image-source';
 import { ImageData } from './ImageData';
 import { TextMetrics } from './TextMetrics';
-import { Color } from 'tns-core-modules/color';
+import { Color } from '@nativescript/core/color';
 import { TNSImageAsset } from './TNSImageAsset';
+
 declare var com;
+
 export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase {
-    private context//: com.github.triniwiz.canvas.CanvasRenderingContext2D;
+    private context; // : com.github.triniwiz.canvas.CanvasRenderingContext2D;
 
     constructor(context: any) {
         super();
@@ -453,7 +455,7 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
             } else if (image._asset instanceof TNSImageAsset) {
                 image = image._asset.native;
             } else if (typeof image.src === 'string') {
-                image = fromFile(image.src).android;
+                image = ImageSource.fromFileSync(image.src).android;
             }
         } else if (
             image &&

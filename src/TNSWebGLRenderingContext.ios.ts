@@ -10,8 +10,9 @@ import {
     WebGLTexture,
     WebGLUniformLocation
 } from './canvas-plugin.common';
-import { fromFile, ImageSource } from 'tns-core-modules/image-source';
+import { fromFile, ImageSource } from '@nativescript/core/image-source';
 import {
+    ANGLE_instanced_arrays,
     EXT_blend_minmax,
     EXT_color_buffer_float,
     EXT_color_buffer_half_float,
@@ -31,9 +32,8 @@ import {
     WEBGL_compressed_texture_etc1,
     WEBGL_compressed_texture_pvrtc,
     WEBGL_depth_texture,
-    WEBGL_lose_context,
-    ANGLE_instanced_arrays,
-    WEBGL_draw_buffers
+    WEBGL_draw_buffers,
+    WEBGL_lose_context
 } from './TNSWebGLExtensions';
 import { TNSImageAsset } from './TNSImageAsset';
 
@@ -48,7 +48,7 @@ declare const Canvas_EXT_blend_minmax, Canvas_EXT_color_buffer_float, Canvas_EXT
 export * from './TNSWebGLExtensions';
 
 export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
-    private context//: WebGLRenderingContext;
+    private context; // : WebGLRenderingContext;
 
     constructor(context) {
         super(context);
@@ -669,7 +669,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         const ext = this.context.getExtensionWithName(name);
         if (ext instanceof Canvas_ANGLE_instanced_arrays) {
             return new ANGLE_instanced_arrays(ext);
-        }else if (ext instanceof Canvas_EXT_blend_minmax) {
+        } else if (ext instanceof Canvas_EXT_blend_minmax) {
             return new EXT_blend_minmax(ext);
         } else if (ext instanceof Canvas_EXT_color_buffer_float) {
             return new EXT_color_buffer_float(ext);
@@ -709,7 +709,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
             return new WEBGL_depth_texture(ext);
         } else if (ext instanceof Canvas_WEBGL_lose_context) {
             return new WEBGL_lose_context(ext);
-        } else if(ext instanceof Canvas_WEBGL_draw_buffers) {
+        } else if (ext instanceof Canvas_WEBGL_draw_buffers) {
             return new WEBGL_draw_buffers(ext);
         }
         return null;
@@ -857,7 +857,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._checkArgs('getUniformLocation', arguments);
         const value = program ? program.native : 0;
         const id = this.context.getUniformLocationWithProgramName(value, name);
-        if(id === -1){return null};
+        if (id === -1) {
+            return null;
+        }
         return new WebGLUniformLocation(id);
     }
 
@@ -915,7 +917,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     isContextLost(): boolean {
         this._glCheckError('isContextLost');
         this._checkArgs('isContextLost', arguments);
-        //return this.context.isContextLost();
+        // return this.context.isContextLost();
         return false;
     }
 

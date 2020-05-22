@@ -2,10 +2,10 @@ import { TNSCanvasRenderingContext2DBase } from './canvas-plugin.common';
 import { CanvasGradient } from './CanvasGradient';
 import { ColorHandler } from './ColorHelper';
 import { TNSPath2D } from './TNSPath2D';
-import { fromFile, ImageSource } from 'tns-core-modules/image-source';
+import { ImageSource } from '@nativescript/core/image-source';
 import { ImageData } from './ImageData';
 import { TextMetrics } from './TextMetrics';
-import { Color as TNSColor } from 'tns-core-modules/color';
+import { Color as TNSColor } from '@nativescript/core/color';
 import { TNSImageAsset } from './TNSImageAsset';
 
 export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase {
@@ -49,13 +49,13 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
     set imageSmoothingQuality(quality: string) {
         switch (quality) {
             case 'high':
-                this.context.imageSmoothingQuality = 2; //ImageSmoothingQuality.High;
+                this.context.imageSmoothingQuality = 2; // ImageSmoothingQuality.High;
                 break;
             case 'medium':
-                this.context.imageSmoothingQuality = 1; //ImageSmoothingQuality.Medium;
+                this.context.imageSmoothingQuality = 1; // ImageSmoothingQuality.Medium;
                 break;
             default:
-                this.context.imageSmoothingQuality = 0; //ImageSmoothingQuality.Low;
+                this.context.imageSmoothingQuality = 0; // ImageSmoothingQuality.Low;
                 break;
         }
     }
@@ -82,13 +82,13 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
     set lineJoin(join: string) {
         switch (join) {
             case 'bevel':
-                this.context.lineJoin = 0; //LineJoin.Bevel;
+                this.context.lineJoin = 0; // LineJoin.Bevel;
                 break;
             case 'round':
-                this.context.lineJoin = 1; //LineJoin.Round;
+                this.context.lineJoin = 1; // LineJoin.Round;
                 break;
             default:
-                this.context.lineJoin = 2; //LineJoin.Miter;
+                this.context.lineJoin = 2; // LineJoin.Miter;
                 break;
         }
     }
@@ -107,13 +107,13 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
     set lineCap(cap: string) {
         switch (cap) {
             case 'round':
-                this.context.lineCap = 1; //LineCap.Round;
+                this.context.lineCap = 1; // LineCap.Round;
                 break;
             case 'square':
-                this.context.lineCap = 2; //LineCap.Square;
+                this.context.lineCap = 2; // LineCap.Square;
                 break;
             default:
-                this.context.lineCap = 0; //LineCap.Butt;
+                this.context.lineCap = 0; // LineCap.Butt;
         }
     }
 
@@ -163,19 +163,19 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
     set textAlign(alignment: string) {
         switch (alignment) {
             case 'start':
-                this.context.textAlign = 1; //TextAlignment.Start;
+                this.context.textAlign = 1; // TextAlignment.Start;
                 break;
             case 'center':
-                this.context.textAlign = 2; //TextAlignment.Center;
+                this.context.textAlign = 2; // TextAlignment.Center;
                 break;
             case 'end':
-                this.context.textAlign = 3; //TextAlignment.End;
+                this.context.textAlign = 3; // TextAlignment.End;
                 break;
             case 'right':
-                this.context.textAlign = 4; //TextAlignment.Right;
+                this.context.textAlign = 4; // TextAlignment.Right;
                 break;
             default:
-                this.context.textAlign = 0; //TextAlignment.Left;
+                this.context.textAlign = 0; // TextAlignment.Left;
                 break;
         }
     }
@@ -561,13 +561,14 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
             } else if (image._asset instanceof TNSImageAsset) {
                 image = image._asset;
             } else if (typeof image.src === 'string') {
-                image = fromFile(image.src).ios;
+                image = ImageSource.fromFileSync(image.src).ios;
             }
         } else if (
             image &&
             typeof image.tagName === 'string' &&
             image.tagName === 'CANVAS'
         ) {
+            // TODO add support
             // NOOP
             return;
         }

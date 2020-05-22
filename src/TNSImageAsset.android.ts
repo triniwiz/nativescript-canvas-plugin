@@ -1,5 +1,6 @@
 import { TNSImageAssetBase, TNSImageAssetSaveFormat, } from './canvas-plugin.common';
-import * as fs from 'tns-core-modules/file-system';
+import * as fs from '@nativescript/core/file-system';
+
 export class TNSImageAsset extends TNSImageAssetBase {
     constructor() {
         super(new com.github.triniwiz.canvas.ImageAsset());
@@ -193,66 +194,90 @@ export class TNSImageAsset extends TNSImageAssetBase {
 }
 
 
-declare module com {
-	export module github {
-		export module triniwiz {
-			export module canvas {
-				export class ImageAsset {
-					public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAsset>;
-					public loadImageFromPathAsync(param0: string, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
-					public flipX(): void;
-					public getHeight(): number;
-					public finalize(): void;
-					public getWidth(): number;
-					public loadImageFromPath(param0: string): boolean;
-					public loadImageFromImage(param0: globalAndroid.graphics.Bitmap): boolean;
-					public save(param0: string, param1: com.github.triniwiz.canvas.ImageAssetFormat): boolean;
-					public getBytes(): native.Array<number>;
-					public getError(): string;
-					public loadImageFromImageAsync(param0: globalAndroid.graphics.Bitmap, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
-					public flipY(): void;
-					public scale(param0: number, param1: number): void;
-					public constructor();
-					public loadImageFromBytesAsync(param0: native.Array<number>, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
-					public saveAsync(param0: string, param1: com.github.triniwiz.canvas.ImageAssetFormat, param2: com.github.triniwiz.canvas.ImageAsset.Callback): void;
-					public loadImageFromBytes(param0: native.Array<number>): boolean;
-				}
-				export module ImageAsset {
-					export class Callback {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAsset.Callback>;
-						/**
-						 * Constructs a new instance of the com.github.triniwiz.canvas.ImageAsset$Callback interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
-						 */
-						public constructor(implementation: {
-							onSuccess(param0: any): void;
-							onError(param0: string): void;
-						});
-						public constructor();
-						public onSuccess(param0: any): void;
-						public onError(param0: string): void;
-					}
-				}
-			}
-		}
-	}
+declare namespace com {
+    export namespace github {
+        export namespace triniwiz {
+            export namespace canvas {
+                export class ImageAsset {
+                    public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAsset>;
+
+                    public loadImageFromPathAsync(param0: string, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
+
+                    public flipX(): void;
+
+                    public getHeight(): number;
+
+                    public finalize(): void;
+
+                    public getWidth(): number;
+
+                    public loadImageFromPath(param0: string): boolean;
+
+                    public loadImageFromImage(param0: globalAndroid.graphics.Bitmap): boolean;
+
+                    public save(param0: string, param1: com.github.triniwiz.canvas.ImageAssetFormat): boolean;
+
+                    public getBytes(): native.Array<number>;
+
+                    public getError(): string;
+
+                    public loadImageFromImageAsync(param0: globalAndroid.graphics.Bitmap, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
+
+                    public flipY(): void;
+
+                    public scale(param0: number, param1: number): void;
+
+                    public constructor();
+
+                    public loadImageFromBytesAsync(param0: native.Array<number>, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
+
+                    public saveAsync(param0: string, param1: com.github.triniwiz.canvas.ImageAssetFormat, param2: com.github.triniwiz.canvas.ImageAsset.Callback): void;
+
+                    public loadImageFromBytes(param0: native.Array<number>): boolean;
+                }
+
+                export namespace ImageAsset {
+                    export class Callback {
+                        public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAsset.Callback>;
+
+                        /**
+                         * Constructs a new instance of the com.github.triniwiz.canvas.ImageAsset$Callback interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+                         */
+                        public constructor(implementation: {
+                            onSuccess(param0: any): void;
+                            onError(param0: string): void;
+                        });
+                        public constructor();
+
+                        public onSuccess(param0: any): void;
+
+                        public onError(param0: string): void;
+                    }
+                }
+            }
+        }
+    }
 }
 
-declare module com {
-	export module github {
-		export module triniwiz {
-			export module canvas {
-				export class ImageAssetFormat {
-					public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAssetFormat>;
-					public static JPG: com.github.triniwiz.canvas.ImageAssetFormat;
-					public static PNG: com.github.triniwiz.canvas.ImageAssetFormat;
-					public static ICO: com.github.triniwiz.canvas.ImageAssetFormat;
-					public static BMP: com.github.triniwiz.canvas.ImageAssetFormat;
-					public static TIFF: com.github.triniwiz.canvas.ImageAssetFormat;
-					public getFormat(): number;
-					public static valueOf(param0: string): com.github.triniwiz.canvas.ImageAssetFormat;
-					public static values(): native.Array<com.github.triniwiz.canvas.ImageAssetFormat>;
-				}
-			}
-		}
-	}
+declare namespace com {
+    export namespace github {
+        export namespace triniwiz {
+            export namespace canvas {
+                export class ImageAssetFormat {
+                    public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAssetFormat>;
+                    public static JPG: com.github.triniwiz.canvas.ImageAssetFormat;
+                    public static PNG: com.github.triniwiz.canvas.ImageAssetFormat;
+                    public static ICO: com.github.triniwiz.canvas.ImageAssetFormat;
+                    public static BMP: com.github.triniwiz.canvas.ImageAssetFormat;
+                    public static TIFF: com.github.triniwiz.canvas.ImageAssetFormat;
+
+                    public getFormat(): number;
+
+                    public static valueOf(param0: string): com.github.triniwiz.canvas.ImageAssetFormat;
+
+                    public static values(): native.Array<com.github.triniwiz.canvas.ImageAssetFormat>;
+                }
+            }
+        }
+    }
 }

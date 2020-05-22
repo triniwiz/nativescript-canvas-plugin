@@ -1,8 +1,8 @@
-import { Color as TNSColor } from 'tns-core-modules/color';
+import { Color as TNSColor } from '@nativescript/core/color';
 import { CanvasGradientBase } from './canvas-plugin.common';
 
 export class CanvasGradient extends CanvasGradientBase {
-    protected nativeInstance: any;
+    readonly nativeInstance: any;
 
     protected constructor(nativeInstance: any) {
         super();
