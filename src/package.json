@@ -1,13 +1,13 @@
 {
 	"name": "nativescript-canvas-plugin",
-	"version": "0.5.2",
+	"version": "0.6.0",
 	"description": "Html Canvas Shim",
 	"main": "canvas-plugin",
-	"typings": "index.d.ts",
+	"typings": "canvas-plugin.d.ts",
 	"nativescript": {
 		"platforms": {
-			"android": "5.4.0",
-			"ios": "5.4.0"
+			"android": "6.2.0",
+			"ios": "6.2.0"
 		}
 	},
 	"repository": {
@@ -30,7 +30,9 @@
 		"demo-angular.android": "npm run tsc && cd ../demo-angular && tns run android --emulator",
 		"demo-angular.reset": "cd ../demo-angular && npx rimraf -- hooks node_modules platforms package-lock.json",
 		"plugin.prepare": "npm run build && cd ../demo && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src && cd ../demo-angular && tns plugin remove nativescript-canvas-plugin && tns plugin add ../src",
-		"clean": "npm run demo.reset && npm run demo-angular.reset && npx rimraf -- node_modules package-lock.json && npm i"
+		"clean": "npm run demo.reset && npm run demo-angular.reset && npx rimraf -- node_modules package-lock.json && npm i",
+		"ngc": "npm i && npm run ngc.clean && node --max-old-space-size=8192 node_modules/.bin/ngc -noEmitOnError -skipLibCheck -p tsconfig.json",
+		"ngc.clean": "find ./ angular/ -name '*.metadata.json' -delete"
 	},
 	"keywords": [
 		"NativeScript",
@@ -53,13 +55,30 @@
 	"homepage": "https://github.com/triniwiz/nativescript-canvas-plugin",
 	"readmeFilename": "README.md",
 	"devDependencies": {
-		"tns-core-modules": "^5.0.0",
-		"tns-platform-declarations": "^5.0.0",
-		"typescript": "~3.3.3",
+		"@angular/common": "~8.2.0",
+		"@angular/compiler": "~8.2.0",
+		"@angular/compiler-cli": "~8.2.0",
+		"@angular/core": "~8.2.0",
+		"@angular/forms": "~8.2.0",
+		"@angular/platform-browser": "~8.2.0",
+		"@angular/platform-browser-dynamic": "~8.2.0",
+		"@angular/router": "~8.2.0",
+		"@nativescript/angular": "^8.21.0",
+		"@nativescript/core": "^6.2.3",
+		"@types/react": "^16.8.24",
+		"@types/react-reconciler": "^0.18.0",
+		"nativescript-vue": "~2.3.0",
 		"prompt": "^1.0.0",
+		"react": "^16.8.6",
+		"react-nativescript": "^0.24.0",
 		"rimraf": "^2.6.3",
+		"rxjs": "^6.4.0",
+		"semver": "^5.6.0",
+		"tns-platform-declarations": "^6.2.3",
 		"tslint": "^5.12.1",
-		"semver": "^5.6.0"
+		"typescript": "~3.5.3",
+		"vue": "^2.6.11",
+		"zone.js": "^0.9.1"
 	},
 	"dependencies": {},
 	"bootstrapper": "nativescript-plugin-seed"

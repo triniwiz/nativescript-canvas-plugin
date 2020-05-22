@@ -10,9 +10,9 @@ import {
     WebGLTexture,
     WebGLUniformLocation
 } from './canvas-plugin.common';
-import { fromFile, ImageSource } from 'tns-core-modules/image-source';
-import * as types from 'tns-core-modules/utils/types';
+import { ImageSource } from '@nativescript/core/image-source';
 import {
+    ANGLE_instanced_arrays,
     EXT_blend_minmax,
     EXT_color_buffer_half_float,
     EXT_disjoint_timer_query,
@@ -32,29 +32,28 @@ import {
     WEBGL_compressed_texture_etc1,
     WEBGL_compressed_texture_pvrtc,
     WEBGL_compressed_texture_s3tc,
-    WEBGL_lose_context,
-    ANGLE_instanced_arrays,
     WEBGL_depth_texture,
-    WEBGL_draw_buffers
+    WEBGL_draw_buffers,
+    WEBGL_lose_context
 } from './TNSWebGLExtensions';
 import { TNSImageAsset } from './TNSImageAsset';
 
 
 export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
-    private context;//: com.github.triniwiz.canvas.WebGLRenderingContext;
+    private context; // : com.github.triniwiz.canvas.WebGLRenderingContext;
 
     constructor(context) {
         super(context);
         this.context = context;
     }
 
-    protected getJSArray(value): any[] {
+    getJSArray(value): any[] {
         const count = value.length;
         const array: number[] = [];
         for (let i = 0; i < count; i++) {
             array.push(value[i]);
         }
-        return array;
+        return array as any;
     }
 
     get native() {
@@ -172,7 +171,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this.context.blendFunc(sfactor, dfactor);
     }
 
-    toNativeArray(value: any[], type: string) {
+    toNativeArray(value: any, type: string): any {
         // if (value && value.length && typeof type === 'string') {
         //     const size = value.length;
         //     const nativeArray = Array.create(type, size);
@@ -182,36 +181,42 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         //     return nativeArray;
         // }
 
+        let length = 0;
+        if (value instanceof Int8Array || value instanceof Uint8Array || value instanceof Int16Array || value instanceof Uint16Array || value instanceof Int32Array || value instanceof Uint32Array || value instanceof Float32Array || value instanceof Float64Array) {
+            length = value.length;
+        } else if (Array.isArray(value)) {
+            length = value.length;
+        }
 
-        if (value && value.length && typeof type === 'string') {
-            const array = Array.from(value);
+        if (length && typeof type === 'string') {
+            const array = Array.from(value as any) as any;
             let nativeArray;
-            switch(type){
+            switch (type) {
                 case 'byte':
                     nativeArray = java.nio.ByteBuffer.wrap(array).array();
                     break;
-                    case 'short':
-                        nativeArray = java.nio.ShortBuffer.wrap(array).array();
+                case 'short':
+                    nativeArray = java.nio.ShortBuffer.wrap(array).array();
                     break;
-                    case 'float':
-                        nativeArray = java.nio.FloatBuffer.wrap(array).array();
+                case 'float':
+                    nativeArray = java.nio.FloatBuffer.wrap(array).array();
                     break;
-                    case 'int':
-                        nativeArray = java.nio.IntBuffer.wrap(array).array();
+                case 'int':
+                    nativeArray = java.nio.IntBuffer.wrap(array).array();
                     break;
-                    case 'double':
-                        nativeArray = java.nio.DoubleBuffer.wrap(array).array();
+                case 'double':
+                    nativeArray = java.nio.DoubleBuffer.wrap(array).array();
                     break;
-                    case 'long':
-                        nativeArray = java.nio.LongBuffer.wrap(array).array();
+                case 'long':
+                    nativeArray = java.nio.LongBuffer.wrap(array).array();
                     break;
-                    default:
-                        nativeArray = array;
-                        break;
+                default:
+                    nativeArray = array;
+                    break;
             }
-            return nativeArray;
+            return nativeArray as any;
         }
-        return [];
+        return [] as any;
     }
 
     bufferData(target: number, size: number, usage: number): void;
@@ -228,12 +233,12 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'byte'), usage);
             } else if (srcData instanceof Uint16Array || srcData instanceof Int16Array) {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'short'), usage);
-            } else if (srcData instanceof Uint32Array  || srcData instanceof Int32Array) {
+            } else if (srcData instanceof Uint32Array || srcData instanceof Int32Array) {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'int'), usage);
             } else if (srcData instanceof Float32Array) {
                 this.context.bufferData(target, this.toNativeArray(srcData as any, 'float'), usage);
             }
-        }else if(arguments.length === 3 && !srcData){
+        } else if (arguments.length === 3 && !srcData) {
             this.context.bufferData(target, 0, usage);
         }
     }
@@ -246,9 +251,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         } else if (srcData && srcData.buffer instanceof ArrayBuffer) {
             if (srcData instanceof Uint8Array) {
                 this.context.bufferSubData(target, offset, this.toNativeArray(srcData as any, 'byte'));
-            } else if (srcData instanceof Uint16Array  || srcData instanceof Int16Array) {
+            } else if (srcData instanceof Uint16Array || srcData instanceof Int16Array) {
                 this.context.bufferSubData(target, offset, this.toNativeArray(srcData as any, 'short'));
-            } else if (srcData instanceof Uint32Array  || srcData instanceof Int32Array) {
+            } else if (srcData instanceof Uint32Array || srcData instanceof Int32Array) {
                 this.context.bufferSubData(target, offset, this.toNativeArray(srcData as any, 'int'));
             } else if (srcData instanceof Float32Array) {
                 this.context.bufferSubData(target, offset, this.toNativeArray(srcData as any, 'float'));
@@ -319,7 +324,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     border,
                     this.toNativeArray(pixels as any, 'byte')
                 );
-            } else if (pixels instanceof Uint16Array  || pixels instanceof Int16Array) {
+            } else if (pixels instanceof Uint16Array || pixels instanceof Int16Array) {
                 this.context.compressedTexImage2D(
                     target,
                     level,
@@ -329,7 +334,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     border,
                     this.toNativeArray(pixels as any, 'short')
                 );
-            } else if (pixels instanceof Uint32Array  || pixels instanceof Int32Array) {
+            } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                 this.context.compressedTexImage2D(
                     target,
                     level,
@@ -389,7 +394,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     format,
                     this.toNativeArray(pixels as any, 'short')
                 );
-            } else if (pixels instanceof Uint32Array  || pixels instanceof Int32Array) {
+            } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                 this.context.compressedTexSubImage2D(
                     target,
                     level,
@@ -677,13 +682,13 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     getExtension(name: string) {
         this._glCheckError('getExtension');
         this._checkArgs('getExtension', arguments);
-        if(name === 'EXT_disjoint_timer_query_webgl2'){
+        if (name === 'EXT_disjoint_timer_query_webgl2') {
             return null;
         }
         const ext = this.context.getExtension(name);
         if (ext) {
             const clazz = ext && ext.getClass();
-            const classObjName =  clazz && clazz.getName();
+            const classObjName = clazz && clazz.getName();
             switch (classObjName) {
                 case 'com.github.triniwiz.canvas.extensions.ANGLE_instanced_arrays':
                     return new ANGLE_instanced_arrays(ext);
@@ -816,7 +821,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._checkArgs('getShaderInfoLog', arguments);
         const value = shader ? shader.native : 0;
         const result = this.context.getShaderInfoLog(value);
-        return  result;
+        return result;
     }
 
     static toPrimitive(value): any {
@@ -878,7 +883,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._checkArgs('getUniformLocation', arguments);
         const value = program ? program.native : 0;
         const id = this.context.getUniformLocation(value, name);
-        if(id === -1){return null};
+        if (id === -1) {
+            return null;
+        }
         return new WebGLUniformLocation(id);
     }
 
@@ -988,10 +995,10 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         if (pname === this.UNPACK_FLIP_Y_WEBGL || pname === this.UNPACK_PREMULTIPLY_ALPHA_WEBGL) {
             this.context.pixelStorei(pname, java.lang.Boolean.valueOf(param));
         } else if (pname === this.PACK_ALIGNMENT || pname === this.UNPACK_ALIGNMENT || pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
-            if(pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL){
-                param =  0x9244;
-            }else if(pname === this.PACK_ALIGNMENT  || pname === this.UNPACK_ALIGNMENT){
-                param =  4;
+            if (pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
+                param = 0x9244;
+            } else if (pname === this.PACK_ALIGNMENT || pname === this.UNPACK_ALIGNMENT) {
+                param = 4;
             }
             this.context.pixelStorei(pname, java.lang.Integer.valueOf(param));
         } else {
@@ -1011,7 +1018,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         if (pixels && pixels.buffer instanceof ArrayBuffer) {
             if (pixels instanceof Uint8Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'byte'));
-            } else if (pixels instanceof Uint16Array  || pixels instanceof Int16Array) {
+            } else if (pixels instanceof Uint16Array || pixels instanceof Int16Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'short'));
             } else if (pixels instanceof Uint32Array || pixels instanceof Int32Array) {
                 this.context.readPixels(x, y, width, height, format, type, this.toNativeArray(pixels as any, 'int'));
@@ -1187,7 +1194,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 } else if (border._image instanceof android.graphics.Bitmap) {
                     this.context.texImage2D(target, level, internalformat, width, height, border._image);
                 } else if (typeof border.src === 'string') {
-                    this.context.texImage2D(target, level, internalformat, width, height, fromFile(border.src).android);
+                    this.context.texImage2D(target, level, internalformat, width, height, ImageSource.fromFileSync(border.src).android);
                 }
             }
         }
@@ -1341,7 +1348,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         format._asset.native
                     );
                 } else if (typeof format.src === 'string') {
-                    const result = fromFile(format.src);
+                    const result = ImageSource.fromFileSync(format.src);
                     this.context.texSubImage2D(
                         target,
                         level,
@@ -1350,7 +1357,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         width,
                         height,
                         result ? result.android : null
-                )
+                    );
                 }
             }
         }

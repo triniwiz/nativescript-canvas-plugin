@@ -5,6 +5,8 @@
 *.js
 *.js.map
 *.log
+*.metadata.json
+.awcache
 src/*.d.ts
 !src/index.d.ts
 !src/references.d.ts
@@ -24,3 +26,6 @@ publish/package
 demo/report/report.html
 demo/report/stats.json
 !demo-vue/app/app.js
+demo-react/platforms
+demo-react/lib
+!src/vue/*.js

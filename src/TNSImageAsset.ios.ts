@@ -1,5 +1,5 @@
 import { TNSImageAssetBase, TNSImageAssetSaveFormat, } from './canvas-plugin.common';
-import * as fs from 'tns-core-modules/file-system';
+import * as fs from '@nativescript/core/file-system';
 
 declare var ImageAsset;
 
