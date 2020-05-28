@@ -656,6 +656,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
             const key = keys.objectAtIndex(i);
             contextAttributes[key] = attributes.objectForKey(key);
         }
+        contextAttributes['stencil'] = true;
         return contextAttributes;
     }
 
@@ -978,7 +979,19 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     pixelStorei(pname: number, param: any): void {
         this._glCheckError('pixelStorei');
         this._checkArgs('pixelStorei', arguments);
-        this.context.pixelStoreiWithPnameParam(pname, param);
+        // this.context.pixelStoreiWithPnameParam(pname, param);
+        if (pname === this.UNPACK_FLIP_Y_WEBGL || pname === this.UNPACK_PREMULTIPLY_ALPHA_WEBGL) {
+            this.context.pixelStoreiWithPnameParam(pname, !!param);
+        } else if (pname === this.PACK_ALIGNMENT || pname === this.UNPACK_ALIGNMENT || pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
+            if (pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
+                param = 0x9244;
+            } else if (pname === this.PACK_ALIGNMENT || pname === this.UNPACK_ALIGNMENT) {
+                param = 4;
+            }
+            this.context.pixelStoreiWithPnameParam(pname, Number(param));
+        } else {
+            this.context.pixelStoreiWithPnameParam(pname, param);
+        }
     }
 
     polygonOffset(factor: number, units: number): void {
