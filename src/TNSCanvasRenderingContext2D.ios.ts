@@ -658,7 +658,7 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
             this.context.fillWithRule(args[0]);
         } else if (args[0] instanceof TNSPath2D && typeof args[1] === 'string') {
             this.context.fillWithPathRule(args[0].native, args[1]);
-        } else if (args[0] instanceof TNSPath2D && typeof args[1] === 'string') {
+        } else if (args[0] instanceof TNSPath2D) {
             this.context.fillWithPath(args[0].native);
         } else {
             this.context.fill();
@@ -681,6 +681,8 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
         return this.context.getLineDash() as any;
     }
 
+    cotex;
+
     isPointInPath(x: number, y: number, fillRule: string): boolean;
     isPointInPath(
         path: TNSPath2D,
@@ -688,13 +690,25 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
         y: number,
         fillRule: string
     ): boolean;
-    isPointInPath(...args: any): boolean {
+    isPointInPath(...args): boolean {
+        if (args.length === 2) {
+            return this.context.isPointInPathWithXY(args[0], args[1]);
+        } else if (args.length === 3) {
+            return this.context.isPointInPathWithXYFillRule(args[0], args[1], args[2]);
+        } else if (args.length === 4 && args[0] instanceof TNSPath2D) {
+            return this.context.isPointInPathWithPathXYFillRule(args[0].native, args[1], args[2], args[3]);
+        }
         return false;
     }
 
     isPointInStroke(x: number, y: number): boolean;
     isPointInStroke(path: TNSPath2D, x: number, y: number): boolean;
-    isPointInStroke(...args: any): boolean {
+    isPointInStroke(...args): boolean {
+        if (args.length === 2) {
+            return this.context.isPointInStrokeWithXY(args[0], args[1]);
+        } else if (args.length === 3 && args[0] instanceof TNSPath2D) {
+            return this.context.isPointInStrokeWithPathXY(args[0].native, args[1], args[2]);
+        }
         return false;
     }
 

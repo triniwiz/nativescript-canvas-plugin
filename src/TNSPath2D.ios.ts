@@ -1,9 +1,21 @@
 import { TNSPath2DBase } from './canvas-plugin.common';
 import { TNSDOMMatrix } from './TNSDOMMatrix';
 
+declare let CanvasPath2D;
+
 export class TNSPath2D extends TNSPath2DBase {
     constructor(instance: any) {
-        super(instance);
+        let nativeInstance;
+        if (typeof instance === 'string') {
+            nativeInstance = CanvasPath2D.alloc().initWithData(instance);
+        } else if (instance instanceof TNSPath2D) {
+            nativeInstance = CanvasPath2D.alloc().initWithPath(instance.native);
+        } else if (instance instanceof CanvasPath2D) {
+            nativeInstance = CanvasPath2D.alloc().initWithPath(instance);
+        } else {
+            nativeInstance = CanvasPath2D.new();
+        }
+        super(nativeInstance);
     }
 
     addPath(path: TNSPath2D, transform?: TNSDOMMatrix): void {
