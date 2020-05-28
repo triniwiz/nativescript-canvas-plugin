@@ -5,6 +5,7 @@ import {
     TNSCanvas,
     TNSCanvasRenderingContext2D,
     TNSWebGLRenderingContext,
+    TNSPath2D,
 } from "nativescript-canvas-plugin";
 import { screen } from "tns-core-modules/platform";
 import { swarm, LAF as swarmLAF } from "~/particles/swarm";
@@ -63,10 +64,13 @@ function getHeight() {
 }
 
 let ctx: TNSCanvasRenderingContext2D;
-import { main , LAF  as mainLAF} from "../webgl/cube-example";
+import { main, LAF as mainLAF } from "../webgl/cube-example";
 import { textures } from "../webgl/textures";
-import { cubeRotation , LAF  as cubeRotationLAF } from "../webgl/cube-rotation";
-import { interactiveCube, LAF as interactiveCubeLAF } from "../webgl/interactive-cube";
+import { cubeRotation, LAF as cubeRotationLAF } from "../webgl/cube-rotation";
+import {
+    interactiveCube,
+    LAF as interactiveCubeLAF,
+} from "../webgl/interactive-cube";
 import { cubeRotationRotation } from "../webgl/cuberotation-rotation";
 import {
     drawElements,
@@ -79,7 +83,10 @@ import {
 import { imageProcessing } from "../webgl/webgl-image-processing";
 import { imageFilter } from "../webgl/image-filter";
 import { draw_image_space } from "../webgl2/draw_image_space";
-import { environmentMap, LAF as  environmentMapLAF} from "../webgl2/environment-map";
+import {
+    environmentMap,
+    LAF as environmentMapLAF,
+} from "../webgl2/environment-map";
 import { fog, LAF as fogLAF } from "../webgl2/fog";
 export function canvasLoaded(args) {
     canvas = args.object;
@@ -102,21 +109,21 @@ export function canvasLoaded(args) {
     // ctx = canvas.getContext("2d") as any;
     //swarm(canvas);
     // canvas.nativeView.handleInvalidationManually = true;
-  //  setTimeout(() => {
-        //draw_instanced(canvas);
-        //draw_image_space(canvas);
-        //  fog(canvas);
-        //environmentMap(canvas);
-        //cubeRotationRotation(canvas);
-        //main(canvas);
-        //imageFilter(canvas);
-        //interactiveCube(canvas);
-        // textures(canvas)
-        // drawElements(canvas)
-        //drawElements(canvas)
-        //drawModes(canvas,'line_strip')
-        //fog(canvas);
-   // }, 1000);
+    //  setTimeout(() => {
+    //draw_instanced(canvas);
+    //draw_image_space(canvas);
+    //  fog(canvas);
+    //environmentMap(canvas);
+    //cubeRotationRotation(canvas);
+    //main(canvas);
+    //imageFilter(canvas);
+    //interactiveCube(canvas);
+    // textures(canvas)
+    // drawElements(canvas)
+    //drawElements(canvas)
+    //drawModes(canvas,'line_strip')
+    //fog(canvas);
+    // }, 1000);
     // cubeRotation(canvas);
     //},3000)
     //drawModes(canvas,'triangles')
@@ -177,20 +184,20 @@ function cleanup() {
         case "drawElements":
             break;
         case "interactiveCube":
-            cancelAnimationFrame(interactiveCubeLAF)
+            cancelAnimationFrame(interactiveCubeLAF);
             break;
         case "main":
-            cancelAnimationFrame(mainLAF)
+            cancelAnimationFrame(mainLAF);
             break;
         case "draw_instanced":
             break;
         case "draw_image_space":
             break;
         case "fog":
-            cancelAnimationFrame(fogLAF)
+            cancelAnimationFrame(fogLAF);
             break;
         case "environmentMap":
-            cancelAnimationFrame(environmentMapLAF)
+            cancelAnimationFrame(environmentMapLAF);
             break;
         default:
             break;

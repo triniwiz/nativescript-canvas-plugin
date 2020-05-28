@@ -15,7 +15,7 @@
         methods: {
             ready({object}) {
                 const canvas = object;
-                const ctx = canvas.getContext('2d');
+               const ctx = canvas.getContext('2d');
                 ctx.beginPath();
                 ctx.fillStyle = 'red';
                 ctx.arc(150, 75, 50, 0, 2 * Math.PI);
