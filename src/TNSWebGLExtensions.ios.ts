@@ -1,8 +1,8 @@
-import { WebGLQuery, WebGLVertexArrayObject } from "./canvas-plugin.common";
+import { WebGLVertexArrayObject } from './canvas-plugin.common';
 
 export class EXT_blend_minmax {
-     MAX_EXT: number;
-     MIN_EXT: number;
+    MAX_EXT: number;
+    MIN_EXT: number;
 
     constructor(nativeInstance) {
         this.MAX_EXT = nativeInstance.MAX_EXT;
@@ -12,39 +12,40 @@ export class EXT_blend_minmax {
 
 export class ANGLE_instanced_arrays {
     private nativeInstance;
-     VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE: number;
+    VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE: number;
+
     constructor(nativeInstance) {
-this.nativeInstance = nativeInstance;
-this.VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE = nativeInstance.VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE;
+        this.nativeInstance = nativeInstance;
+        this.VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE = nativeInstance.VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE;
     }
 
-    public drawArraysInstancedANGLE(mode: number, first: number, count: number, primcount: number){
-        this.nativeInstance.drawArraysInstancedANGLEWithModeFirstCountPrimcount(mode, first,count, primcount);
+    public drawArraysInstancedANGLE(mode: number, first: number, count: number, primcount: number) {
+        this.nativeInstance.drawArraysInstancedANGLEWithModeFirstCountPrimcount(mode, first, count, primcount);
     }
 
-    public drawElementsInstancedANGLE(mode: number, count: number, type: number, offset: number, primcount: number){
-        this.nativeInstance.drawElementsInstancedANGLEWithModeCountTypeOffsetPrimcount(mode, count, type, offset,primcount);
+    public drawElementsInstancedANGLE(mode: number, count: number, type: number, offset: number, primcount: number) {
+        this.nativeInstance.drawElementsInstancedANGLEWithModeCountTypeOffsetPrimcount(mode, count, type, offset, primcount);
     }
 
     public vertexAttribDivisorANGLE(index: number, divisor: number) {
-this.nativeInstance.vertexAttribDivisorANGLEWithIndexDivisor(index, divisor);
+        this.nativeInstance.vertexAttribDivisorANGLEWithIndexDivisor(index, divisor);
     }
 }
 
 export class EXT_color_buffer_float {
-     R11F_G11F_B10F: number;
+    R11F_G11F_B10F: number;
 
-     R16F: number;
+    R16F: number;
 
-     R32F: number;
+    R32F: number;
 
-     RG16F: number;
+    RG16F: number;
 
-     RG32F: number;
+    RG32F: number;
 
-     RGB16F: number;
+    RGB16F: number;
 
-     RGBA32F: number;
+    RGBA32F: number;
 
     constructor(nativeInstance) {
         this.R11F_G11F_B10F = nativeInstance.R11F_G11F_B10F;
@@ -58,13 +59,13 @@ export class EXT_color_buffer_float {
 }
 
 export class EXT_color_buffer_half_float {
-     FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
+    FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
 
-     RGB16F_EXT: number;
+    RGB16F_EXT: number;
 
-     RGBA16F_EXT: number;
+    RGBA16F_EXT: number;
 
-     UNSIGNED_NORMALIZED_EXT: number;
+    UNSIGNED_NORMALIZED_EXT: number;
 
     constructor(nativeInstance) {
         this.FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT =
@@ -76,13 +77,13 @@ export class EXT_color_buffer_half_float {
 }
 
 export class EXT_sRGB {
-     FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
+    FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT: number;
 
-     SRGB8_ALPHA8_EXT: number;
+    SRGB8_ALPHA8_EXT: number;
 
-     SRGB_ALPHA_EXT: number;
+    SRGB_ALPHA_EXT: number;
 
-     SRGB_EXT: number;
+    SRGB_EXT: number;
 
     constructor(nativeInstance) {
         this.FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT =
@@ -99,9 +100,9 @@ export class EXT_shader_texture_lod {
 }
 
 export class EXT_texture_filter_anisotropic {
-     MAX_TEXTURE_MAX_ANISOTROPY_EXT: number;
+    MAX_TEXTURE_MAX_ANISOTROPY_EXT: number;
 
-     TEXTURE_MAX_ANISOTROPY_EXT: number;
+    TEXTURE_MAX_ANISOTROPY_EXT: number;
 
     constructor(nativeInstance) {
         this.MAX_TEXTURE_MAX_ANISOTROPY_EXT =
@@ -111,7 +112,7 @@ export class EXT_texture_filter_anisotropic {
 }
 
 export class OES_element_index_uint {
-     UNSIGNED_INT: number;
+    UNSIGNED_INT: number;
 
     constructor(nativeInstance) {
         this.UNSIGNED_INT = nativeInstance.UNSIGNED_INT;
@@ -139,7 +140,7 @@ export class OES_texture_float_linear {
 }
 
 export class OES_texture_half_float {
-     HALF_FLOAT_OES: number;
+    HALF_FLOAT_OES: number;
 
     constructor(nativeInstance) {
         this.HALF_FLOAT_OES = nativeInstance.HALF_FLOAT_OES;
@@ -154,6 +155,7 @@ export class OES_texture_half_float_linear {
 export class OES_vertex_array_object {
     private nativeInstance: any;
     VERTEX_ARRAY_BINDING_OES: number;
+
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
         this.VERTEX_ARRAY_BINDING_OES = nativeInstance.VERTEX_ARRAY_BINDING_OES;
@@ -161,32 +163,32 @@ export class OES_vertex_array_object {
 
     bindVertexArrayOES(arrayObject: WebGLVertexArrayObject): void {
         const value = arrayObject ? arrayObject.native : 0;
-this.nativeInstance.bindVertexArrayOESWithArrayObject(value);
+        this.nativeInstance.bindVertexArrayOESWithArrayObject(value);
     }
 
-	createVertexArrayOES(): WebGLVertexArrayObject {
+    createVertexArrayOES(): WebGLVertexArrayObject {
         return new WebGLVertexArrayObject(this.nativeInstance.createVertexArrayOES());
     }
 
-	deleteVertexArrayOESWithArrayObject(arrayObject: WebGLVertexArrayObject): void {
+    deleteVertexArrayOESWithArrayObject(arrayObject: WebGLVertexArrayObject): void {
         const value = arrayObject ? arrayObject.native : 0;
         this.nativeInstance.deleteVertexArrayOESWithArrayObject(value);
     }
 
-	isVertexArrayOESWithArrayObject(arrayObject: WebGLVertexArrayObject): boolean {
+    isVertexArrayOESWithArrayObject(arrayObject: WebGLVertexArrayObject): boolean {
         const value = arrayObject ? arrayObject.native : 0;
         return this.nativeInstance.isVertexArrayOESWithArrayObject(value);
     }
 }
 
 export class WEBGL_color_buffer_float {
-     FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
+    FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT: number;
 
-     RGB32F_EXT: number;
+    RGB32F_EXT: number;
 
-     RGBA32F_EXT: number;
+    RGBA32F_EXT: number;
 
-     UNSIGNED_NORMALIZED_EXT: number;
+    UNSIGNED_NORMALIZED_EXT: number;
 
     constructor(nativeInstance) {
         this.FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT =
@@ -198,25 +200,25 @@ export class WEBGL_color_buffer_float {
 }
 
 export class WEBGL_compressed_texture_etc {
-     COMPRESSED_R11_EAC: number;
+    COMPRESSED_R11_EAC: number;
 
-     COMPRESSED_RG11_EAC: number;
+    COMPRESSED_RG11_EAC: number;
 
-     COMPRESSED_RGB8_ETC2: number;
+    COMPRESSED_RGB8_ETC2: number;
 
-     COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
+    COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
 
-     COMPRESSED_RGBA8_ETC2_EAC: number;
+    COMPRESSED_RGBA8_ETC2_EAC: number;
 
-     COMPRESSED_SIGNED_R11_EAC: number;
+    COMPRESSED_SIGNED_R11_EAC: number;
 
-     COMPRESSED_SIGNED_RG11_EAC: number;
+    COMPRESSED_SIGNED_RG11_EAC: number;
 
-     COMPRESSED_SRGB8_ALPHA8_ETC2_EAC: number;
+    COMPRESSED_SRGB8_ALPHA8_ETC2_EAC: number;
 
-     COMPRESSED_SRGB8_ETC2: number;
+    COMPRESSED_SRGB8_ETC2: number;
 
-     COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
+    COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: number;
 
     constructor(nativeInstance) {
         this.COMPRESSED_R11_EAC = nativeInstance.COMPRESSED_R11_EAC;
@@ -236,7 +238,7 @@ export class WEBGL_compressed_texture_etc {
 }
 
 export class WEBGL_compressed_texture_etc1 {
-     COMPRESSED_RGB_ETC1_WEBGL: number;
+    COMPRESSED_RGB_ETC1_WEBGL: number;
 
     constructor(nativeInstance) {
         this.COMPRESSED_RGB_ETC1_WEBGL = nativeInstance.COMPRESSED_RGB_ETC1_WEBGL;
@@ -244,13 +246,13 @@ export class WEBGL_compressed_texture_etc1 {
 }
 
 export class WEBGL_compressed_texture_pvrtc {
-     COMPRESSED_RGBA_PVRTC_2BPPV1_IMG: number;
+    COMPRESSED_RGBA_PVRTC_2BPPV1_IMG: number;
 
-     COMPRESSED_RGBA_PVRTC_4BPPV1_IMG: number;
+    COMPRESSED_RGBA_PVRTC_4BPPV1_IMG: number;
 
-     COMPRESSED_RGB_PVRTC_2BPPV1_IMG: number;
+    COMPRESSED_RGB_PVRTC_2BPPV1_IMG: number;
 
-     COMPRESSED_RGB_PVRTC_4BPPV1_IMG: number;
+    COMPRESSED_RGB_PVRTC_4BPPV1_IMG: number;
 
     constructor(nativeInstance) {
         this.COMPRESSED_RGBA_PVRTC_2BPPV1_IMG =
@@ -265,7 +267,7 @@ export class WEBGL_compressed_texture_pvrtc {
 }
 
 export class WEBGL_depth_texture {
-     UNSIGNED_INT_24_8_WEBGL: number;
+    UNSIGNED_INT_24_8_WEBGL: number;
 
     constructor(nativeInstance) {
         this.UNSIGNED_INT_24_8_WEBGL = nativeInstance.UNSIGNED_INT_24_8_WEBGL;
@@ -291,13 +293,13 @@ export class WEBGL_lose_context {
 export class EXT_disjoint_timer_query {
     private nativeInstance: any;
 
-     QUERY_COUNTER_BITS_EXT;
-     CURRENT_QUERY_EXT;
-     QUERY_RESULT_EXT;
-     QUERY_RESULT_AVAILABLE_EXT;
-     TIME_ELAPSED_EXT;
-     TIMESTAMP_EXT;
-     GPU_DISJOINT_EXT;
+    QUERY_COUNTER_BITS_EXT;
+    CURRENT_QUERY_EXT;
+    QUERY_RESULT_EXT;
+    QUERY_RESULT_AVAILABLE_EXT;
+    TIME_ELAPSED_EXT;
+    TIMESTAMP_EXT;
+    GPU_DISJOINT_EXT;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -310,44 +312,44 @@ export class EXT_disjoint_timer_query {
         this.GPU_DISJOINT_EXT = nativeInstance.GPU_DISJOINT_EXT;
     }
 
-/*
-    public createQueryEXT(){
+    /*
+        public createQueryEXT(){
+            return this.nativeInstance.
+        }
+
+    public deleteQueryEXT(query: WebGLQuery){
+        this.nativeInstance.
+    }
+
+    public isQueryEXT(query: WebGLQuery){
         return this.nativeInstance.
     }
 
-public deleteQueryEXT(query: WebGLQuery){
-    this.nativeInstance.
-}
-
-public isQueryEXT(query: WebGLQuery){
-    return this.nativeInstance.
-}
-
-public beginQueryEXT(target: number, query: number){
-    this.nativeInstance.
-}
-public endQueryEXT(target: number){
-    this.nativeInstance.
-}
-public queryCounterEXT(query: WebGLQuery, target: number){
-    return this.nativeInstance.
-}
-public getQueryEXT(target: number, pname: number){
-    return this.nativeInstance.
-}
-public getQueryObjectEXT(query: WebGLQuery, pname: number){
-    return this.nativeInstance.
-}
-*/
+    public beginQueryEXT(target: number, query: number){
+        this.nativeInstance.
+    }
+    public endQueryEXT(target: number){
+        this.nativeInstance.
+    }
+    public queryCounterEXT(query: WebGLQuery, target: number){
+        return this.nativeInstance.
+    }
+    public getQueryEXT(target: number, pname: number){
+        return this.nativeInstance.
+    }
+    public getQueryObjectEXT(query: WebGLQuery, pname: number){
+        return this.nativeInstance.
+    }
+    */
 
 }
 
 
 export class WEBGL_compressed_texture_atc {
     private nativeInstance: any;
-     COMPRESSED_RGB_ATC_WEBGL;
-     COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL;
-     COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL;
+    COMPRESSED_RGB_ATC_WEBGL;
+    COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL;
+    COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL;
 
     constructor(nativeInstance) {
         this.COMPRESSED_RGB_ATC_WEBGL = nativeInstance.COMPRESSED_RGB_ATC_WEBGL;
@@ -358,10 +360,10 @@ export class WEBGL_compressed_texture_atc {
 
 
 export class WEBGL_compressed_texture_s3tc {
-     COMPRESSED_RGB_S3TC_DXT1_EXT;
-     COMPRESSED_RGBA_S3TC_DXT1_EXT;
-     COMPRESSED_RGBA_S3TC_DXT3_EXT;
-     COMPRESSED_RGBA_S3TC_DXT5_EXT;
+    COMPRESSED_RGB_S3TC_DXT1_EXT;
+    COMPRESSED_RGBA_S3TC_DXT1_EXT;
+    COMPRESSED_RGBA_S3TC_DXT3_EXT;
+    COMPRESSED_RGBA_S3TC_DXT5_EXT;
     private nativeInstance: any;
 
     constructor(nativeInstance) {
@@ -373,10 +375,10 @@ export class WEBGL_compressed_texture_s3tc {
 }
 
 export class WEBGL_compressed_texture_s3tc_srgb {
-     COMPRESSED_SRGB_S3TC_DXT1_EXT;
-     COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
-     COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
-     COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT;
+    COMPRESSED_SRGB_S3TC_DXT1_EXT;
+    COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
+    COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+    COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT;
     private nativeInstance: any;
 
     constructor(nativeInstance) {
@@ -388,40 +390,40 @@ export class WEBGL_compressed_texture_s3tc_srgb {
 }
 
 export class WEBGL_draw_buffers {
-     COLOR_ATTACHMENT0_WEBGL;
-     COLOR_ATTACHMENT1_WEBGL;
-     COLOR_ATTACHMENT2_WEBGL;
-     COLOR_ATTACHMENT3_WEBGL;
-     COLOR_ATTACHMENT4_WEBGL;
-     COLOR_ATTACHMENT5_WEBGL;
-     COLOR_ATTACHMENT6_WEBGL;
-     COLOR_ATTACHMENT7_WEBGL;
-     COLOR_ATTACHMENT8_WEBGL;
-     COLOR_ATTACHMENT9_WEBGL;
-     COLOR_ATTACHMENT10_WEBGL;
-     COLOR_ATTACHMENT11_WEBGL;
-     COLOR_ATTACHMENT12_WEBGL;
-     COLOR_ATTACHMENT13_WEBGL;
-     COLOR_ATTACHMENT14_WEBGL;
-     COLOR_ATTACHMENT15_WEBGL;
-     DRAW_BUFFER0_WEBGL;
-     DRAW_BUFFER1_WEBGL;
-     DRAW_BUFFER2_WEBGL;
-     DRAW_BUFFER3_WEBGL;
-     DRAW_BUFFER4_WEBGL;
-     DRAW_BUFFER5_WEBGL;
-     DRAW_BUFFER6_WEBGL;
-     DRAW_BUFFER7_WEBGL;
-     DRAW_BUFFER8_WEBGL;
-     DRAW_BUFFER9_WEBGL;
-     DRAW_BUFFER10_WEBGL;
-     DRAW_BUFFER11_WEBGL;
-     DRAW_BUFFER12_WEBGL;
-     DRAW_BUFFER13_WEBGL;
-     DRAW_BUFFER14_WEBGL;
-     DRAW_BUFFER15_WEBGL;
-     MAX_COLOR_ATTACHMENTS_WEBGL;
-     MAX_DRAW_BUFFERS_WEBGL;
+    COLOR_ATTACHMENT0_WEBGL;
+    COLOR_ATTACHMENT1_WEBGL;
+    COLOR_ATTACHMENT2_WEBGL;
+    COLOR_ATTACHMENT3_WEBGL;
+    COLOR_ATTACHMENT4_WEBGL;
+    COLOR_ATTACHMENT5_WEBGL;
+    COLOR_ATTACHMENT6_WEBGL;
+    COLOR_ATTACHMENT7_WEBGL;
+    COLOR_ATTACHMENT8_WEBGL;
+    COLOR_ATTACHMENT9_WEBGL;
+    COLOR_ATTACHMENT10_WEBGL;
+    COLOR_ATTACHMENT11_WEBGL;
+    COLOR_ATTACHMENT12_WEBGL;
+    COLOR_ATTACHMENT13_WEBGL;
+    COLOR_ATTACHMENT14_WEBGL;
+    COLOR_ATTACHMENT15_WEBGL;
+    DRAW_BUFFER0_WEBGL;
+    DRAW_BUFFER1_WEBGL;
+    DRAW_BUFFER2_WEBGL;
+    DRAW_BUFFER3_WEBGL;
+    DRAW_BUFFER4_WEBGL;
+    DRAW_BUFFER5_WEBGL;
+    DRAW_BUFFER6_WEBGL;
+    DRAW_BUFFER7_WEBGL;
+    DRAW_BUFFER8_WEBGL;
+    DRAW_BUFFER9_WEBGL;
+    DRAW_BUFFER10_WEBGL;
+    DRAW_BUFFER11_WEBGL;
+    DRAW_BUFFER12_WEBGL;
+    DRAW_BUFFER13_WEBGL;
+    DRAW_BUFFER14_WEBGL;
+    DRAW_BUFFER15_WEBGL;
+    MAX_COLOR_ATTACHMENTS_WEBGL;
+    MAX_DRAW_BUFFERS_WEBGL;
 
     private nativeInstance: any;
 
