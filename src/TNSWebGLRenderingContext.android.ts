@@ -820,8 +820,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('getShaderInfoLog');
         this._checkArgs('getShaderInfoLog', arguments);
         const value = shader ? shader.native : 0;
-        const result = this.context.getShaderInfoLog(value);
-        return result;
+        return this.context.getShaderInfoLog(value);
     }
 
     static toPrimitive(value): any {
@@ -993,7 +992,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('pixelStorei');
         this._checkArgs('pixelStorei', arguments);
         if (pname === this.UNPACK_FLIP_Y_WEBGL || pname === this.UNPACK_PREMULTIPLY_ALPHA_WEBGL) {
-            this.context.pixelStorei(pname, java.lang.Boolean.valueOf(param));
+            this.context.pixelStorei(pname, java.lang.Boolean.valueOf(!!param));
         } else if (pname === this.PACK_ALIGNMENT || pname === this.UNPACK_ALIGNMENT || pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
             if (pname === this.UNPACK_COLORSPACE_CONVERSION_WEBGL) {
                 param = 0x9244;
@@ -1101,6 +1100,10 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     texImage2D(target: any, level: any, internalformat: any, width: any, height: any, border: any, format?: any, type?: any, pixels?: any) {
         this._glCheckError('texImage2D');
         this._checkArgs('texImage2D', arguments);
+        /* TODO */
+        // this.blendFunc(this.SRC_ALPHA, this.ONE_MINUS_SRC_ALPHA);
+        // this.enable(this.BLEND);
+        /* TODO */
         if (arguments.length === 9) {
             if (pixels && pixels.buffer instanceof ArrayBuffer) {
                 if (pixels instanceof Uint8Array) {
@@ -1198,6 +1201,8 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                 }
             }
         }
+        // this.blendFunc(this.SRC_ALPHA, this.ZERO);
+        // this.disable(this.BLEND);
 
     }
 

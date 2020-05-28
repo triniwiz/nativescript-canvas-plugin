@@ -515,7 +515,7 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
             this.context.fill(args[0]);
         } else if (args[0] instanceof TNSPath2D && typeof args[1] === 'string') {
             this.context.fill(args[0].native, args[1]);
-        } else if (args[0] instanceof TNSPath2D && typeof args[1] === 'string') {
+        } else if (args[0] instanceof TNSPath2D) {
             this.context.fill(args[0].native);
         } else {
             this.context.fill();
@@ -538,6 +538,7 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
         return this.context.getLineDash() as any;
     }
 
+
     isPointInPath(x: number, y: number, fillRule: string): boolean;
     isPointInPath(
         path: TNSPath2D,
@@ -545,13 +546,25 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
         y: number,
         fillRule: string
     ): boolean;
-    isPointInPath(...args: any): boolean {
+    isPointInPath(...args): boolean {
+        if (args.length === 2) {
+            return this.context.isPointInPath(args[0], args[1]);
+        } else if (args.length === 3) {
+            return this.context.isPointInPath(args[0], args[1], args[2]);
+        } else if (args.length === 4 && args[0] instanceof TNSPath2D) {
+            return this.context.isPointInPath(args[0].native, args[1], args[2], args[3]);
+        }
         return false;
     }
 
     isPointInStroke(x: number, y: number): boolean;
     isPointInStroke(path: TNSPath2D, x: number, y: number): boolean;
-    isPointInStroke(...args: any): boolean {
+    isPointInStroke(...args): boolean {
+        if (args.length === 2) {
+            return this.context.isPointInStroke(args[0], args[1]);
+        } else if (args.length === 3 && args[0] instanceof TNSPath2D) {
+            return this.context.isPointInStroke(args[0].native, args[1], args[2]);
+        }
         return false;
     }
 
@@ -560,7 +573,7 @@ export class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase
     }
 
     measureText(text: string): TextMetrics {
-        return undefined;
+        return new TextMetrics(this.context.measureText(text));
     }
 
     moveTo(x: number, y: number): void {

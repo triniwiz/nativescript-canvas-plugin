@@ -12,6 +12,7 @@ export * from './TNSImageAsset';
 export * from './TNSTextEncoder';
 export * from './TNSTextDecoder';
 declare var com;
+
 export function requestAnimationFrame(loop) {
     return com.github.triniwiz.canvas.AnimationFrame.requestAnimationFrame(new com.github.triniwiz.canvas.AnimationFrame.Callback({
         onFrame(called: number): void {

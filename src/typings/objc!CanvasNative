@@ -180,6 +180,25 @@ interface CanvasDevice {
 }
 declare var CanvasDevice: interop.StructType<CanvasDevice>;
 
+declare class CanvasGLKView extends GLKView {
+
+	static alloc(): CanvasGLKView; // inherited from NSObject
+
+	static appearance(): CanvasGLKView; // inherited from UIAppearance
+
+	static appearanceForTraitCollection(trait: UITraitCollection): CanvasGLKView; // inherited from UIAppearance
+
+	static appearanceForTraitCollectionWhenContainedIn(trait: UITraitCollection, ContainerClass: typeof NSObject): CanvasGLKView; // inherited from UIAppearance
+
+	static appearanceForTraitCollectionWhenContainedInInstancesOfClasses(trait: UITraitCollection, containerTypes: NSArray<typeof NSObject> | typeof NSObject[]): CanvasGLKView; // inherited from UIAppearance
+
+	static appearanceWhenContainedIn(ContainerClass: typeof NSObject): CanvasGLKView; // inherited from UIAppearance
+
+	static appearanceWhenContainedInInstancesOfClasses(containerTypes: NSArray<typeof NSObject> | typeof NSObject[]): CanvasGLKView; // inherited from UIAppearance
+
+	static new(): CanvasGLKView; // inherited from NSObject
+}
+
 declare var CanvasNativeVersionNumber: number;
 
 declare var CanvasNativeVersionString: interop.Reference<number>;
@@ -237,6 +256,8 @@ declare class CanvasRenderingContext2D extends CanvasRenderingContext {
 	static alloc(): CanvasRenderingContext2D; // inherited from NSObject
 
 	static new(): CanvasRenderingContext2D; // inherited from NSObject
+
+	currentTransform: CanvasDOMMatrix;
 
 	fillStyle: ICanvasColorStyle;
 
@@ -343,6 +364,16 @@ declare class CanvasRenderingContext2D extends CanvasRenderingContext {
 	getLineDash(): NSArray<number>;
 
 	initWithCanvas(canvas: Canvas): this;
+
+	isPointInPathWithPathXYFillRule(path: CanvasPath2D, x: number, y: number, fillRule: string): boolean;
+
+	isPointInPathWithXY(x: number, y: number): boolean;
+
+	isPointInPathWithXYFillRule(x: number, y: number, fillRule: string): boolean;
+
+	isPointInStrokeWithPathXY(path: CanvasPath2D, x: number, y: number): boolean;
+
+	isPointInStrokeWithXY(x: number, y: number): boolean;
 
 	lineToXY(x: number, y: number): void;
 
@@ -998,7 +1029,9 @@ declare class NativeTextDecoder extends NSObject {
 
 	constructor(o: { encoding: string; });
 
-	decodeWithBytes(bytes: NSData): string;
+	decodeWithBuffer(buffer: NSData): string;
+
+	decodeWithBytes(bytes: NSArray<number> | number[]): string;
 
 	initWithEncoding(encoding: string): this;
 }
@@ -2867,6 +2900,8 @@ declare function native_free_matrix_data(data: CanvasArray): void;
 
 declare function native_free_path_2d(path: number): void;
 
+declare function native_get_current_transform(canvas_native_ptr: number): number;
+
 declare function native_get_image_data(canvas_native_ptr: number, sx: number, sy: number, sw: number, sh: number): CanvasArray;
 
 declare function native_get_ios_device(canvas_native_ptr: number): CanvasDevice;
@@ -2906,6 +2941,16 @@ declare function native_image_smoothing_quality(canvas_native_ptr: number, quali
 declare function native_init(width: number, height: number, device: interop.Pointer | interop.Reference<any>, queue: interop.Pointer | interop.Reference<any>, view: interop.Pointer | interop.Reference<any>, scale: number): number;
 
 declare function native_init_legacy(width: number, height: number, buffer_id: number, scale: number): number;
+
+declare function native_is_point_in_path(canvas_ptr: number, x: number, y: number): number;
+
+declare function native_is_point_in_path_with_path_rule(canvas_ptr: number, path: number, x: number, y: number, fill_rule: string | interop.Pointer | interop.Reference<any>): number;
+
+declare function native_is_point_in_path_with_rule(canvas_ptr: number, x: number, y: number, fill_rule: string | interop.Pointer | interop.Reference<any>): number;
+
+declare function native_is_point_in_stroke(canvas_ptr: number, x: number, y: number): number;
+
+declare function native_is_point_in_stroke_with_path(canvas_ptr: number, path: number, x: number, y: number): number;
 
 declare function native_line_dash_offset(canvas_native_ptr: number, offset: number): number;
 
@@ -2956,6 +3001,8 @@ declare function native_rotate(canvas_native_ptr: number, angle: number, view: i
 declare function native_save(canvas_native_ptr: number): number;
 
 declare function native_scale(canvas_native_ptr: number, x: number, y: number, view: interop.Pointer | interop.Reference<any>): number;
+
+declare function native_set_current_transform(canvas_native_ptr: number, matrix: number): number;
 
 declare function native_set_fill_color(canvas_native_ptr: number, color: number): number;
 

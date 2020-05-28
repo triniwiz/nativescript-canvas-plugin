@@ -29,3 +29,17 @@ demo/report/stats.json
 demo-react/platforms
 demo-react/lib
 !src/vue/*.js
+!/src/TNSCanvas.d.ts
+!/src/TNSTextEncoder.d.ts
+!/src/TNSCanvasRenderingContext2D.d.ts
+!/src/TNSImageAsset.d.ts
+!/src/CanvasGradient.d.ts
+!/src/ImageData.d.ts
+!/src/TNSPath2D.d.ts
+!/src/TNSTextDecoder.d.ts
+!/src/TNSWebGLRenderingContext.d.ts
+!/src/TNSWebGL2RenderingContext.d.ts
+!/src/TNSDOMMatrix.d.ts
+!/src/TextMetrics.d.ts
+!/src/TNSWebGLExtensions.d.ts
+!/src/canvas-plugin.d.ts

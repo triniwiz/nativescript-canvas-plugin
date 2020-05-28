@@ -53,7 +53,6 @@ export class TNSCanvas extends TNSCanvasBase {
     private _didPause: boolean = false;
 
     onUnloaded() {
-        this.canvas.onPause();
         this._didPause = true;
         super.onUnloaded();
     }
@@ -61,12 +60,14 @@ export class TNSCanvas extends TNSCanvasBase {
     onLoaded() {
         super.onLoaded();
         if (this._didPause) {
-            this.canvas.onResume();
             this._didPause = false;
         }
     }
 
     flush() {
+        if (this._didPause) {
+            return;
+        }
         this.canvas.flush();
     }
 

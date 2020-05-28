@@ -3,7 +3,17 @@ import { TNSDOMMatrix } from './TNSDOMMatrix';
 
 export class TNSPath2D extends TNSPath2DBase {
     constructor(instance: any) {
-        super(instance);
+        let nativeInstance;
+        if (typeof instance === 'string') {
+            nativeInstance = new com.github.triniwiz.canvas.CanvasPath2D(instance);
+        } else if (instance instanceof TNSPath2D) {
+            nativeInstance = new com.github.triniwiz.canvas.CanvasPath2D(instance.native);
+        } else if (instance instanceof com.github.triniwiz.canvas.CanvasPath2D) {
+            nativeInstance = new com.github.triniwiz.canvas.CanvasPath2D(instance);
+        } else {
+            nativeInstance = new com.github.triniwiz.canvas.CanvasPath2D();
+        }
+        super(nativeInstance);
     }
 
     addPath(path: TNSPath2D, transform?: TNSDOMMatrix): void {
