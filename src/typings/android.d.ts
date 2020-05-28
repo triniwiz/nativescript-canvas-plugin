@@ -4,10 +4,10 @@ declare module com {
 			export module canvas {
 				export class AnimationFrame {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.AnimationFrame>;
-					public static cancelAnimationFrame(param0: string): void;
 					public doFrame(param0: number): void;
-					public static requestAnimationFrame(param0: com.github.triniwiz.canvas.AnimationFrame.Callback): string;
 					public constructor();
+					public static requestAnimationFrame(param0: com.github.triniwiz.canvas.AnimationFrame.Callback): number;
+					public static cancelAnimationFrame(param0: number): void;
 				}
 				export module AnimationFrame {
 					export class Callback {
@@ -235,8 +235,52 @@ declare module com {
 			export module canvas {
 				export class CanvasRenderingContext2D extends com.github.triniwiz.canvas.CanvasRenderingContext {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasRenderingContext2D>;
-					public getMiterLimit(): number;
 					public beginPath(): void;
+					public isPointInPath(param0: number, param1: number, param2: string): boolean;
+					public fillText(param0: string, param1: number, param2: number): void;
+					public createPattern(param0: any, param1: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition): com.github.triniwiz.canvas.CanvasColorStyle.Pattern;
+					public setLineDashInternal(param0: native.Array<number>): void;
+					public getFillStyle(): com.github.triniwiz.canvas.ICanvasColorStyle;
+					public strokeRect(param0: number, param1: number, param2: number, param3: number): void;
+					public strokeText(param0: string, param1: number, param2: number, param3: number): void;
+					public bezierCurveTo(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
+					public fillRect(param0: number, param1: number, param2: number, param3: number): void;
+					public translate(param0: number, param1: number): void;
+					public getImageData(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.ImageData;
+					public arc(param0: number, param1: number, param2: number, param3: number, param4: number): void;
+					public drawImage(param0: globalAndroid.graphics.Bitmap, param1: number, param2: number, param3: number, param4: number): void;
+					public getLineJoin(): com.github.triniwiz.canvas.CanvasRenderingContext2D.LineJoin;
+					public isPointInStroke(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: number, param2: number): boolean;
+					public getGlobalCompositeOperation(): com.github.triniwiz.canvas.CanvasCompositeOperationType;
+					public scale(param0: number, param1: number): void;
+					public getGlobalAlpha(): number;
+					public quadraticCurveTo(param0: number, param1: number, param2: number, param3: number): void;
+					public createLinearGradient(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.CanvasColorStyle.LinearGradient;
+					public transform(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
+					public getShadowOffsetY(): number;
+					public getShadowBlur(): number;
+					public setGlobalCompositeOperation(param0: com.github.triniwiz.canvas.CanvasCompositeOperationType): void;
+					public setTextAlign(param0: com.github.triniwiz.canvas.CanvasTextAlignment): void;
+					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: string): void;
+					public getImageSmoothingEnabled(): boolean;
+					public getCurrentTransform(): com.github.triniwiz.canvas.CanvasDOMMatrix;
+					public setStrokeStyle(param0: com.github.triniwiz.canvas.ICanvasColorStyle): void;
+					public getFont(): string;
+					public getLineDash(): native.Array<number>;
+					public setShadowColor(param0: number): void;
+					public getTextAlign(): com.github.triniwiz.canvas.CanvasTextAlignment;
+					public save(): void;
+					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number, param3: number, param4: number): void;
+					public isPointInPath(param0: number, param1: number): boolean;
+					public getLineWidth(): number;
+					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
+					public measureText(param0: string): com.github.triniwiz.canvas.CanvasTextMetrics;
+					public setLineCap(param0: com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap): void;
+					public createImageData(param0: number, param1: number): com.github.triniwiz.canvas.ImageData;
+					public setCurrentTransform(param0: com.github.triniwiz.canvas.CanvasDOMMatrix): void;
+					public getLineCap(): com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap;
+					public setLineWidth(param0: number): void;
+					public getMiterLimit(): number;
 					public setFont(param0: string): void;
 					public setLineDashOffset(param0: number): void;
 					public clip(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: string): void;
@@ -247,85 +291,48 @@ declare module com {
 					public clip(param0: string): void;
 					public getImageSmoothingQuality(): com.github.triniwiz.canvas.CanvasRenderingContext2D.ImageSmoothingQuality;
 					public stroke(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
-					public fillText(param0: string, param1: number, param2: number): void;
 					public lineTo(param0: number, param1: number): void;
-					public createPattern(param0: any, param1: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition): com.github.triniwiz.canvas.CanvasColorStyle.Pattern;
-					public setLineDashInternal(param0: native.Array<number>): void;
 					public restore(): void;
 					public closePath(): void;
-					public getFillStyle(): com.github.triniwiz.canvas.ICanvasColorStyle;
 					public clearRect(param0: number, param1: number, param2: number, param3: number): void;
-					public strokeRect(param0: number, param1: number, param2: number, param3: number): void;
 					public clip(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
-					public strokeText(param0: string, param1: number, param2: number, param3: number): void;
 					public rect(param0: number, param1: number, param2: number, param3: number): void;
-					public bezierCurveTo(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
 					public fill(): void;
 					public ellipse(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number): void;
 					public getCanvas(): com.github.triniwiz.canvas.CanvasView;
 					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: number, param8: number): void;
 					public fillText(param0: string, param1: number, param2: number, param3: number): void;
-					public fillRect(param0: number, param1: number, param2: number, param3: number): void;
-					public translate(param0: number, param1: number): void;
-					public getImageData(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.ImageData;
-					public arc(param0: number, param1: number, param2: number, param3: number, param4: number): void;
-					public drawImage(param0: globalAndroid.graphics.Bitmap, param1: number, param2: number, param3: number, param4: number): void;
-					public getLineJoin(): com.github.triniwiz.canvas.CanvasRenderingContext2D.LineJoin;
-					public getGlobalCompositeOperation(): com.github.triniwiz.canvas.CanvasCompositeOperationType;
-					public scale(param0: number, param1: number): void;
-					public getGlobalAlpha(): number;
 					public arcTo(param0: number, param1: number, param2: number, param3: number, param4: number): void;
-					public quadraticCurveTo(param0: number, param1: number, param2: number, param3: number): void;
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number): void;
+					public isPointInStroke(param0: number, param1: number): boolean;
 					public drawImage(param0: globalAndroid.graphics.Bitmap, param1: number, param2: number): void;
 					public getLineDashOffset(): number;
 					public setGlobalAlpha(param0: number): void;
 					public setLineJoin(param0: com.github.triniwiz.canvas.CanvasRenderingContext2D.LineJoin): void;
-					public createLinearGradient(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.CanvasColorStyle.LinearGradient;
-					public transform(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
-					public getShadowOffsetY(): number;
-					public getShadowBlur(): number;
-					public setGlobalCompositeOperation(param0: com.github.triniwiz.canvas.CanvasCompositeOperationType): void;
 					public getShadowColor(): number;
-					public setTextAlign(param0: com.github.triniwiz.canvas.CanvasTextAlignment): void;
 					public clip(): void;
 					public setTransform(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
 					public createImageData(param0: com.github.triniwiz.canvas.ImageData): com.github.triniwiz.canvas.ImageData;
 					public arc(param0: number, param1: number, param2: number, param3: number, param4: number, param5: boolean): void;
 					public ellipse(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: boolean): void;
 					public rotate(param0: number): void;
-					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: string): void;
-					public getImageSmoothingEnabled(): boolean;
-					public setStrokeStyle(param0: com.github.triniwiz.canvas.ICanvasColorStyle): void;
-					public getFont(): string;
 					public setShadowOffsetY(param0: number): void;
 					public moveTo(param0: number, param1: number): void;
-					public getLineDash(): native.Array<number>;
-					public setShadowColor(param0: number): void;
 					public setImageSmoothingQuality(param0: com.github.triniwiz.canvas.CanvasRenderingContext2D.ImageSmoothingQuality): void;
 					public strokeText(param0: string, param1: number, param2: number): void;
-					public getTextAlign(): com.github.triniwiz.canvas.CanvasTextAlignment;
-					public save(): void;
 					public setImageSmoothingEnabled(param0: boolean): void;
-					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number, param3: number, param4: number): void;
 					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number): void;
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData, param1: number, param2: number): void;
 					public resetTransform(): void;
 					public setMiterLimit(param0: number): void;
-					public getLineWidth(): number;
-					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
-					public measureText(param0: string): com.github.triniwiz.canvas.CanvasTextMetrics;
 					public createRadialGradient(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): com.github.triniwiz.canvas.CanvasColorStyle.RadialGradient;
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData): void;
-					public setLineCap(param0: com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap): void;
 					public setShadowBlur(param0: number): void;
 					public fill(param0: string): void;
-					public createImageData(param0: number, param1: number): com.github.triniwiz.canvas.ImageData;
 					public setLineDash(param0: native.Array<number>): void;
-					public getLineCap(): com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap;
+					public isPointInPath(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: number, param2: number, param3: string): boolean;
 					public drawImage(param0: globalAndroid.graphics.Bitmap, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: number, param8: number): void;
 					public setShadowOffsetX(param0: number): void;
-					public setLineWidth(param0: number): void;
 				}
 				export module CanvasRenderingContext2D {
 					export class ImageSmoothingQuality {
@@ -443,6 +450,7 @@ declare module com {
 					public onActivityDestroyed(param0: globalAndroid.app.Activity): void;
 					public onSurfaceChanged(param0: javax.microedition.khronos.opengles.GL10, param1: number, param2: number): void;
 					public onDetachedFromWindow(): void;
+					public setListener(param0: com.github.triniwiz.canvas.CanvasView.Listener): void;
 					public getSurface(): com.github.triniwiz.canvas.GLTextureView;
 					public surfaceCreated(param0: globalAndroid.view.SurfaceHolder): void;
 					public flush(): void;
@@ -460,9 +468,16 @@ declare module com {
 					public getContext(param0: string): com.github.triniwiz.canvas.CanvasRenderingContext;
 					public static createSVGMatrix(): com.github.triniwiz.canvas.CanvasDOMMatrix;
 					public static isEmulator(): boolean;
-					public setListener(listener: com.github.triniwiz.canvas.CanvasView.Listener);
 				}
 				export module CanvasView {
+					export class ContextType {
+						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasView.ContextType>;
+						public static NONE: com.github.triniwiz.canvas.CanvasView.ContextType;
+						public static CANVAS: com.github.triniwiz.canvas.CanvasView.ContextType;
+						public static WEBGL: com.github.triniwiz.canvas.CanvasView.ContextType;
+						public static valueOf(param0: string): com.github.triniwiz.canvas.CanvasView.ContextType;
+						public static values(): native.Array<com.github.triniwiz.canvas.CanvasView.ContextType>;
+					}
 					export class DataURLListener {
 						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasView.DataURLListener>;
 						/**
@@ -603,6 +618,21 @@ declare module com {
 	export module github {
 		export module triniwiz {
 			export module canvas {
+				export class FileReader {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.FileReader>;
+					public static read(param0: string): native.Array<number>;
+					public constructor();
+					public static read(param0: java.io.File): native.Array<number>;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
 				export class FramebufferAttachmentParameter {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.FramebufferAttachmentParameter>;
 					public constructor();
@@ -640,6 +670,7 @@ declare module com {
 					public constructor(param0: globalAndroid.content.Context, param1: globalAndroid.util.AttributeSet);
 					public setEGLWindowSurfaceFactory(param0: com.github.triniwiz.canvas.GLTextureView.EGLWindowSurfaceFactory): void;
 					public onSurfaceTextureAvailable(param0: globalAndroid.graphics.SurfaceTexture, param1: number, param2: number): void;
+					public setDrawListener(param0: com.github.triniwiz.canvas.GLTextureView.Listener): void;
 					public onLayoutChange(param0: globalAndroid.view.View, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: number, param8: number): void;
 					public setEGLContextClientVersion(param0: number): void;
 					public getPreserveEGLContextOnPause(): boolean;
@@ -773,6 +804,17 @@ declare module com {
 						});
 						public constructor();
 						public wrap(param0: javax.microedition.khronos.opengles.GL): javax.microedition.khronos.opengles.GL;
+					}
+					export class Listener {
+						public static class: java.lang.Class<com.github.triniwiz.canvas.GLTextureView.Listener>;
+						/**
+						 * Constructs a new instance of the com.github.triniwiz.canvas.GLTextureView$Listener interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+						 */
+						public constructor(implementation: {
+							didDraw(): void;
+						});
+						public constructor();
+						public didDraw(): void;
 					}
 					export class LogWriter {
 						public static class: java.lang.Class<com.github.triniwiz.canvas.GLTextureView.LogWriter>;
