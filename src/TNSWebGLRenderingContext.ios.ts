@@ -10,7 +10,7 @@ import {
     WebGLTexture,
     WebGLUniformLocation
 } from './canvas-plugin.common';
-import { fromFile, ImageSource } from '@nativescript/core/image-source';
+import {fromFile, ImageSource} from '@nativescript/core/image-source';
 import {
     ANGLE_instanced_arrays,
     EXT_blend_minmax,
@@ -35,7 +35,8 @@ import {
     WEBGL_draw_buffers,
     WEBGL_lose_context
 } from './TNSWebGLExtensions';
-import { TNSImageAsset } from './TNSImageAsset';
+import {TNSImageAsset} from './TNSImageAsset';
+import {TNSCanvas} from './TNSCanvas';
 
 declare const Canvas_EXT_blend_minmax, Canvas_EXT_color_buffer_float, Canvas_EXT_color_buffer_half_float,
     Canvas_EXT_sRGB, Canvas_EXT_shader_texture_lod, Canvas_EXT_texture_filter_anisotropic,
@@ -48,20 +49,13 @@ declare const Canvas_EXT_blend_minmax, Canvas_EXT_color_buffer_float, Canvas_EXT
 export * from './TNSWebGLExtensions';
 
 export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
+    public static isDebug = false;
+    public static filter: 'both' | 'error' | 'args' = 'both';
     private context; // : WebGLRenderingContext;
 
     constructor(context) {
         super(context);
         this.context = context;
-    }
-
-    protected getJSArray(value): any[] {
-        const count = value.count;
-        const array = [];
-        for (let i = 0; i < count; i++) {
-            array.push(value.objectAtIndex(i));
-        }
-        return array;
     }
 
     get native() {
@@ -74,30 +68,6 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
 
     get drawingBufferWidth() {
         return this.context.drawingBufferWidth;
-    }
-
-    public static isDebug = false;
-
-    public static filter: 'both' | 'error' | 'args' = 'both';
-
-    protected _glCheckError(message: string) {
-        if (!TNSWebGLRenderingContext.isDebug) {
-            return;
-        }
-        if (TNSWebGLRenderingContext.filter === 'both' || TNSWebGLRenderingContext.filter === 'error') {
-            console.log(message, this.getError());
-        }
-    }
-
-    protected _checkArgs(message, args) {
-        if (!TNSWebGLRenderingContext.isDebug) {
-            return;
-        }
-        if (TNSWebGLRenderingContext.filter === 'both' || TNSWebGLRenderingContext.filter === 'args') {
-            console.log('\/**** ', message, ' ****\/');
-            console.dir(args);
-            console.log('\/**** ', message, ' ****\/');
-        }
     }
 
     activeTexture(texture: number): void {
@@ -179,9 +149,10 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this.context.blendFuncWithSfactorDfactor(sfactor, dfactor);
     }
 
-
     bufferData(target: number, size: number, usage: number): void;
+
     bufferData(target: number, srcData: ArrayBuffer | ArrayBufferView, usage: number): void;
+
     bufferData(target: any, srcData: any, usage: any) {
         this._glCheckError('bufferData');
         this._checkArgs('bufferData', arguments);
@@ -649,6 +620,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('getContextAttributes');
         this._checkArgs('getContextAttributes', arguments);
         const attributes = this.context.getContextAttributes();
+        if (!attributes) {
+            return null;
+        }
         const keys = attributes.allKeys;
         const length = keys.count;
         const contextAttributes = {};
@@ -728,7 +702,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         return param.value;
     }
 
-    getParameter(pname: number): number[] | number | WebGLBuffer | WebGLProgram | WebGLFramebuffer | WebGLRenderbuffer | WebGLTexture | Uint32Array | Int32Array | null {
+    getParameter(pname: number): number[] | number | WebGLBuffer | WebGLProgram | WebGLFramebuffer | WebGLRenderbuffer | WebGLTexture | Uint32Array | Int32Array | string | null {
         this._glCheckError('getParameter');
         this._checkArgs('getParameter', arguments);
         const value = this.context.getParameterWithPname(pname);
@@ -782,6 +756,16 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     return new WebGLTexture(value);
                 }
                 return null;
+            case this.VERSION:
+                let isMetal = false;
+                if (this._canvas && this._canvas.useMetal) {
+                    isMetal = true;
+                }
+                if (this._type === 'webgl2') {
+                    return `WebGL 2.0 (${isMetal ? 'Metal' : 'OpenGL ES 3.0'} NativeScript)`;
+                } else {
+                    return `WebGL 1.0 (${isMetal ? 'Metal' : 'OpenGL ES 3.0'} NativeScript)`;
+                }
             default:
                 return value;
         }
@@ -918,8 +902,7 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     isContextLost(): boolean {
         this._glCheckError('isContextLost');
         this._checkArgs('isContextLost', arguments);
-        // return this.context.isContextLost();
-        return false;
+        return this.context.isContextLost();
     }
 
     isEnabled(cap: number): boolean {
@@ -1084,10 +1067,16 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     }
 
     texImage2D(target: number, level: number, internalformat: number, format: number, type: number, pixels?: any): void;
+
     texImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, format: number, type: number, pixels?: ArrayBufferView): void;
+
     texImage2D(target: any, level: any, internalformat: any, width: any, height: any, border: any, format?: any, type?: any, pixels?: any) {
         this._glCheckError('texImage2D');
         this._checkArgs('texImage2D', arguments);
+        /* TODO */
+        // this.blendFunc(this.SRC_ALPHA, this.ONE_MINUS_SRC_ALPHA);
+        // this.enable(this.BLEND);
+        /* TODO */
         if (arguments.length === 9) {
             if (pixels && pixels.buffer) {
                 if (pixels instanceof Float32Array || pixels instanceof Float64Array) {
@@ -1185,12 +1174,18 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                     const asset = fromFile(border.src);
                     this.context.texImage2DWithTargetLevelInternalformatFormatTypePixels(target, level, internalformat, width, height, asset.ios);
                 }
+            } else if (border &&
+                typeof border.tagName === 'string' &&
+                border.tagName === 'CANVAS' && border._canvas instanceof TNSCanvas) {
+                this.context.texImage2DWithTargetLevelInternalformatFormatTypeCanvas(target, level, internalformat, width, height, border._canvas.ios);
             } else {
                 this.context.texImage2DWithTargetLevelInternalformatFormatTypeNone(
                     target, level, internalformat, width, height, border as any
                 );
             }
         }
+        // this.blendFunc(this.SRC_ALPHA, this.ZERO);
+        // this.disable(this.BLEND);
     }
 
     texParameterf(target: number, pname: number, param: number): void {
@@ -1206,7 +1201,9 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
     }
 
     texSubImage2D(target: number, level: number, xoffset: number, yoffset: number, width: number, height: number, format: number, type: number, pixels: ArrayBufferView): void;
+
     texSubImage2D(target: number, level: number, xoffset: number, yoffset: number, format: number, type: number, pixels: any): void;
+
     texSubImage2D(target: any, level: any, xoffset: any, yoffset: any, width: any, height: any, format: any, type?: any, pixels?: any) {
         this._glCheckError('texSubImage2D');
         this._checkArgs('texSubImage2D', arguments);
@@ -1350,6 +1347,18 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
                         result ? result.ios : null
                     );
                 }
+            } else if (format &&
+                typeof format.tagName === 'string' &&
+                format.tagName === 'CANVAS' && format._canvas instanceof TNSCanvas) {
+                this.context.texSubImage2DWithTargetLevelXoffsetYoffsetFormatTypeCanvas(
+                    target,
+                    level,
+                    xoffset,
+                    yoffset,
+                    width,
+                    height,
+                    format._canvas.ios
+                );
             } else {
                 this.context.texSubImage2DWithTargetLevelXoffsetYoffsetFormatTypeNone(
                     target,
@@ -1571,5 +1580,34 @@ export class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
         this._glCheckError('viewport');
         this._checkArgs('viewport', arguments);
         this.context.viewportWithXYWidthHeight(x, y, width, height);
+    }
+
+    protected getJSArray(value): any[] {
+        const count = value.count;
+        const array = [];
+        for (let i = 0; i < count; i++) {
+            array.push(value.objectAtIndex(i));
+        }
+        return array;
+    }
+
+    protected _glCheckError(message: string) {
+        if (!TNSWebGLRenderingContext.isDebug) {
+            return;
+        }
+        if (TNSWebGLRenderingContext.filter === 'both' || TNSWebGLRenderingContext.filter === 'error') {
+            console.log(message, this.getError());
+        }
+    }
+
+    protected _checkArgs(message, args) {
+        if (!TNSWebGLRenderingContext.isDebug) {
+            return;
+        }
+        if (TNSWebGLRenderingContext.filter === 'both' || TNSWebGLRenderingContext.filter === 'args') {
+            console.log('\/**** ', message, ' ****\/');
+            console.dir(args);
+            console.log('\/**** ', message, ' ****\/');
+        }
     }
 }

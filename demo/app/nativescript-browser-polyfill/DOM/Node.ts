@@ -1,4 +1,4 @@
-import { fromObject, Observable } from "tns-core-modules/data/observable";
+import { fromObject, Observable } from "@nativescript/core/data/observable";
 
 (Observable as any).prototype.addListener = function (eventNames, callback, thisArg) {
   this.on(eventNames, callback, thisArg);

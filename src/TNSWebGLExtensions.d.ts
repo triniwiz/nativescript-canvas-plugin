@@ -1,4 +1,4 @@
-import { WebGLQuery, WebGLVertexArrayObject } from './canvas-plugin.common';
+import {WebGLQuery, WebGLVertexArrayObject} from './canvas-plugin.common';
 
 export declare class EXT_blend_minmax {
     MAX_EXT: number;

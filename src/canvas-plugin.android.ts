@@ -11,7 +11,23 @@ export * from './TNSWebGL2RenderingContext';
 export * from './TNSImageAsset';
 export * from './TNSTextEncoder';
 export * from './TNSTextDecoder';
+export * from './CanvasPattern';
 declare var com;
+
+import {CanvasPattern} from './CanvasPattern';
+import {CanvasGradient} from './CanvasGradient';
+
+Object.defineProperty(global, 'CanvasPattern', {
+    value: CanvasPattern,
+    configurable: true,
+    writable: true,
+});
+
+Object.defineProperty(global, 'CanvasGradient', {
+    value: CanvasGradient,
+    configurable: true,
+    writable: true,
+});
 
 export function requestAnimationFrame(loop) {
     return com.github.triniwiz.canvas.AnimationFrame.requestAnimationFrame(new com.github.triniwiz.canvas.AnimationFrame.Callback({

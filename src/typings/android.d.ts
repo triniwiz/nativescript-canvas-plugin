@@ -51,59 +51,6 @@ declare module com {
 	export module github {
 		export module triniwiz {
 			export module canvas {
-				export class CanvasColorStyle {
-					public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle>;
-					public constructor();
-				}
-				export module CanvasColorStyle {
-					export class Color extends com.github.triniwiz.canvas.ICanvasColorStyle {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.Color>;
-						public constructor(param0: number);
-						public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
-						public constructor(param0: string);
-					}
-					export class Gradient extends com.github.triniwiz.canvas.ICanvasColorStyle {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.Gradient>;
-						public addColorStop(param0: number, param1: number): void;
-						public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
-					}
-					export class LinearGradient extends com.github.triniwiz.canvas.CanvasColorStyle.Gradient {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.LinearGradient>;
-						public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
-						public constructor(param0: number, param1: number, param2: number, param3: number);
-					}
-					export class Pattern extends com.github.triniwiz.canvas.ICanvasColorStyle {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.Pattern>;
-						public constructor(param0: any, param1: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition);
-						public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
-					}
-					export module Pattern {
-						export class PatternRepetition {
-							public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition>;
-							public static Repeat: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition;
-							public static RepeatX: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition;
-							public static RepeatY: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition;
-							public static NoRepeat: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition;
-							public static values(): native.Array<com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition>;
-							public toString(): string;
-							public static valueOf(param0: string): com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition;
-						}
-					}
-					export class RadialGradient extends com.github.triniwiz.canvas.CanvasColorStyle.Gradient {
-						public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyle.RadialGradient>;
-						public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
-						public constructor(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number);
-					}
-				}
-			}
-		}
-	}
-}
-
-declare module com {
-	export module github {
-		export module triniwiz {
-			export module canvas {
 				export class CanvasColorStyleType {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasColorStyleType>;
 					public static Color: com.github.triniwiz.canvas.CanvasColorStyleType;
@@ -236,14 +183,14 @@ declare module com {
 				export class CanvasRenderingContext2D extends com.github.triniwiz.canvas.CanvasRenderingContext {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.CanvasRenderingContext2D>;
 					public beginPath(): void;
+					public drawImage(param0: com.github.triniwiz.canvas.CanvasView, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: number, param8: number): void;
 					public isPointInPath(param0: number, param1: number, param2: string): boolean;
 					public fillText(param0: string, param1: number, param2: number): void;
-					public createPattern(param0: any, param1: com.github.triniwiz.canvas.CanvasColorStyle.Pattern.PatternRepetition): com.github.triniwiz.canvas.CanvasColorStyle.Pattern;
 					public setLineDashInternal(param0: native.Array<number>): void;
-					public getFillStyle(): com.github.triniwiz.canvas.ICanvasColorStyle;
 					public strokeRect(param0: number, param1: number, param2: number, param3: number): void;
 					public strokeText(param0: string, param1: number, param2: number, param3: number): void;
 					public bezierCurveTo(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
+					public getDirection(): string;
 					public fillRect(param0: number, param1: number, param2: number, param3: number): void;
 					public translate(param0: number, param1: number): void;
 					public getImageData(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.ImageData;
@@ -255,40 +202,47 @@ declare module com {
 					public scale(param0: number, param1: number): void;
 					public getGlobalAlpha(): number;
 					public quadraticCurveTo(param0: number, param1: number, param2: number, param3: number): void;
-					public createLinearGradient(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.CanvasColorStyle.LinearGradient;
 					public transform(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): void;
 					public getShadowOffsetY(): number;
 					public getShadowBlur(): number;
 					public setGlobalCompositeOperation(param0: com.github.triniwiz.canvas.CanvasCompositeOperationType): void;
+					public getFillStyle(): any;
 					public setTextAlign(param0: com.github.triniwiz.canvas.CanvasTextAlignment): void;
+					public setDirection(param0: string): void;
+					public createPattern(param0: globalAndroid.graphics.Bitmap, param1: com.github.triniwiz.canvas.Pattern.PatternRepetition): com.github.triniwiz.canvas.Pattern;
 					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: string): void;
 					public getImageSmoothingEnabled(): boolean;
 					public getCurrentTransform(): com.github.triniwiz.canvas.CanvasDOMMatrix;
-					public setStrokeStyle(param0: com.github.triniwiz.canvas.ICanvasColorStyle): void;
+					public createLinearGradient(param0: number, param1: number, param2: number, param3: number): com.github.triniwiz.canvas.LinearGradient;
 					public getFont(): string;
 					public getLineDash(): native.Array<number>;
 					public setShadowColor(param0: number): void;
 					public getTextAlign(): com.github.triniwiz.canvas.CanvasTextAlignment;
 					public save(): void;
 					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number, param3: number, param4: number): void;
+					public setStrokeStyle(param0: number): void;
 					public isPointInPath(param0: number, param1: number): boolean;
+					public setFillStyle(param0: any): void;
 					public getLineWidth(): number;
 					public fill(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
 					public measureText(param0: string): com.github.triniwiz.canvas.CanvasTextMetrics;
 					public setLineCap(param0: com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap): void;
+					public createPattern(param0: com.github.triniwiz.canvas.CanvasView, param1: com.github.triniwiz.canvas.Pattern.PatternRepetition): com.github.triniwiz.canvas.Pattern;
 					public createImageData(param0: number, param1: number): com.github.triniwiz.canvas.ImageData;
 					public setCurrentTransform(param0: com.github.triniwiz.canvas.CanvasDOMMatrix): void;
 					public getLineCap(): com.github.triniwiz.canvas.CanvasRenderingContext2D.LineCap;
+					public setFillStyle(param0: number): void;
 					public setLineWidth(param0: number): void;
 					public getMiterLimit(): number;
 					public setFont(param0: string): void;
 					public setLineDashOffset(param0: number): void;
 					public clip(param0: com.github.triniwiz.canvas.CanvasPath2D, param1: string): void;
-					public getStrokeStyle(): com.github.triniwiz.canvas.ICanvasColorStyle;
 					public stroke(): void;
+					public drawImage(param0: com.github.triniwiz.canvas.CanvasView, param1: number, param2: number, param3: number, param4: number): void;
 					public getShadowOffsetX(): number;
-					public setFillStyle(param0: com.github.triniwiz.canvas.ICanvasColorStyle): void;
+					public createRadialGradient(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): com.github.triniwiz.canvas.RadialGradient;
 					public clip(param0: string): void;
+					public createPattern(param0: com.github.triniwiz.canvas.ImageAsset, param1: com.github.triniwiz.canvas.Pattern.PatternRepetition): com.github.triniwiz.canvas.Pattern;
 					public getImageSmoothingQuality(): com.github.triniwiz.canvas.CanvasRenderingContext2D.ImageSmoothingQuality;
 					public stroke(param0: com.github.triniwiz.canvas.CanvasPath2D): void;
 					public lineTo(param0: number, param1: number): void;
@@ -302,8 +256,10 @@ declare module com {
 					public getCanvas(): com.github.triniwiz.canvas.CanvasView;
 					public drawImage(param0: com.github.triniwiz.canvas.ImageAsset, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number, param7: number, param8: number): void;
 					public fillText(param0: string, param1: number, param2: number, param3: number): void;
+					public getStrokeStyle(): any;
 					public arcTo(param0: number, param1: number, param2: number, param3: number, param4: number): void;
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData, param1: number, param2: number, param3: number, param4: number, param5: number, param6: number): void;
+					public setStrokeStyle(param0: any): void;
 					public isPointInStroke(param0: number, param1: number): boolean;
 					public drawImage(param0: globalAndroid.graphics.Bitmap, param1: number, param2: number): void;
 					public getLineDashOffset(): number;
@@ -325,7 +281,7 @@ declare module com {
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData, param1: number, param2: number): void;
 					public resetTransform(): void;
 					public setMiterLimit(param0: number): void;
-					public createRadialGradient(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number): com.github.triniwiz.canvas.CanvasColorStyle.RadialGradient;
+					public drawImage(param0: com.github.triniwiz.canvas.CanvasView, param1: number, param2: number): void;
 					public putImageData(param0: com.github.triniwiz.canvas.ImageData): void;
 					public setShadowBlur(param0: number): void;
 					public fill(param0: string): void;
@@ -444,6 +400,7 @@ declare module com {
 					public toDataURLAsync(param0: com.github.triniwiz.canvas.CanvasView.DataURLListener): void;
 					public destroy(): void;
 					public onDrawFrame(param0: javax.microedition.khronos.opengles.GL10): void;
+					public resizeViewPort(): void;
 					public toDataURL(): string;
 					public onActivityResumed(param0: globalAndroid.app.Activity): void;
 					public onActivityPaused(param0: globalAndroid.app.Activity): void;
@@ -505,6 +462,21 @@ declare module com {
 						public getWidth(): number;
 						public getHeight(): number;
 					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class Color extends com.github.triniwiz.canvas.ICanvasColorStyle {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.Color>;
+					public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
+					public constructor(param0: string);
+					public constructor(param0: number);
 				}
 			}
 		}
@@ -855,6 +827,20 @@ declare module com {
 	export module github {
 		export module triniwiz {
 			export module canvas {
+				export class Gradient extends com.github.triniwiz.canvas.ICanvasColorStyle {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.Gradient>;
+					public addColorStop(param0: number, param1: number): void;
+					public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
 				export class ICanvasColorStyle {
 					public static class: java.lang.Class<com.github.triniwiz.canvas.ICanvasColorStyle>;
 					/**
@@ -961,6 +947,64 @@ declare module com {
 					public constructor();
 					public getValue(): number;
 					public getBufferValue(): number;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class LinearGradient extends com.github.triniwiz.canvas.Gradient {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.LinearGradient>;
+					public constructor(param0: number, param1: number, param2: number, param3: number);
+					public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class Pattern extends com.github.triniwiz.canvas.ICanvasColorStyle {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.Pattern>;
+					public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
+					public constructor(param0: com.github.triniwiz.canvas.CanvasView, param1: com.github.triniwiz.canvas.ImageAsset, param2: com.github.triniwiz.canvas.Pattern.PatternRepetition);
+					public finalize(): void;
+					public setTransform(param0: com.github.triniwiz.canvas.CanvasDOMMatrix): void;
+					public constructor(param0: com.github.triniwiz.canvas.CanvasView, param1: com.github.triniwiz.canvas.CanvasView, param2: com.github.triniwiz.canvas.Pattern.PatternRepetition);
+					public constructor(param0: com.github.triniwiz.canvas.CanvasView, param1: globalAndroid.graphics.Bitmap, param2: com.github.triniwiz.canvas.Pattern.PatternRepetition);
+				}
+				export module Pattern {
+					export class PatternRepetition {
+						public static class: java.lang.Class<com.github.triniwiz.canvas.Pattern.PatternRepetition>;
+						public static Repeat: com.github.triniwiz.canvas.Pattern.PatternRepetition;
+						public static RepeatX: com.github.triniwiz.canvas.Pattern.PatternRepetition;
+						public static RepeatY: com.github.triniwiz.canvas.Pattern.PatternRepetition;
+						public static NoRepeat: com.github.triniwiz.canvas.Pattern.PatternRepetition;
+						public static values(): native.Array<com.github.triniwiz.canvas.Pattern.PatternRepetition>;
+						public static valueOf(param0: string): com.github.triniwiz.canvas.Pattern.PatternRepetition;
+						public toString(): string;
+					}
+				}
+			}
+		}
+	}
+}
+
+declare module com {
+	export module github {
+		export module triniwiz {
+			export module canvas {
+				export class RadialGradient extends com.github.triniwiz.canvas.Gradient {
+					public static class: java.lang.Class<com.github.triniwiz.canvas.RadialGradient>;
+					public getStyleType(): com.github.triniwiz.canvas.CanvasColorStyleType;
+					public constructor(param0: number, param1: number, param2: number, param3: number, param4: number, param5: number);
 				}
 			}
 		}

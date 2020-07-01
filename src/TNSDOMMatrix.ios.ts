@@ -1,4 +1,4 @@
-import { TNSDOMMatrixBase } from './canvas-plugin.common';
+import {TNSDOMMatrixBase} from './canvas-plugin.common';
 
 export class TNSDOMMatrix extends TNSDOMMatrixBase {
     constructor(instance) {

@@ -1,6 +1,10 @@
-import { TNSImageAssetBase, TNSImageAssetSaveFormat, } from './canvas-plugin.common';
+import {TNSImageAssetBase, TNSImageAssetSaveFormat,} from './canvas-plugin.common';
 
 export declare class TNSImageAsset extends TNSImageAssetBase {
+    width: number;
+    height: number;
+    error: string;
+
     constructor();
 
     loadFile(path: string): boolean;
@@ -15,10 +19,6 @@ export declare class TNSImageAsset extends TNSImageAssetBase {
 
     loadFromBytesAsync(bytes: Uint8Array | Uint8ClampedArray): Promise<boolean>;
 
-    width: number;
-
-    height: number;
-
     scale(x: number, y: number);
 
     save(path: string, format: TNSImageAssetSaveFormat): boolean;
@@ -28,6 +28,4 @@ export declare class TNSImageAsset extends TNSImageAssetBase {
     flipX();
 
     flipY();
-
-    error: string;
 }

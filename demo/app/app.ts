@@ -3,10 +3,9 @@ In NativeScript, the app.ts file is the entry point to your application.
 You can use this file to perform app-level initialization, but the primary
 purpose of the file is to pass control to the app’s first module.
 */
-import * as app from "tns-core-modules/application";
-import { TNSXMLHttpRequest , FileReader, Blob} from "nativescript-http-async";
+import * as app from "@nativescript/core/application";
 import { requestAnimationFrame } from 'nativescript-canvas-plugin';
-Object.defineProperty(global, "XMLHttpRequest", {
+/*Object.defineProperty(global, "XMLHttpRequest", {
     value: TNSXMLHttpRequest,
     configurable: true,
     writable: true,
@@ -21,8 +20,8 @@ Object.defineProperty(global, "FileReader", {
     value: FileReader,
     configurable: true,
     writable: true,
-});
-
+});*/
+import 'nativescript-browser-polyfill';
 // Object.defineProperty(global, "requestAnimationFrame", {
 //     value: requestAnimationFrame,
 //     configurable: true,

@@ -1,4 +1,4 @@
-import { TNSTextEncoderBase } from './canvas-plugin.common';
+import {TNSTextEncoderBase} from './canvas-plugin.common';
 
 declare let NativeTextEncoder;
 

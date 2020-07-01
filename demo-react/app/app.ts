@@ -1,21 +1,20 @@
-import 'react-hot-loader'; // Must be imported before React and ReactNativeScript.
 import * as React from "react";
 
 /* Controls react-nativescript log verbosity. true: all logs; false: only error logs. */
-Object.defineProperty(global, '__DEV__', { value: false });
+Object.defineProperty(global, '__DEV__', { value: true });
+
+/*
+In NativeScript, the app.ts file is the entry point to your application.
+You can use this file to perform app-level initialization, but the primary
+purpose of the file is to pass control to the app’s first module.
+*/
+
 import * as ReactNativeScript from "react-nativescript";
 import AppContainer from "./components/AppContainer";
 
-export const rootRef: React.RefObject<any> = React.createRef<any>();
+ReactNativeScript.start(React.createElement(AppContainer, {}, null));
 
-ReactNativeScript.start(
-    React.createElement(
-        AppContainer,
-        {
-            forwardedRef: rootRef
-        },
-        null
-    ),
-    /* This ref MUST match the ref that you pass into the base component of your app container. */
-    rootRef
-);
+/*
+Do not place any code after the application has been started as it will not
+be executed on iOS.
+*/

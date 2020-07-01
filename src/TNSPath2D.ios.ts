@@ -1,10 +1,10 @@
-import { TNSPath2DBase } from './canvas-plugin.common';
-import { TNSDOMMatrix } from './TNSDOMMatrix';
+import {TNSPath2DBase} from './canvas-plugin.common';
+import {TNSDOMMatrix} from './TNSDOMMatrix';
 
 declare let CanvasPath2D;
 
 export class TNSPath2D extends TNSPath2DBase {
-    constructor(instance: any) {
+    constructor(instance?: any) {
         let nativeInstance;
         if (typeof instance === 'string') {
             nativeInstance = CanvasPath2D.alloc().initWithData(instance);

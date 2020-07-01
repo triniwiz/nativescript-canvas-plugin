@@ -1,8 +1,8 @@
-import { TNSPath2DBase } from './canvas-plugin.common';
-import { TNSDOMMatrix } from './TNSDOMMatrix';
+import {TNSPath2DBase} from './canvas-plugin.common';
+import {TNSDOMMatrix} from './TNSDOMMatrix';
 
 export declare class TNSPath2D extends TNSPath2DBase {
-    constructor(instance: any);
+    constructor(instance?: any);
 
     addPath(path: TNSPath2D, transform?: TNSDOMMatrix): void;
 

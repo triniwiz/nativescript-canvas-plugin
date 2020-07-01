@@ -1,4 +1,4 @@
-import { screen } from 'tns-core-modules/platform';
+import { screen } from '@nativescript/core/platform';
 export let LAF = 0;
 export function particlesColor(canvas){
         var ctx = canvas.getContext('2d'),

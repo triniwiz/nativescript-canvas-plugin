@@ -3,15 +3,16 @@ import {
     ImageDataBase,
     TextMetricsBase,
     TNSCanvasBase,
-    TNSCanvasRenderingContext2DBase,
     TNSDOMMatrixBase,
     TNSPath2DBase
 } from './canvas-plugin.common';
-import { TNSWebGL2RenderingContext } from './TNSWebGL2RenderingContext';
-import { TNSWebGLRenderingContext } from './TNSWebGLRenderingContext';
-import { TNSCanvasRenderingContext2D } from './TNSCanvasRenderingContext2D';
-export { TNSWebGLRenderingContext, TNSWebGL2RenderingContext, TNSCanvasRenderingContext2D };
+import {TNSWebGL2RenderingContext} from './TNSWebGL2RenderingContext';
+import {TNSWebGLRenderingContext} from './TNSWebGLRenderingContext';
+import {TNSCanvasRenderingContext2D} from './TNSCanvasRenderingContext2D';
+
+export {TNSWebGLRenderingContext, TNSWebGL2RenderingContext, TNSCanvasRenderingContext2D};
 export * from './TNSImageAsset';
+export * from './CanvasGradient';
 
 export declare function createSVGMatrix(): TNSDOMMatrix;
 
@@ -35,7 +36,7 @@ export declare class TNSCanvas extends TNSCanvasBase {
         left: number;
     };
 
-    toDataURL(type: string, encoderOptions: number): string;
+    toDataURL(type?: string, encoderOptions?: number): string;
 }
 
 export declare class ImageData extends ImageDataBase {
@@ -166,9 +167,9 @@ export declare class TNSCanvasRenderingContext2D extends TNSCanvasRenderingConte
 }
 */
 export declare class TextMetrics extends TextMetricsBase {
-    constructor(instance: any);
-
     readonly width: number;
+
+    constructor(instance: any);
 }
 
 export declare class TNSPath2D extends TNSPath2DBase {
@@ -196,26 +197,25 @@ export declare class TNSPath2D extends TNSPath2DBase {
 }
 
 export declare class TNSDOMMatrix extends TNSDOMMatrixBase {
-    constructor(instance: any);
-
     a: number;
     b: number;
     c: number;
     d: number;
     e: number;
     f: number;
+
+    constructor(instance: any);
 }
 
 export declare class CanvasGradient extends CanvasGradientBase {
+    readonly native: any;
     protected nativeInstance: any;
 
     protected constructor(nativeInstance: any);
 
-    addColorStop(offset: number, color: any): void;
-
     static fromNative(nativeInstance: any): CanvasGradient;
 
-    readonly native: any;
+    addColorStop(offset: number, color: any): void;
 }
 
 export declare function requestAnimationFrame(loop: any): string;

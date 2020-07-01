@@ -12,13 +12,12 @@ import {
 } from './canvas-plugin.common';
 
 export declare class TNSWebGLRenderingContext extends TNSWebGLRenderingContextBase {
-    private context;
-
-    constructor(context: any);
-
     readonly native: any;
     readonly drawingBufferHeight: number;
     readonly drawingBufferWidth: number;
+    private context;
+
+    constructor(context: any);
 
     activeTexture(texture: number): void;
 

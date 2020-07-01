@@ -1,5 +1,5 @@
-import { CanvasGradientBase } from './canvas-plugin.common';
-import { Color } from '@nativescript/core/color';
+import {CanvasGradientBase} from './canvas-plugin.common';
+import {Color} from '@nativescript/core/color';
 
 export class CanvasGradient extends CanvasGradientBase {
     readonly nativeInstance;
@@ -9,15 +9,15 @@ export class CanvasGradient extends CanvasGradientBase {
         this.nativeInstance = nativeInstance;
     }
 
-    public addColorStop(offset: number, color: any): void {
-        this.nativeInstance.addColorStop(offset, new Color(color).android);
+    get native() {
+        return this.nativeInstance;
     }
 
     static fromNative(nativeInstance) {
         return new CanvasGradient(nativeInstance);
     }
 
-    get native() {
-        return this.nativeInstance;
+    public addColorStop(offset: number, color: any): void {
+        this.nativeInstance.addColorStop(offset, new Color(color).android);
     }
 }

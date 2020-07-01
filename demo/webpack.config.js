@@ -82,7 +82,7 @@ module.exports = env => {
     const areCoreModulesExternal = Array.isArray(env.externals) && env.externals.some(e => e.indexOf("tns-core-modules") > -1);
     if (platform === "ios" && !areCoreModulesExternal) {
         entries["tns_modules/tns-core-modules/inspector_modules"] = "inspector_modules";
-    };
+    }
 
     let sourceMapFilename = nsWebpack.getSourceMapFilename(hiddenSourceMap, __dirname, dist);
 
@@ -281,7 +281,7 @@ module.exports = env => {
                 async: false,
                 useTypescriptIncrementalApi: true,
                 checkSyntacticErrors: true,
-                memoryLimit: 4096
+                memoryLimit: 8192
             })
         ],
     };

@@ -11,6 +11,22 @@ export * from './TNSWebGL2RenderingContext';
 export * from './TNSImageAsset';
 export * from './TNSTextEncoder';
 export * from './TNSTextDecoder';
+export * from './CanvasPattern';
+import {CanvasPattern} from './CanvasPattern';
+import {CanvasGradient} from './CanvasGradient';
+
+Object.defineProperty(global, 'CanvasPattern', {
+    value: CanvasPattern,
+    configurable: true,
+    writable: true,
+});
+
+Object.defineProperty(global, 'CanvasGradient', {
+    value: CanvasGradient,
+    configurable: true,
+    writable: true,
+});
+
 declare var AnimationFrame;
 
 export function requestAnimationFrame(loop) {
