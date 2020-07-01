@@ -1,8 +1,8 @@
 import { Element } from "./Element";
-import { isIOS } from "tns-core-modules/platform";
-import * as fs from "tns-core-modules/file-system";
-import { ImageAsset } from "tns-core-modules/image-asset/image-asset";
-import { ImageSource } from "tns-core-modules/image-source/image-source";
+import { isIOS } from "@nativescript/core/platform";
+import * as fs from "@nativescript/core/file-system";
+import { ImageAsset } from "@nativescript/core/image-asset/image-asset";
+import { ImageSource } from "@nativescript/core/image-source/image-source";
 const b64Extensions = {
     "/": "jpg",
     i: "png",

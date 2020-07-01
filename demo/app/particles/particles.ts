@@ -1,6 +1,7 @@
 import { TNSCanvas, TNSCanvasRenderingContext2D } from 'nativescript-canvas-plugin';
-import { GestureTypes, TouchGestureEventData } from 'tns-core-modules/ui/gestures';
-import * as platform from 'tns-core-modules/platform'
+import { GestureTypes, TouchGestureEventData } from '@nativescript/core/ui/gestures';
+import * as platform from '@nativescript/core/platform';
+import * as utils from '@nativescript/core/utils/utils';
 export let LAF = 0;
 export function particles(canvas: TNSCanvas) {
         const ctx = canvas.getContext('2d') as TNSCanvasRenderingContext2D;
@@ -11,10 +12,10 @@ export function particles(canvas: TNSCanvas) {
 
 // Configuration, Play with these
     var config = {
-        particleNumber: 100,
+        particleNumber: 10,
         maxParticleSize: 10,
         maxSpeed: 40,
-        colorVariation: 100
+        colorVariation: 10
     };
 
 // Colors
@@ -132,11 +133,11 @@ export function particles(canvas: TNSCanvas) {
 
 // Click listener
     canvas.parent.on(GestureTypes.tap as any, args => {
-        console.log('tap');
+
     });
     canvas.parent.on(GestureTypes.touch as any, (args: TouchGestureEventData) =>{
         var x = args.getX() * platform.screen.mainScreen.scale,
-            y = args.getY() * platform.screen.mainScreen.scale;
+            y = (args.getY() * platform.screen.mainScreen.scale);
         cleanUpArray();
         initParticles(config.particleNumber, x, y);
     });

@@ -1,5 +1,5 @@
 import { setupGame } from "./game";
-import { GestureStateTypes } from "tns-core-modules/ui/gestures/gestures";
+import { GestureStateTypes } from "@nativescript/core/ui/gestures/gestures";
 let canvas;
 let page;
 declare const CANVAS_RENDERER;

@@ -1,10 +1,9 @@
-import { ImageDataBase } from './canvas-plugin.common';
+import {ImageDataBase} from './canvas-plugin.common';
 
 export class ImageData extends ImageDataBase {
     constructor(nativeInstance: any) {
         super(nativeInstance);
-        const buffer = interop.bufferFromData(nativeInstance.data);
-        this.data = new Uint8ClampedArray(buffer, 0, buffer.byteLength);
+        this.data = new Uint8ClampedArray(nativeInstance.data);
     }
 
     static fromNative(nativeInstance) {

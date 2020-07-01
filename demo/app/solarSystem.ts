@@ -1,4 +1,4 @@
-import * as imageSource from 'tns-core-modules/image-source';
+import * as imageSource from '@nativescript/core/image-source';
 export function solarSystem(canvas){
     const ctx = canvas.getContext('2d');
 

@@ -3,8 +3,8 @@ import {
     GestureTypes,
     PanGestureEventData,
     TouchGestureEventData
-} from 'tns-core-modules/ui/gestures';
-import { screen } from 'tns-core-modules/platform';
+} from '@nativescript/core/ui/gestures';
+import { screen } from '@nativescript/core/platform';
 export function cloth(canvas) {
 
 // settings

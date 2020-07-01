@@ -1,8 +1,8 @@
-import { TNSPath2DBase } from './canvas-plugin.common';
-import { TNSDOMMatrix } from './TNSDOMMatrix';
+import {TNSPath2DBase} from './canvas-plugin.common';
+import {TNSDOMMatrix} from './TNSDOMMatrix';
 
 export class TNSPath2D extends TNSPath2DBase {
-    constructor(instance: any) {
+    constructor(instance?: any) {
         let nativeInstance;
         if (typeof instance === 'string') {
             nativeInstance = new com.github.triniwiz.canvas.CanvasPath2D(instance);

@@ -1,15 +1,20 @@
-import * as React from "react";
-import { PropsWithoutForwardedRef } from "react-nativescript/dist/shared/NativeScriptComponentTypings";
-import { TNSCanvas as NativeScriptTNSCanvas } from "../canvas-plugin";
-import { ViewComponentProps, RCTView } from "react-nativescript/dist/components/View";
-declare type TNSCanvasProps = Pick<NativeScriptTNSCanvas, "ready">;
-interface Props {
-    onIsLoadingChange?: (isLoading: boolean) => void;
+import { NativeScriptProps, ViewAttributes } from "react-nativescript";
+import { TNSCanvasRenderingContext2D } from "../TNSCanvasRenderingContext2D";
+import { TNSWebGLRenderingContext } from "../TNSWebGLRenderingContext";
+import { TNSCanvas } from "../TNSCanvas";
+import { EventData } from "@nativescript/core";
+export declare type TNSCanvasAttributes = ViewAttributes & {
+    readonly clientWidth?: number;
+    readonly clientHeight?: number;
+    flush?(): void;
+    toDataURL?(type?: string, encoderOptions?: number): any;
+    getContext?(type: string, options?: any): TNSCanvasRenderingContext2D | TNSWebGLRenderingContext | null;
+    onReady?: (arg: EventData) => void;
+};
+declare global {
+    module JSX {
+        interface IntrinsicElements {
+            tnsCanvas: NativeScriptProps<TNSCanvasAttributes, TNSCanvas>;
+        }
+    }
 }
-export declare type TNSCanvasComponentProps<E extends NativeScriptTNSCanvas = NativeScriptTNSCanvas> = Props & Partial<TNSCanvasProps> & ViewComponentProps<E>;
-export declare class _TNSCanvas<P extends TNSCanvasComponentProps<E>, S extends {}, E extends NativeScriptTNSCanvas> extends RCTView<P, S, E> {
-    render(): React.ReactNode;
-}
-declare type OwnPropsWithoutForwardedRef = PropsWithoutForwardedRef<TNSCanvasComponentProps<NativeScriptTNSCanvas>>;
-export declare const $TNSCanvas: React.ComponentType<OwnPropsWithoutForwardedRef & React.ClassAttributes<NativeScriptTNSCanvas>>;
-export {};

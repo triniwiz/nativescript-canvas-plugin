@@ -1,7 +1,6 @@
 export let LAF = 0;
 export function swarm(canvas) {
     var requestAnimFrame = requestAnimationFrame;
-
     function init() {
         //  canvas.nativeView.setHandleInvalidationManually(true);
         // Initialize the context of the canvas
@@ -13,15 +12,15 @@ export function swarm(canvas) {
             H = canvas.getMeasuredHeight();
 
         // Some variables for later use
-        var particleCount = 100,
+        var particleCount = 800,
             particles = [],
-            minDist = 70,
+            minDist = 50,
             dist;
 
         // Function to paint the canvas black
         function paintCanvas() {
             // Set the fill color to black
-            ctx.fillStyle = "rgba(0,0,0,1)";
+            ctx.fillStyle = "black";
 
             // This will create a rectangle of white color from the
             // top left (0,0) to the bottom right corner (W,H)
@@ -176,7 +175,6 @@ export function swarm(canvas) {
         function animloop() {
             draw();
             LAF = requestAnimFrame(animloop);
-            //  canvas.nativeView.flush();
         }
 
         animloop();

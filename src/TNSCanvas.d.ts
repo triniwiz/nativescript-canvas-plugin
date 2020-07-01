@@ -1,17 +1,15 @@
-import { TNSDOMMatrix } from './TNSDOMMatrix';
-import { TNSCanvasBase } from './canvas-plugin.common';
-import { TNSCanvasRenderingContext2D } from './TNSCanvasRenderingContext2D';
-import { TNSWebGLRenderingContext } from './TNSWebGLRenderingContext';
+import {TNSDOMMatrix} from './TNSDOMMatrix';
+import {TNSCanvasBase} from './canvas-plugin.common';
+import {TNSCanvasRenderingContext2D} from './TNSCanvasRenderingContext2D';
+import {TNSWebGLRenderingContext} from './TNSWebGLRenderingContext';
 
 export declare function createSVGMatrix(): TNSDOMMatrix;
 
 export declare class TNSCanvas extends TNSCanvasBase {
+    readonly clientWidth: number;
+    readonly clientHeight: number;
     private _2dContext;
     private canvas;
-
-    readonly clientWidth: number;
-
-    readonly clientHeight: number;
 
     constructor();
 

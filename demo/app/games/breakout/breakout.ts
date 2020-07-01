@@ -3,7 +3,7 @@ import {
     TouchGestureEventData,
     PanGestureEventData,
     GestureStateTypes,
-} from "tns-core-modules/ui/gestures/gestures";
+} from "@nativescript/core/ui/gestures/gestures";
 let page;
 let canvas;
 
@@ -13,8 +13,6 @@ export function loaded(args) {
 export function canvasLoaded(args) {
     canvas = args.object;
     const context = args.object.getContext("webgl");
-    setTimeout(()=>{
-        setupGame(args.object, context);
-    })
+    setupGame(args.object, context);
 }
 export function indicatorLoaded(args) {}

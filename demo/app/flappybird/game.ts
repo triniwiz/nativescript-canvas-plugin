@@ -1,5 +1,5 @@
 import TNSPhaser from "../nativescript-phaser";
-import { screen } from "tns-core-modules/platform";
+import { screen } from "@nativescript/core/platform";
 import { func } from "~/phaser-example/utils";
 const Phaser = (global as any).Phaser;
 const scale = screen.mainScreen.scale;

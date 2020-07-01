@@ -1,6 +1,6 @@
-import { Observable } from "tns-core-modules/data/observable";
+import { Observable } from "@nativescript/core/data/observable";
 import { func, images } from "./utils";
-import * as platform from "tns-core-modules/platform";
+import * as platform from "@nativescript/core/platform";
 import * as accelerometer from "nativescript-accelerometer";
 import TNSPhaser from "../nativescript-phaser-ce";
 declare let Phaser: any;

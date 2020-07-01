@@ -1,8 +1,8 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { TNSCanvasModule } from 'nativescript-canvas-plugin/angular';
+import {NgModule, NO_ERRORS_SCHEMA} from "@angular/core";
+import {NativeScriptModule} from "@nativescript/angular";
+import {AppRoutingModule} from "./app-routing.module";
+import {AppComponent} from "./app.component";
+import {TNSCanvasModule} from 'nativescript-canvas-plugin/angular';
 
 @NgModule({
     bootstrap: [
@@ -20,4 +20,5 @@ import { TNSCanvasModule } from 'nativescript-canvas-plugin/angular';
         NO_ERRORS_SCHEMA
     ]
 })
-export class AppModule { }
+export class AppModule {
+}

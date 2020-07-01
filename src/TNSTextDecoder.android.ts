@@ -1,4 +1,4 @@
-import { TNSTextDecoderBase } from './canvas-plugin.common';
+import {TNSTextDecoderBase} from './canvas-plugin.common';
 
 declare var com;
 
@@ -29,6 +29,23 @@ export class TNSTextDecoder extends TNSTextDecoderBase {
                 //     native[i] = buffer[i];
                 //   }
                 const nativeBuffer = java.nio.ByteBuffer.wrap(Array.from(buffer));
+                return this.native.decode(nativeBuffer.array());
+            } else if (buffer instanceof Uint16Array || buffer instanceof Int16Array) {
+                // const native = Array.create('byte', buffer.byteLength);
+                // const length = buffer.byteLength;
+                //   for (let i = 0; i < length; i++) {
+                //     native[i] = buffer[i];
+                //   }
+
+                const nativeBuffer = java.nio.ShortBuffer.wrap(Array.from(buffer));
+                return this.native.decode(nativeBuffer.array());
+            } else if (buffer instanceof Int32Array) {
+                // const native = Array.create('byte', buffer.byteLength);
+                // const length = buffer.byteLength;
+                //   for (let i = 0; i < length; i++) {
+                //     native[i] = buffer[i];
+                //   }
+                const nativeBuffer = java.nio.IntBuffer.wrap(Array.from(buffer));
                 return this.native.decode(nativeBuffer.array());
             }
 

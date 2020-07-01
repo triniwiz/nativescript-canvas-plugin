@@ -1,23 +1,50 @@
-import { ContainerView, CSSType } from '@nativescript/core/ui/core/view';
-import { GestureStateTypes } from '@nativescript/core/ui/gestures/gestures';
-import { screen } from '@nativescript/core/platform';
+import {CSSType, layout, PercentLength, View,} from '@nativescript/core/ui/core/view';
+import {GestureStateTypes} from '@nativescript/core/ui/gestures/gestures';
+import {screen} from '@nativescript/core/platform';
+import {orientation} from '@nativescript/core/application';
 
 export * from '@nativescript/core/ui/core/view';
-
 
 export interface ITNSCanvasBase {
     on(eventName: 'ready', callback: (data: any) => void, thisArg?: any): void;
 }
 
+
+(Set as any).prototype.remove = function (value) {
+    this.delete(value);
+};
+
 @CSSType('TNSCanvas')
-export abstract class TNSCanvasBase extends ContainerView implements ITNSCanvasBase {
-    _touchEvents: any;
+export abstract class TNSCanvasBase extends View implements ITNSCanvasBase {
     public static readyEvent = 'ready';
+    _touchEvents: any;
+    _isCustom: boolean = false;
 
     constructor() {
         super();
         this._touchEvents = this._touchEventsFN.bind(this);
         this.on('touch, pan', this._touchEvents);
+        this._classList = new Set();
+
+        this.on('layoutChanged', (args) => {
+            if (this.parent) {
+                this.parent['clientWidth'] = (this.parent as any).getMeasuredWidth();
+                this.parent['clientHeight'] = (this.parent as any).getMeasuredHeight();
+            }
+        });
+    }
+
+    _classList: Set<any>;
+
+    get classList() {
+        return this._classList;
+    }
+
+    get _realSize(): { width: number; height: number } {
+        return {
+            width: this.getSize(this.style.width, this.getMeasuredWidth(), 'width'),
+            height: this.getSize(this.style.height, this.getMeasuredHeight(), 'height'),
+        };
     }
 
     _touchEventsFN(event: any) {
@@ -39,7 +66,10 @@ export abstract class TNSCanvasBase extends ContainerView implements ITNSCanvasB
                     break;
             }
         } else if (event.eventName === 'pan') {
-            if (event.state === GestureStateTypes.began || event.state === GestureStateTypes.changed) {
+            if (
+                event.state === GestureStateTypes.began ||
+                event.state === GestureStateTypes.changed
+            ) {
                 this._emitEvent('touchmove', event);
             }
         }
@@ -50,7 +80,6 @@ export abstract class TNSCanvasBase extends ContainerView implements ITNSCanvasB
         const scale = screen.mainScreen.scale;
         let activePointer = {};
         if (name === 'touchmove') {
-
             /* mouse */
             activePointer = {
                 clientX: event.deltaX * scale,
@@ -136,7 +165,7 @@ export abstract class TNSCanvasBase extends ContainerView implements ITNSCanvasB
             preventDefault: () => {
             },
             target,
-            ...activePointer
+            ...activePointer,
         };
     }
 
@@ -147,16 +176,74 @@ export abstract class TNSCanvasBase extends ContainerView implements ITNSCanvasB
     _readyEvent() {
         this.notify({
             eventName: 'ready',
-            object: this
+            object: this,
         });
     }
 
+    getAttribute(attrib) {
+        if (attrib === 'width') {
+            return this.width;
+        }
+        if (attrib === 'height') {
+            return this.height;
+        }
+        return this[attrib];
+    }
 
     public abstract getContext(type: string): TNSCanvasRenderingContext | null;
 
-    public abstract getContext(type: string, options: any): TNSCanvasRenderingContext | null;
+    public abstract getContext(
+        type: string,
+        options: any
+    ): TNSCanvasRenderingContext | null;
 
-    public abstract getBoundingClientRect(): { x: number, y: number, width: number, height: number, top: number, right: number, bottom: number, left: number };
+    public abstract getBoundingClientRect(): {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+    };
+
+    private getSize(value, measuredSize, type): number {
+        if (typeof value === 'string') {
+            value = PercentLength.parse(value);
+        }
+        if (typeof value === 'number') {
+            // treat as px
+            return value || 0;
+        } else if (
+            (value !== null || value !== undefined) &&
+            typeof value === 'object' &&
+            typeof value.value &&
+            typeof value.unit
+        ) {
+            if (value.unit === 'px') {
+                return value.value || 0;
+            } else if (value.unit === 'dip') {
+                return layout.toDevicePixels(value.value) || 0;
+            } else if (value.unit === '%') {
+                if (orientation() === 'portrait') {
+                    return type === 'width'
+                        ? screen.mainScreen.widthPixels
+                        : screen.mainScreen.heightPixels * value.value || 0;
+                } else if (orientation() === 'landscape') {
+                    return type === 'width'
+                        ? screen.mainScreen.widthPixels
+                        : screen.mainScreen.heightPixels * value.value || 0;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
 }
 
 class TouchList extends Array {
@@ -165,10 +252,9 @@ class TouchList extends Array {
     }
 }
 
-
 export class TNSTextEncoderBase {
-    private nativeInstance: any;
     public readonly encoding: string;
+    private nativeInstance: any;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -184,8 +270,8 @@ export class TNSTextEncoderBase {
 }
 
 export class TNSTextDecoderBase {
-    private nativeInstance: any;
     public readonly encoding: string;
+    private nativeInstance: any;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -200,7 +286,6 @@ export class TNSTextDecoderBase {
     }
 }
 
-
 export class TNSImageAssetBase {
     private nativeInstance: any;
 
@@ -213,7 +298,6 @@ export class TNSImageAssetBase {
     }
 }
 
-
 export enum TNSImageAssetSaveFormat {
     JPG,
     PNG,
@@ -225,10 +309,11 @@ export enum TNSImageAssetSaveFormat {
 export interface TNSCanvasRenderingContext {
 }
 
-export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRenderingContext {
+export abstract class TNSCanvasRenderingContext2DBase
+    implements TNSCanvasRenderingContext {
     lineWidth: number;
-    fillStyle: string | CanvasGradientBase;
-    strokeStyle: string | CanvasGradientBase;
+    fillStyle: string | CanvasGradientBase | CanvasPatternBase;
+    strokeStyle: string | CanvasGradientBase | CanvasPatternBase;
     lineCap: string;
     globalCompositeOperation: string;
     font: string;
@@ -254,6 +339,8 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     textAlign: string;
 
+    direction: string;
+
     _canvas: any;
     get canvas(): any {
         return this._canvas;
@@ -264,20 +351,44 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
         return this._type;
     }
 
-
     public abstract addHitRegion(region: any): void;
 
-    public abstract arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    public abstract arc(
+        x: number,
+        y: number,
+        radius: number,
+        startAngle: number,
+        endAngle: number,
+        anticlockwise: boolean
+    ): void;
 
-    public abstract arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
+    public abstract arcTo(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        radius: number
+    ): void;
 
     public abstract beginPath(): void;
 
-    public abstract bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
+    public abstract bezierCurveTo(
+        cp1x: number,
+        cp1y: number,
+        cp2x: number,
+        cp2y: number,
+        x: number,
+        y: number
+    ): void;
 
     public abstract clearHitRegions(): void;
 
-    public abstract clearRect(x: number, y: number, width: number, height: number): void;
+    public abstract clearRect(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
 
     public abstract clip(): void;
 
@@ -291,40 +402,107 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     public abstract createImageData(data: ImageDataBase): ImageDataBase;
 
-    public abstract createLinearGradient(x0: number, y0: number, x1: number, y1: number);
+    public abstract createLinearGradient(
+        x0: number,
+        y0: number,
+        x1: number,
+        y1: number
+    );
 
-    public abstract createPattern(image: any, repetition: string);
+    public abstract createPattern(
+        image: any,
+        repetition: string
+    ): CanvasPatternBase | null;
 
-    public abstract createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number);
+    public abstract createRadialGradient(
+        x0: number,
+        y0: number,
+        r0: number,
+        x1: number,
+        y1: number,
+        r1: number
+    );
 
     public abstract drawFocusIfNeeded(element): void;
     public abstract drawFocusIfNeeded(path, element): void;
 
     public abstract drawImage(image: any, dx: number, dy: number): void;
-    public abstract drawImage(image: any, dx: number, dy: number, dWidth: number, dHeight: number): void;
-    public abstract drawImage(image: any, sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: number): void;
+    public abstract drawImage(
+        image: any,
+        dx: number,
+        dy: number,
+        dWidth: number,
+        dHeight: number
+    ): void;
+    public abstract drawImage(
+        image: any,
+        sx: number,
+        sy: number,
+        sWidth: number,
+        sHeight: number,
+        dx: number,
+        dy: number,
+        dWidth: number,
+        dHeight: number
+    ): void;
 
-
-    public abstract ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    public abstract ellipse(
+        x: number,
+        y: number,
+        radiusX: number,
+        radiusY: number,
+        rotation: number,
+        startAngle: number,
+        endAngle: number,
+        anticlockwise: boolean
+    ): void;
 
     public abstract fill(): void;
     public abstract fill(fillRule?: string): void;
     public abstract fill(path: TNSPath2DBase, fillRule: string): void;
 
-    public abstract fillRect(x: number, y: number, width: number, height: number): void;
+    public abstract fillRect(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
 
-    public abstract fillText(text: string, x: number, y: number, maxWidth?: number): void;
+    public abstract fillText(
+        text: string,
+        x: number,
+        y: number,
+        maxWidth?: number
+    ): void;
 
-    public abstract getImageData(sx: number, sy: number, sw: number, sh: number): ImageDataBase;
+    public abstract getImageData(
+        sx: number,
+        sy: number,
+        sw: number,
+        sh: number
+    ): ImageDataBase;
 
     public abstract getLineDash(): number[];
 
-    public abstract isPointInPath(x: number, y: number, fillRule: string): boolean;
-    public abstract isPointInPath(path: TNSPath2DBase, x: number, y: number, fillRule: string): boolean;
+    public abstract isPointInPath(
+        x: number,
+        y: number,
+        fillRule: string
+    ): boolean;
+    public abstract isPointInPath(
+        path: TNSPath2DBase,
+        x: number,
+        y: number,
+        fillRule: string
+    ): boolean;
 
     public abstract isPointInStroke(x: number, y: number): boolean;
 
-    public abstract isPointInStroke(path: TNSPath2DBase, x: number, y: number): boolean;
+    public abstract isPointInStroke(
+        path: TNSPath2DBase,
+        x: number,
+        y: number
+    ): boolean;
 
     public abstract lineTo(x: number, y: number): void;
 
@@ -332,13 +510,35 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     public abstract moveTo(x: number, y: number): void;
 
-    public abstract putImageData(imageData: ImageDataBase, dx: number, dy: number): void;
+    public abstract putImageData(
+        imageData: ImageDataBase,
+        dx: number,
+        dy: number
+    ): void;
 
-    public abstract putImageData(imageData: ImageDataBase, dx: number, dy: number, dirtyX: number, dirtyY: number, dirtyWidth: number, dirtyHeight: number): void;
+    public abstract putImageData(
+        imageData: ImageDataBase,
+        dx: number,
+        dy: number,
+        dirtyX: number,
+        dirtyY: number,
+        dirtyWidth: number,
+        dirtyHeight: number
+    ): void;
 
-    public abstract quadraticCurveTo(cpx: number, cpy: number, x: number, y: number);
+    public abstract quadraticCurveTo(
+        cpx: number,
+        cpy: number,
+        x: number,
+        y: number
+    );
 
-    public abstract rect(x: number, y: number, width: number, height: number): void;
+    public abstract rect(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
 
     public abstract removeHitRegion(id: string): void;
 
@@ -358,23 +558,47 @@ export abstract class TNSCanvasRenderingContext2DBase implements TNSCanvasRender
 
     public abstract setLineDash(segments: number[]): void;
 
-    public abstract setTransform(a: number, b: number, c: number, d: number, e: number, f: number): void;
+    public abstract setTransform(
+        a: number,
+        b: number,
+        c: number,
+        d: number,
+        e: number,
+        f: number
+    ): void;
 
     public abstract stroke(): void;
 
     public abstract stroke(path: TNSPath2DBase): void;
 
-    public abstract strokeRect(x: number, y: number, width: number, height: number): void;
+    public abstract strokeRect(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
 
-    public abstract strokeText(text: string, x: number, y: number, maxWidth?: number): void;
+    public abstract strokeText(
+        text: string,
+        x: number,
+        y: number,
+        maxWidth?: number
+    ): void;
 
-    public abstract transform(a: number, b: number, c: number, d: number, e: number, f: number): void;
+    public abstract transform(
+        a: number,
+        b: number,
+        c: number,
+        d: number,
+        e: number,
+        f: number
+    ): void;
 
     public abstract translate(x: number, y: number): void;
 }
 
 export class WebGLProgram {
-
+    [Symbol.toStringTag] = 'WebGLProgram';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -388,11 +612,10 @@ export class WebGLProgram {
     public toString() {
         return '[object WebGLProgram]';
     }
-
-    [Symbol.toStringTag] = 'WebGLProgram';
 }
 
 export class WebGLShader {
+    [Symbol.toStringTag] = 'WebGLShader';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -406,11 +629,10 @@ export class WebGLShader {
     public toString() {
         return '[object WebGLShader]';
     }
-
-    [Symbol.toStringTag] = 'WebGLShader';
 }
 
 export class WebGLBuffer {
+    [Symbol.toStringTag] = 'WebGLBuffer';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -424,11 +646,10 @@ export class WebGLBuffer {
     public toString() {
         return '[object WebGLBuffer]';
     }
-
-    [Symbol.toStringTag] = 'WebGLBuffer';
 }
 
 export class WebGLFramebuffer {
+    [Symbol.toStringTag] = 'WebGLFramebuffer';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -442,11 +663,10 @@ export class WebGLFramebuffer {
     public toString() {
         return '[object WebGLFramebuffer]';
     }
-
-    [Symbol.toStringTag] = 'WebGLFramebuffer';
 }
 
 export class WebGLRenderbuffer {
+    [Symbol.toStringTag] = 'WebGLRenderbuffer';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -460,11 +680,10 @@ export class WebGLRenderbuffer {
     public toString() {
         return '[object WebGLRenderbuffer]';
     }
-
-    [Symbol.toStringTag] = 'WebGLRenderbuffer';
 }
 
 export class WebGLTexture {
+    [Symbol.toStringTag] = 'WebGLTexture';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -478,14 +697,13 @@ export class WebGLTexture {
     public toString() {
         return '[object WebGLTexture]';
     }
-
-    [Symbol.toStringTag] = 'WebGLTexture';
 }
 
 export class WebGLActiveInfo {
     readonly name: string;
     readonly size: number;
     readonly type: number;
+    [Symbol.toStringTag] = 'WebGLActiveInfo';
 
     constructor(name: string, size: number, type: number) {
         this.name = name;
@@ -496,15 +714,13 @@ export class WebGLActiveInfo {
     public toString() {
         return '[object WebGLActiveInfo]';
     }
-
-    [Symbol.toStringTag] = 'WebGLActiveInfo';
 }
 
 export class WebGLShaderPrecisionFormat {
     readonly rangeMin: number;
     readonly rangeMax: number;
     readonly precision: number;
-
+    [Symbol.toStringTag] = 'WebGLShaderPrecisionFormat';
 
     constructor(rangeMin: number, rangeMax: number, precision: number) {
         this.rangeMin = rangeMin;
@@ -515,11 +731,10 @@ export class WebGLShaderPrecisionFormat {
     public toString() {
         return '[object WebGLShaderPrecisionFormat]';
     }
-
-    [Symbol.toStringTag] = 'WebGLShaderPrecisionFormat';
 }
 
 export class WebGLUniformLocation {
+    [Symbol.toStringTag] = 'WebGLUniformLocation';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -533,324 +748,34 @@ export class WebGLUniformLocation {
     public toString() {
         return '[object WebGLUniformLocation]';
     }
-
-    [Symbol.toStringTag] = 'WebGLUniformLocation';
 }
 
-export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRenderingContext {
-
-    _native: any;
+export abstract class TNSWebGLRenderingContextBase
+    implements TNSCanvasRenderingContext {
+    readonly drawingBufferHeight: number;
+    readonly drawingBufferWidth: number;
 
     constructor(context) {
         this._native = context;
     }
 
+    _native: any;
+
     get native() {
         return this._native;
     }
 
-    toNativeArray(value: any[], type: string): any {
-        return [];
-    }
-
-    readonly drawingBufferHeight: number;
-
-    readonly drawingBufferWidth: number;
-
     _canvas: any;
+
     get canvas(): any {
         return this._canvas;
     }
 
     _type: string = 'none';
+
     get type() {
         return this._type;
     }
-
-    abstract activeTexture(texture: number): void;
-
-    abstract attachShader(program: WebGLProgram, shader: WebGLShader): void;
-
-    abstract bindAttribLocation(program: WebGLProgram, index: number, name: string): void;
-
-    abstract bindBuffer(target: number, buffer: WebGLBuffer): void;
-
-    abstract bindFramebuffer(target: number, framebuffer: WebGLFramebuffer): void;
-
-    abstract bindRenderbuffer(target: number, renderbuffer: WebGLRenderbuffer): void;
-
-    abstract bindTexture(target: number, texture: WebGLTexture): void;
-
-    abstract blendColor(red: number, green: number, blue: number, alpha: number): void;
-
-    abstract blendEquationSeparate(modeRGB: number, modeAlpha: number): void;
-
-    abstract blendEquation(mode: number): void;
-
-    abstract blendFuncSeparate(srcRGB: number, dstRGB: number, srcAlpha: number, dstAlpha: number): void;
-
-    abstract blendFunc(sfactor: number, dfactor: number): void;
-
-    abstract bufferData(target: number, size: number, usage: number): void;
-
-    abstract bufferData(target: number, srcData: ArrayBuffer | ArrayBufferView, usage: number): void;
-
-    abstract bufferSubData(target: number, offset: number, srcData: ArrayBuffer | ArrayBufferView): void;
-
-    abstract checkFramebufferStatus(target: number): number;
-
-    abstract clearColor(red: number, green: number, blue: number, alpha: number): void;
-
-    abstract clearDepth(depth: number): void;
-
-    abstract clearStencil(stencil: number): void;
-
-    abstract clear(mask: number): void;
-
-    abstract colorMask(red: boolean, green: boolean, blue: boolean, alpha: boolean): void;
-
-    abstract commit(): void;
-
-    abstract compileShader(shader: WebGLShader): void;
-
-    abstract compressedTexImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, pixels: ArrayBufferView): void;
-
-    abstract compressedTexSubImage2D(target: number, level: number, xoffset: number, yoffset: number, width: number, height: number, format: number, pixels: ArrayBufferView): void;
-
-    abstract copyTexImage2D(target: number, level: number, internalformat: number, x: number, y: number, width: number, height: number, border: number): void;
-
-    abstract copyTexSubImage2D(target: number, level: number, xoffset: number, yoffset: number, x: number, y: number, width: number, height: number): void;
-
-    abstract createBuffer(): WebGLBuffer;
-
-    abstract createFramebuffer(): WebGLFramebuffer;
-
-    abstract createProgram(): WebGLProgram;
-
-    abstract createRenderbuffer(): WebGLRenderbuffer;
-
-    abstract createShader(type: number): WebGLShader;
-
-    abstract createTexture(): WebGLTexture;
-
-    abstract cullFace(mode: number): void;
-
-    abstract deleteBuffer(buffer: WebGLBuffer): void;
-
-    abstract deleteFramebuffer(frameBuffer: WebGLFramebuffer): void;
-
-    abstract deleteProgram(program: WebGLProgram): void;
-
-    abstract deleteRenderbuffer(renderBuffer: WebGLRenderbuffer): void;
-
-    abstract deleteShader(shader: WebGLRenderbuffer): void;
-
-    abstract deleteTexture(texture: WebGLTexture): void;
-
-    abstract depthFunc(func: number): void;
-
-    abstract depthMask(flag: boolean): void;
-
-    abstract depthRange(zNear: number, zFar: number): void;
-
-    abstract detachShader(program: WebGLProgram, shader: WebGLShader): void;
-
-    abstract disableVertexAttribArray(index: number): void;
-
-    abstract disable(cap: number): void;
-
-    abstract drawArrays(mode: number, first: number, count: number): void;
-
-    abstract drawElements(mode: number, count: number, type: number, offset: number): void;
-
-    abstract enableVertexAttribArray(index: number): void;
-
-    abstract enable(cap: number): void;
-
-    abstract finish(): void;
-
-    abstract flush(): void;
-
-    abstract framebufferRenderbuffer(target: number, attachment: number, renderbuffertarget: number, renderbuffer: WebGLRenderbuffer): void;
-
-    abstract framebufferTexture2D(target: number, attachment: number, textarget: number, texture: WebGLTexture, level: number): void;
-
-    abstract frontFace(mode: number): void;
-
-    abstract generateMipmap(target: number): void;
-
-    abstract getActiveAttrib(program: WebGLProgram, index: number): WebGLActiveInfo;
-
-    abstract getActiveUniform(program: WebGLProgram, index: number): WebGLActiveInfo;
-
-    abstract getAttachedShaders(program: WebGLProgram): WebGLShader[];
-
-    abstract getAttribLocation(program: WebGLProgram, name: string): number;
-
-    abstract getBufferParameter(target: number, pname: number): number;
-
-    // getCanvas(): Canvas;
-
-    abstract getContextAttributes(): any;
-
-    abstract getError(): number;
-
-    abstract getExtension(name: string): any;
-
-    abstract getFramebufferAttachmentParameter(target: number, attachment: number, pname: number): WebGLRenderbuffer | WebGLTexture | number;
-
-    abstract getParameter(pname: number): any;
-
-    abstract getProgramInfoLog(program: WebGLProgram): string;
-
-    abstract getProgramParameter(program: WebGLProgram, pname: number): any;
-
-    abstract getRenderbufferParameter(target: number, pname: number): number;
-
-    abstract getShaderInfoLog(shader: WebGLShader): string;
-
-    abstract getShaderParameter(shader: WebGLShader, pname: number): any;
-
-    abstract getShaderPrecisionFormat(shaderType: number, precisionType: number): WebGLShaderPrecisionFormat | null;
-
-    abstract getShaderSource(shader: WebGLShader): string;
-
-    abstract getSupportedExtensions(): string[];
-
-    abstract getTexParameter(target: number, pname: number): number;
-
-    abstract getUniformLocation(program: WebGLProgram, name: string): WebGLUniformLocation;
-
-    abstract getUniform(program: WebGLProgram, location: WebGLUniformLocation): number;
-
-    abstract getVertexAttribOffset(index: number, pname: number): void;
-
-    abstract getVertexAttrib(index: number, pname: number): any;
-
-    abstract hint(target: number, mode: number): void;
-
-    abstract isBuffer(buffer: WebGLBuffer): boolean;
-
-    abstract isContextLost(): boolean;
-
-    abstract isEnabled(cap: number): boolean;
-
-    abstract isFramebuffer(framebuffer: WebGLFramebuffer): boolean;
-
-    abstract isProgram(program: WebGLProgram): boolean;
-
-    abstract isRenderbuffer(renderbuffer: WebGLRenderbuffer): boolean;
-
-    abstract isShader(shader: WebGLShader): boolean;
-
-    abstract isTexture(texture: WebGLTexture): boolean;
-
-    abstract lineWidth(width: number): void;
-
-    abstract linkProgram(program: WebGLProgram): void;
-
-    abstract pixelStorei(pname: number, param: any): void;
-
-    abstract polygonOffset(factor: number, units: number): void;
-
-    abstract readPixels(x: number, y: number, width: number, height: number, format: number, type: number, pixels: ArrayBufferView): void;
-
-    abstract renderbufferStorage(target: number, internalFormat: number, width: number, height: number): void;
-
-    abstract sampleCoverage(value: number, invert: boolean): void;
-
-    abstract scissor(x: number, y: number, width: number, height: number): void;
-
-    abstract shaderSource(shader: WebGLShader, source: string): void;
-
-    abstract stencilFuncSeparate(face: number, func: number, ref: number, mask: number): void;
-
-    abstract stencilFunc(func: number, ref: number, mask: number): void;
-
-    abstract stencilMaskSeparate(face: number, mask: number): void;
-
-    abstract stencilMask(mask: number): void;
-
-    abstract stencilOpSeparate(face: number, fail: number, zfail: number, zpass: number): void;
-
-    abstract stencilOp(fail: number, zfail: number, zpass: number): void;
-
-    abstract texImage2D(target: number, level: number, internalformat: number, format: number, type: number, pixels: any): void;
-
-    abstract texImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, format: number, type: number, pixels: ArrayBufferView): void;
-
-    abstract texParameterf(target: number, pname: number, param: number): void;
-
-    abstract texParameteri(target: number, pname: number, param: number): void;
-
-    abstract texSubImage2D(target: number, level: number, xoffset: number, yoffset: number, width: number, height: number, format: number, type: number, pixels: ArrayBufferView): void;
-
-    abstract texSubImage2D(target: number, level: number, xoffset: number, yoffset: number, format: number, type: number, pixels: any): void;
-
-    abstract uniform1f(location: WebGLUniformLocation, v0: number): void;
-
-    abstract uniform1iv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform1fv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform1i(location: WebGLUniformLocation, v0: number): void;
-
-    abstract uniform2f(location: WebGLUniformLocation, v0: number, v1: number): void;
-
-    abstract uniform2iv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform2fv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform2i(location: WebGLUniformLocation, v0: number, v1: number): void;
-
-    abstract uniform3f(location: WebGLUniformLocation, v0: number, v1: number, v2: number): void;
-
-    abstract uniform3iv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform3fv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform3i(location: WebGLUniformLocation, v0: number, v1: number, v2: number): void;
-
-    abstract uniform4f(location: WebGLUniformLocation, v0: number, v1: number, v2: number, v3: number): void;
-
-    abstract uniform4iv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform4fv(location: WebGLUniformLocation, value: number[]): void;
-
-    abstract uniform4i(location: WebGLUniformLocation, v0: number, v1: number, v2: number, v3: number): void;
-
-    abstract uniformMatrix2fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
-
-    abstract uniformMatrix3fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
-
-    abstract uniformMatrix4fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
-
-    abstract useProgram(program: WebGLProgram): void;
-
-    abstract validateProgram(program: WebGLProgram): void;
-
-    abstract vertexAttrib1f(index: number, v0: number): void;
-
-    abstract vertexAttrib1fv(index: number, value: number[]): void;
-
-    abstract vertexAttrib2f(index: number, v0: number, v1: number): void;
-
-    abstract vertexAttrib2fv(index: number, value: number[]): void;
-
-    abstract vertexAttrib3f(index: number, v0: number, v1: number, v2: number): void;
-
-    abstract vertexAttrib3fv(index: number, value: number[]): void;
-
-    abstract vertexAttrib4f(index: number, v0: number, v1: number, v2: number, v3: number): void;
-
-    abstract vertexAttrib4fv(index: number, value: number[]): void;
-
-    abstract vertexAttribPointer(index: number, size: number, type: number, normalized: boolean, stride: number, offset: number): void;
-
-    abstract viewport(x: number, y: number, width: number, height: number): void;
-
-
-    /* Clearing buffers */
 
     public get DEPTH_BUFFER_BIT(): number {
         return this.native.DEPTH_BUFFER_BIT;
@@ -863,10 +788,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get STENCIL_BUFFER_BIT(): number {
         return this.native.STENCIL_BUFFER_BIT;
     }
-
-    /* Clearing buffers */
-
-    /* Rendering primitives */
 
     public get POINTS(): number {
         return this.native.POINTS;
@@ -895,11 +816,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get TRIANGLE_FAN(): number {
         return this.native.TRIANGLE_FAN;
     }
-
-    /* Rendering primitives */
-
-    /* Blending modes */
-
 
     public get ONE(): number {
         return this.native.ONE;
@@ -961,8 +877,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.ONE_MINUS_CONSTANT_ALPHA;
     }
 
-    /* Blending modes */
-
     /* Blending equations */
     public get FUNC_ADD(): number {
         return this.native.FUNC_ADD;
@@ -975,11 +889,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get FUNC_REVERSE_SUBTRACT(): number {
         return this.native.FUNC_REVERSE_SUBTRACT;
     }
-
-    /* Blending equations */
-
-
-    /* Getting GL parameter information */
 
     public get BLEND_EQUATION(): number {
         return this.native.BLEND_EQUATION;
@@ -1117,6 +1026,8 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.STENCIL_BACK_WRITEMASK;
     }
 
+    // getCanvas(): Canvas;
+
     public get VIEWPORT(): number {
         return this.native.VIEWPORT;
     }
@@ -1233,10 +1144,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.BROWSER_DEFAULT_WEBGL;
     }
 
-    /* Getting GL parameter information */
-
-    /* Buffers */
-
     public get STATIC_DRAW(): number {
         return this.native.STATIC_DRAW;
     }
@@ -1264,10 +1171,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get BUFFER_USAGE(): number {
         return this.native.BUFFER_USAGE;
     }
-
-    /* Buffers */
-
-    /* Vertex attributes */
 
     public get CURRENT_VERTEX_ATTRIB(): number {
         return this.native.CURRENT_VERTEX_ATTRIB;
@@ -1301,10 +1204,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING;
     }
 
-    /* Vertex attributes */
-
-    /* Culling */
-
     public get CULL_FACE(): number {
         return this.native.CULL_FACE;
     }
@@ -1320,10 +1219,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get FRONT_AND_BACK(): number {
         return this.native.FRONT_AND_BACK;
     }
-
-    /* Culling */
-
-    /* Enabling and disabling */
 
     public get BLEND(): number {
         return this.native.BLEND;
@@ -1357,8 +1252,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.STENCIL_TEST;
     }
 
-    /* Enabling and disabling */
-
     /* Errors */
     public get NO_ERROR(): number {
         return this.native.NO_ERROR;
@@ -1388,10 +1281,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.CONTEXT_LOST_WEBGL;
     }
 
-    /* Errors */
-
-    /* Front face directions */
-
     public get CW(): number {
         return this.native.CW;
     }
@@ -1399,11 +1288,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get CCW(): number {
         return this.native.CCW;
     }
-
-    /* Front face directions */
-
-
-    /* Hints */
 
     public get DONT_CARE(): number {
         return this.native.DONT_CARE;
@@ -1420,11 +1304,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get GENERATE_MIPMAP_HINT(): number {
         return this.native.GENERATE_MIPMAP_HINT;
     }
-
-    /* Hints */
-
-
-    /* Data types */
 
     public get BYTE(): number {
         return this.native.BYTE;
@@ -1454,11 +1333,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.FLOAT;
     }
 
-    /* Data types */
-
-
-    /* Pixel formats */
-
     public get DEPTH_COMPONENT(): number {
         return this.native.DEPTH_COMPONENT;
     }
@@ -1470,6 +1344,8 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get RGB(): number {
         return this.native.RGB;
     }
+
+    /* Clearing buffers */
 
     public get RGBA(): number {
         return this.native.RGBA;
@@ -1483,11 +1359,9 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.LUMINANCE_ALPHA;
     }
 
-    /* Pixel formats */
+    /* Clearing buffers */
 
-    /* Pixel types */
-
-    // public get UNSIGNED_BYTE(): number { return this.native.UNSIGNED_BYTE }
+    /* Rendering primitives */
 
     public get UNSIGNED_SHORT_4_4_4_4(): number {
         return this.native.UNSIGNED_SHORT_4_4_4_4;
@@ -1500,10 +1374,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get UNSIGNED_SHORT_5_6_5(): number {
         return this.native.UNSIGNED_SHORT_5_6_5;
     }
-
-    /* Pixel types */
-
-    /* Shaders */
 
     public get FRAGMENT_SHADER(): number {
         return this.native.FRAGMENT_SHADER;
@@ -1520,6 +1390,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get DELETE_STATUS(): number {
         return this.native.DELETE_STATUS;
     }
+
+    /* Rendering primitives */
+
+    /* Blending modes */
 
     public get LINK_STATUS(): number {
         return this.native.LINK_STATUS;
@@ -1581,9 +1455,7 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.CURRENT_PROGRAM;
     }
 
-    /* Shaders */
-
-    /* Depth or stencil tests */
+    /* Blending modes */
 
     public get NEVER(): number {
         return this.native.NEVER;
@@ -1596,6 +1468,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get EQUAL(): number {
         return this.native.EQUAL;
     }
+
+    /* Blending equations */
+
+    /* Getting GL parameter information */
 
     public get LEQUAL(): number {
         return this.native.LEQUAL;
@@ -1616,10 +1492,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get ALWAYS(): number {
         return this.native.ALWAYS;
     }
-
-    /* Depth or stencil tests */
-
-    /* Stencil actions */
 
     public get KEEP(): number {
         return this.native.KEEP;
@@ -1648,10 +1520,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get DECR_WRAP(): number {
         return this.native.DECR_WRAP;
     }
-
-    /* Stencil actions */
-
-    /* Textures */
 
     public get NEAREST(): number {
         return this.native.NEAREST;
@@ -1857,6 +1725,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.TEXTURE29;
     }
 
+    /* Getting GL parameter information */
+
+    /* Buffers */
+
     public get TEXTURE30(): number {
         return this.native.TEXTURE30;
     }
@@ -1881,14 +1753,13 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.MIRRORED_REPEAT;
     }
 
-    /* Textures */
-
-
-    /* Uniform types */
-
     public get FLOAT_VEC2(): number {
         return this.native.FLOAT_VEC2;
     }
+
+    /* Buffers */
+
+    /* Vertex attributes */
 
     public get FLOAT_VEC3(): number {
         return this.native.FLOAT_VEC3;
@@ -1910,11 +1781,9 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.INT_VEC4;
     }
 
-
     public get BOOL(): number {
         return this.native.BOOL;
     }
-
 
     public get BOOL_VEC2(): number {
         return this.native.BOOL_VEC2;
@@ -1924,24 +1793,29 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.BOOL_VEC3;
     }
 
+    /* Vertex attributes */
+
+    /* Culling */
+
     public get BOOL_VEC4(): number {
         return this.native.BOOL_VEC4;
     }
-
 
     public get FLOAT_MAT2(): number {
         return this.native.FLOAT_MAT2;
     }
 
-
     public get FLOAT_MAT3(): number {
         return this.native.FLOAT_MAT3;
     }
 
-
     public get FLOAT_MAT4(): number {
         return this.native.FLOAT_MAT4;
     }
+
+    /* Culling */
+
+    /* Enabling and disabling */
 
     public get SAMPLER_2D(): number {
         return this.native.SAMPLER_2D;
@@ -1950,10 +1824,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get SAMPLER_CUBE(): number {
         return this.native.SAMPLER_CUBE;
     }
-
-    /* Uniform types */
-
-    /* Shader precision-specified types */
 
     public get LOW_FLOAT(): number {
         return this.native.LOW_FLOAT;
@@ -1979,10 +1849,7 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.HIGH_INT;
     }
 
-    /* Shader precision-specified types */
-
-
-    /* Framebuffers and renderbuffers */
+    /* Enabling and disabling */
 
     public get FRAMEBUFFER(): number {
         return this.native.FRAMEBUFFER;
@@ -2012,6 +1879,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.STENCIL_INDEX8;
     }
 
+    /* Errors */
+
+    /* Front face directions */
+
     public get DEPTH_STENCIL(): number {
         return this.native.DEPTH_STENCIL;
     }
@@ -2019,6 +1890,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get RENDERBUFFER_WIDTH(): number {
         return this.native.RENDERBUFFER_WIDTH;
     }
+
+    /* Front face directions */
+
+    /* Hints */
 
     public get RENDERBUFFER_HEIGHT(): number {
         return this.native.RENDERBUFFER_HEIGHT;
@@ -2035,6 +1910,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get RENDERBUFFER_GREEN_SIZE(): number {
         return this.native.RENDERBUFFER_GREEN_SIZE;
     }
+
+    /* Hints */
+
+    /* Data types */
 
     public get RENDERBUFFER_BLUE_SIZE(): number {
         return this.native.RENDERBUFFER_BLUE_SIZE;
@@ -2064,6 +1943,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL;
     }
 
+    /* Data types */
+
+    /* Pixel formats */
+
     public get FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE(): number {
         return this.native.FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE;
     }
@@ -2088,6 +1971,12 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.NONE;
     }
 
+    /* Pixel formats */
+
+    /* Pixel types */
+
+    // public get UNSIGNED_BYTE(): number { return this.native.UNSIGNED_BYTE }
+
     public get FRAMEBUFFER_COMPLETE(): number {
         return this.native.FRAMEBUFFER_COMPLETE;
     }
@@ -2099,6 +1988,10 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
     public get FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT(): number {
         return this.native.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
     }
+
+    /* Pixel types */
+
+    /* Shaders */
 
     public get FRAMEBUFFER_INCOMPLETE_DIMENSIONS(): number {
         return this.native.FRAMEBUFFER_INCOMPLETE_DIMENSIONS;
@@ -2120,12 +2013,6 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.MAX_RENDERBUFFER_SIZE;
     }
 
-    // public get INVALID_FRAMEBUFFER_OPERATION(): number { return this.native.INVALID_FRAMEBUFFER_OPERATION }
-
-    /* Framebuffers and renderbuffers */
-
-    /* Pixel storage modes */
-
     public get UNPACK_COLORSPACE_CONVERSION_WEBGL(): number {
         return this.native.UNPACK_COLORSPACE_CONVERSION_WEBGL;
     }
@@ -2138,18 +2025,561 @@ export abstract class TNSWebGLRenderingContextBase implements TNSCanvasRendering
         return this.native.UNPACK_PREMULTIPLY_ALPHA_WEBGL;
     }
 
+    toNativeArray(value: any[], type: string): any {
+        return [];
+    }
+
+    abstract activeTexture(texture: number): void;
+
+    abstract attachShader(program: WebGLProgram, shader: WebGLShader): void;
+
+    abstract bindAttribLocation(
+        program: WebGLProgram,
+        index: number,
+        name: string
+    ): void;
+
+    abstract bindBuffer(target: number, buffer: WebGLBuffer): void;
+
+    abstract bindFramebuffer(target: number, framebuffer: WebGLFramebuffer): void;
+
+    abstract bindRenderbuffer(
+        target: number,
+        renderbuffer: WebGLRenderbuffer
+    ): void;
+
+    abstract bindTexture(target: number, texture: WebGLTexture): void;
+
+    abstract blendColor(
+        red: number,
+        green: number,
+        blue: number,
+        alpha: number
+    ): void;
+
+    abstract blendEquationSeparate(modeRGB: number, modeAlpha: number): void;
+
+    abstract blendEquation(mode: number): void;
+
+    /* Shaders */
+
+    /* Depth or stencil tests */
+
+    abstract blendFuncSeparate(
+        srcRGB: number,
+        dstRGB: number,
+        srcAlpha: number,
+        dstAlpha: number
+    ): void;
+
+    abstract blendFunc(sfactor: number, dfactor: number): void;
+
+    abstract bufferData(target: number, size: number, usage: number): void;
+
+    abstract bufferData(
+        target: number,
+        srcData: ArrayBuffer | ArrayBufferView,
+        usage: number
+    ): void;
+
+    abstract bufferSubData(
+        target: number,
+        offset: number,
+        srcData: ArrayBuffer | ArrayBufferView
+    ): void;
+
+    abstract checkFramebufferStatus(target: number): number;
+
+    abstract clearColor(
+        red: number,
+        green: number,
+        blue: number,
+        alpha: number
+    ): void;
+
+    abstract clearDepth(depth: number): void;
+
+    /* Depth or stencil tests */
+
+    /* Stencil actions */
+
+    abstract clearStencil(stencil: number): void;
+
+    abstract clear(mask: number): void;
+
+    abstract colorMask(
+        red: boolean,
+        green: boolean,
+        blue: boolean,
+        alpha: boolean
+    ): void;
+
+    abstract commit(): void;
+
+    abstract compileShader(shader: WebGLShader): void;
+
+    abstract compressedTexImage2D(
+        target: number,
+        level: number,
+        internalformat: number,
+        width: number,
+        height: number,
+        border: number,
+        pixels: ArrayBufferView
+    ): void;
+
+    abstract compressedTexSubImage2D(
+        target: number,
+        level: number,
+        xoffset: number,
+        yoffset: number,
+        width: number,
+        height: number,
+        format: number,
+        pixels: ArrayBufferView
+    ): void;
+
+    /* Stencil actions */
+
+    /* Textures */
+
+    abstract copyTexImage2D(
+        target: number,
+        level: number,
+        internalformat: number,
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        border: number
+    ): void;
+
+    abstract copyTexSubImage2D(
+        target: number,
+        level: number,
+        xoffset: number,
+        yoffset: number,
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
+
+    abstract createBuffer(): WebGLBuffer;
+
+    abstract createFramebuffer(): WebGLFramebuffer;
+
+    abstract createProgram(): WebGLProgram;
+
+    abstract createRenderbuffer(): WebGLRenderbuffer;
+
+    abstract createShader(type: number): WebGLShader;
+
+    abstract createTexture(): WebGLTexture;
+
+    abstract cullFace(mode: number): void;
+
+    abstract deleteBuffer(buffer: WebGLBuffer): void;
+
+    abstract deleteFramebuffer(frameBuffer: WebGLFramebuffer): void;
+
+    abstract deleteProgram(program: WebGLProgram): void;
+
+    abstract deleteRenderbuffer(renderBuffer: WebGLRenderbuffer): void;
+
+    abstract deleteShader(shader: WebGLRenderbuffer): void;
+
+    abstract deleteTexture(texture: WebGLTexture): void;
+
+    abstract depthFunc(func: number): void;
+
+    abstract depthMask(flag: boolean): void;
+
+    abstract depthRange(zNear: number, zFar: number): void;
+
+    abstract detachShader(program: WebGLProgram, shader: WebGLShader): void;
+
+    abstract disableVertexAttribArray(index: number): void;
+
+    abstract disable(cap: number): void;
+
+    abstract drawArrays(mode: number, first: number, count: number): void;
+
+    abstract drawElements(
+        mode: number,
+        count: number,
+        type: number,
+        offset: number
+    ): void;
+
+    abstract enableVertexAttribArray(index: number): void;
+
+    abstract enable(cap: number): void;
+
+    abstract finish(): void;
+
+    abstract flush(): void;
+
+    abstract framebufferRenderbuffer(
+        target: number,
+        attachment: number,
+        renderbuffertarget: number,
+        renderbuffer: WebGLRenderbuffer
+    ): void;
+
+    abstract framebufferTexture2D(
+        target: number,
+        attachment: number,
+        textarget: number,
+        texture: WebGLTexture,
+        level: number
+    ): void;
+
+    abstract frontFace(mode: number): void;
+
+    abstract generateMipmap(target: number): void;
+
+    abstract getActiveAttrib(
+        program: WebGLProgram,
+        index: number
+    ): WebGLActiveInfo;
+
+    abstract getActiveUniform(
+        program: WebGLProgram,
+        index: number
+    ): WebGLActiveInfo;
+
+    abstract getAttachedShaders(program: WebGLProgram): WebGLShader[];
+
+    abstract getAttribLocation(program: WebGLProgram, name: string): number;
+
+    abstract getBufferParameter(target: number, pname: number): number;
+
+    abstract getContextAttributes(): any;
+
+    abstract getError(): number;
+
+    abstract getExtension(name: string): any;
+
+    abstract getFramebufferAttachmentParameter(
+        target: number,
+        attachment: number,
+        pname: number
+    ): WebGLRenderbuffer | WebGLTexture | number;
+
+    abstract getParameter(pname: number): any;
+
+    abstract getProgramInfoLog(program: WebGLProgram): string;
+
+    abstract getProgramParameter(program: WebGLProgram, pname: number): any;
+
+    abstract getRenderbufferParameter(target: number, pname: number): number;
+
+    abstract getShaderInfoLog(shader: WebGLShader): string;
+
+    abstract getShaderParameter(shader: WebGLShader, pname: number): any;
+
+    abstract getShaderPrecisionFormat(
+        shaderType: number,
+        precisionType: number
+    ): WebGLShaderPrecisionFormat | null;
+
+    abstract getShaderSource(shader: WebGLShader): string;
+
+    abstract getSupportedExtensions(): string[];
+
+    abstract getTexParameter(target: number, pname: number): number;
+
+    abstract getUniformLocation(
+        program: WebGLProgram,
+        name: string
+    ): WebGLUniformLocation;
+
+    abstract getUniform(
+        program: WebGLProgram,
+        location: WebGLUniformLocation
+    ): number;
+
+    abstract getVertexAttribOffset(index: number, pname: number): void;
+
+    abstract getVertexAttrib(index: number, pname: number): any;
+
+    abstract hint(target: number, mode: number): void;
+
+    abstract isBuffer(buffer: WebGLBuffer): boolean;
+
+    abstract isContextLost(): boolean;
+
+    /* Textures */
+
+    /* Uniform types */
+
+    abstract isEnabled(cap: number): boolean;
+
+    abstract isFramebuffer(framebuffer: WebGLFramebuffer): boolean;
+
+    abstract isProgram(program: WebGLProgram): boolean;
+
+    abstract isRenderbuffer(renderbuffer: WebGLRenderbuffer): boolean;
+
+    abstract isShader(shader: WebGLShader): boolean;
+
+    abstract isTexture(texture: WebGLTexture): boolean;
+
+    abstract lineWidth(width: number): void;
+
+    abstract linkProgram(program: WebGLProgram): void;
+
+    abstract pixelStorei(pname: number, param: any): void;
+
+    abstract polygonOffset(factor: number, units: number): void;
+
+    abstract readPixels(
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        format: number,
+        type: number,
+        pixels: ArrayBufferView
+    ): void;
+
+    abstract renderbufferStorage(
+        target: number,
+        internalFormat: number,
+        width: number,
+        height: number
+    ): void;
+
+    abstract sampleCoverage(value: number, invert: boolean): void;
+
+    abstract scissor(x: number, y: number, width: number, height: number): void;
+
+    abstract shaderSource(shader: WebGLShader, source: string): void;
+
+    /* Uniform types */
+
+    /* Shader precision-specified types */
+
+    abstract stencilFuncSeparate(
+        face: number,
+        func: number,
+        ref: number,
+        mask: number
+    ): void;
+
+    abstract stencilFunc(func: number, ref: number, mask: number): void;
+
+    abstract stencilMaskSeparate(face: number, mask: number): void;
+
+    abstract stencilMask(mask: number): void;
+
+    abstract stencilOpSeparate(
+        face: number,
+        fail: number,
+        zfail: number,
+        zpass: number
+    ): void;
+
+    abstract stencilOp(fail: number, zfail: number, zpass: number): void;
+
+    /* Shader precision-specified types */
+
+    /* Framebuffers and renderbuffers */
+
+    abstract texImage2D(
+        target: number,
+        level: number,
+        internalformat: number,
+        format: number,
+        type: number,
+        pixels: any
+    ): void;
+
+    abstract texImage2D(
+        target: number,
+        level: number,
+        internalformat: number,
+        width: number,
+        height: number,
+        border: number,
+        format: number,
+        type: number,
+        pixels: ArrayBufferView
+    ): void;
+
+    abstract texParameterf(target: number, pname: number, param: number): void;
+
+    abstract texParameteri(target: number, pname: number, param: number): void;
+
+    abstract texSubImage2D(
+        target: number,
+        level: number,
+        xoffset: number,
+        yoffset: number,
+        width: number,
+        height: number,
+        format: number,
+        type: number,
+        pixels: ArrayBufferView
+    ): void;
+
+    abstract texSubImage2D(
+        target: number,
+        level: number,
+        xoffset: number,
+        yoffset: number,
+        format: number,
+        type: number,
+        pixels: any
+    ): void;
+
+    abstract uniform1f(location: WebGLUniformLocation, v0: number): void;
+
+    abstract uniform1iv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform1fv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform1i(location: WebGLUniformLocation, v0: number): void;
+
+    abstract uniform2f(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number
+    ): void;
+
+    abstract uniform2iv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform2fv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform2i(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number
+    ): void;
+
+    abstract uniform3f(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number,
+        v2: number
+    ): void;
+
+    abstract uniform3iv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform3fv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform3i(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number,
+        v2: number
+    ): void;
+
+    abstract uniform4f(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number,
+        v2: number,
+        v3: number
+    ): void;
+
+    abstract uniform4iv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform4fv(location: WebGLUniformLocation, value: number[]): void;
+
+    abstract uniform4i(
+        location: WebGLUniformLocation,
+        v0: number,
+        v1: number,
+        v2: number,
+        v3: number
+    ): void;
+
+    abstract uniformMatrix2fv(
+        location: WebGLUniformLocation,
+        transpose: boolean,
+        value: number[]
+    ): void;
+
+    abstract uniformMatrix3fv(
+        location: WebGLUniformLocation,
+        transpose: boolean,
+        value: number[]
+    ): void;
+
+    abstract uniformMatrix4fv(
+        location: WebGLUniformLocation,
+        transpose: boolean,
+        value: number[]
+    ): void;
+
+    abstract useProgram(program: WebGLProgram): void;
+
+    abstract validateProgram(program: WebGLProgram): void;
+
+    abstract vertexAttrib1f(index: number, v0: number): void;
+
+    abstract vertexAttrib1fv(index: number, value: number[]): void;
+
+    abstract vertexAttrib2f(index: number, v0: number, v1: number): void;
+
+    abstract vertexAttrib2fv(index: number, value: number[]): void;
+
+    abstract vertexAttrib3f(
+        index: number,
+        v0: number,
+        v1: number,
+        v2: number
+    ): void;
+
+    abstract vertexAttrib3fv(index: number, value: number[]): void;
+
+    abstract vertexAttrib4f(
+        index: number,
+        v0: number,
+        v1: number,
+        v2: number,
+        v3: number
+    ): void;
+
+    // public get INVALID_FRAMEBUFFER_OPERATION(): number { return this.native.INVALID_FRAMEBUFFER_OPERATION }
+
+    /* Framebuffers and renderbuffers */
+
+    /* Pixel storage modes */
+
+    abstract vertexAttrib4fv(index: number, value: number[]): void;
+
+    abstract vertexAttribPointer(
+        index: number,
+        size: number,
+        type: number,
+        normalized: boolean,
+        stride: number,
+        offset: number
+    ): void;
+
+    abstract viewport(x: number, y: number, width: number, height: number): void;
+
     /* Pixel storage modes */
 }
 
 export abstract class TNSPath2DBase {
-
     protected nativeInstance: any;
 
     constructor(instance: any) {
         this.nativeInstance = instance;
     }
 
-    public abstract addPath(path: TNSPath2DBase, transform?: TNSDOMMatrixBase): void;
+    get native() {
+        return this.nativeInstance;
+    }
+
+    public abstract addPath(
+        path: TNSPath2DBase,
+        transform?: TNSDOMMatrixBase
+    ): void;
 
     public abstract closePath(): void;
 
@@ -2157,41 +2587,70 @@ export abstract class TNSPath2DBase {
 
     public abstract lineTo(x: number, y: number): void;
 
-    public abstract bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
+    public abstract bezierCurveTo(
+        cp1x: number,
+        cp1y: number,
+        cp2x: number,
+        cp2y: number,
+        x: number,
+        y: number
+    ): void;
 
-    public abstract quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void;
+    public abstract quadraticCurveTo(
+        cpx: number,
+        cpy: number,
+        x: number,
+        y: number
+    ): void;
 
-    public abstract arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    public abstract arc(
+        x: number,
+        y: number,
+        radius: number,
+        startAngle: number,
+        endAngle: number,
+        anticlockwise: boolean
+    ): void;
 
-    public abstract arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
+    public abstract arcTo(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        radius: number
+    ): void;
 
-    public abstract ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    public abstract ellipse(
+        x: number,
+        y: number,
+        radiusX: number,
+        radiusY: number,
+        rotation: number,
+        startAngle: number,
+        endAngle: number,
+        anticlockwise: boolean
+    ): void;
 
-    public abstract rect(x: number, y: number, width: number, height: number): void;
-
-    get native() {
-        return this.nativeInstance;
-    }
+    public abstract rect(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void;
 }
 
 export abstract class TNSDOMMatrixBase {
+    a: number;
+    b: number;
+    c: number;
+    d: number;
+    e: number;
+    f: number;
     protected nativeInstance: any;
 
     constructor(nativeInstance: any) {
         this.nativeInstance = nativeInstance;
     }
-
-    a: number;
-
-    b: number;
-
-    c: number;
-
-    d: number;
-
-    e: number;
-
-    f: number;
 
     get native() {
         return this.nativeInstance;
@@ -2199,29 +2658,36 @@ export abstract class TNSDOMMatrixBase {
 }
 
 export class ImageDataBase {
+    width = 0;
+    height = 0;
+    data = null;
     protected nativeInstance: any;
 
     constructor(nativeInstance: any) {
         this.nativeInstance = nativeInstance;
     }
 
-    width = 0;
-
-    height = 0;
-
-    data = null;
-
     get native() {
         return this.nativeInstance;
     }
-
 }
 
 export abstract class CanvasGradientBase {
     public abstract addColorStop(offset: number, color: any): void;
 }
 
-export abstract class CanvasPattern {
+export abstract class CanvasPatternBase {
+    protected nativeInstance: any;
+
+    constructor(nativeInstance: any) {
+        this.nativeInstance = nativeInstance;
+    }
+
+    get native() {
+        return this.nativeInstance;
+    }
+
+    public abstract setTransform(matrix: TNSDOMMatrixBase);
 }
 
 export class TextMetricsBase {
@@ -2236,8 +2702,8 @@ export class TextMetricsBase {
     }
 }
 
-
 export class WebGLQuery {
+    [Symbol.toStringTag] = 'WebGLQuery';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -2251,12 +2717,10 @@ export class WebGLQuery {
     public toString() {
         return '[object WebGLQuery]';
     }
-
-    [Symbol.toStringTag] = 'WebGLQuery';
 }
 
-
 export class WebGLSampler {
+    [Symbol.toStringTag] = 'WebGLSampler';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -2270,11 +2734,10 @@ export class WebGLSampler {
     public toString() {
         return '[object WebGLSampler]';
     }
-
-    [Symbol.toStringTag] = 'WebGLSampler';
 }
 
 export class WebGLTransformFeedback {
+    [Symbol.toStringTag] = 'WebGLTransformFeedback';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -2288,11 +2751,10 @@ export class WebGLTransformFeedback {
     public toString() {
         return '[object WebGLTransformFeedback]';
     }
-
-    [Symbol.toStringTag] = 'WebGLTransformFeedback';
 }
 
 export class WebGLVertexArrayObject {
+    [Symbol.toStringTag] = 'WebGLVertexArrayObject';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -2306,11 +2768,10 @@ export class WebGLVertexArrayObject {
     public toString() {
         return '[object WebGLVertexArrayObject]';
     }
-
-    [Symbol.toStringTag] = 'WebGLVertexArrayObject';
 }
 
 export class WebGLSync {
+    [Symbol.toStringTag] = 'WebGLSync';
     private nativeInstance: any;
 
     constructor(nativeInstance: any) {
@@ -2324,6 +2785,4 @@ export class WebGLSync {
     public toString() {
         return '[object WebGLSync]';
     }
-
-    [Symbol.toStringTag] = 'WebGLSync';
 }

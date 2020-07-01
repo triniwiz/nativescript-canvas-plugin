@@ -1,4 +1,4 @@
-import { TNSImageAssetBase, TNSImageAssetSaveFormat, } from './canvas-plugin.common';
+import {TNSImageAssetBase, TNSImageAssetSaveFormat,} from './canvas-plugin.common';
 import * as fs from '@nativescript/core/file-system';
 
 export class TNSImageAsset extends TNSImageAssetBase {
@@ -6,17 +6,16 @@ export class TNSImageAsset extends TNSImageAssetBase {
         super(new com.github.triniwiz.canvas.ImageAsset());
     }
 
-    loadFile(path: string): boolean {
-        let realPath = path;
-        if (typeof realPath === 'string') {
-            if (realPath.startsWith('~/')) {
-                realPath = fs.path.join(
-                    fs.knownFolders.currentApp().path,
-                    realPath.replace('~/', '')
-                );
-            }
-        }
-        return this.native.loadImageFromPath(realPath);
+    get width() {
+        return this.native.getWidth();
+    }
+
+    get height() {
+        return this.native.getHeight();
+    }
+
+    get error(): string {
+        return this.native.getError();
     }
 
     static toPrimitive(value): any {
@@ -38,6 +37,19 @@ export class TNSImageAsset extends TNSImageAssetBase {
             return value.doubleValue();
         }
         return value;
+    }
+
+    loadFile(path: string): boolean {
+        let realPath = path;
+        if (typeof realPath === 'string') {
+            if (realPath.startsWith('~/')) {
+                realPath = fs.path.join(
+                    fs.knownFolders.currentApp().path,
+                    realPath.replace('~/', '')
+                );
+            }
+        }
+        return this.native.loadImageFromPath(realPath);
     }
 
     loadFileAsync(path: string) {
@@ -111,14 +123,6 @@ export class TNSImageAsset extends TNSImageAssetBase {
         });
     }
 
-    get width() {
-        return this.native.getWidth();
-    }
-
-    get height() {
-        return this.native.getHeight();
-    }
-
     scale(x: number, y: number) {
         this.native.scale(x, y);
     }
@@ -187,10 +191,6 @@ export class TNSImageAsset extends TNSImageAssetBase {
     flipY() {
         this.native.flipY();
     }
-
-    get error(): string {
-        return this.native.getError();
-    }
 }
 
 
@@ -200,6 +200,8 @@ declare namespace com {
             export namespace canvas {
                 export class ImageAsset {
                     public static class: java.lang.Class<com.github.triniwiz.canvas.ImageAsset>;
+
+                    public constructor();
 
                     public loadImageFromPathAsync(param0: string, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
 
@@ -226,8 +228,6 @@ declare namespace com {
                     public flipY(): void;
 
                     public scale(param0: number, param1: number): void;
-
-                    public constructor();
 
                     public loadImageFromBytesAsync(param0: native.Array<number>, param1: com.github.triniwiz.canvas.ImageAsset.Callback): void;
 
@@ -271,11 +271,11 @@ declare namespace com {
                     public static BMP: com.github.triniwiz.canvas.ImageAssetFormat;
                     public static TIFF: com.github.triniwiz.canvas.ImageAssetFormat;
 
-                    public getFormat(): number;
-
                     public static valueOf(param0: string): com.github.triniwiz.canvas.ImageAssetFormat;
 
                     public static values(): native.Array<com.github.triniwiz.canvas.ImageAssetFormat>;
+
+                    public getFormat(): number;
                 }
             }
         }

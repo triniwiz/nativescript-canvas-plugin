@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { particles } from '~/app/home/particles';
+import {Component, OnInit} from "@angular/core";
+import {particles} from '~/app/home/particles';
 
 @Component({
     selector: "Home",
@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
         // Init your component properties here.
     }
 
-    ready(event){
+    ready(event) {
         particles(event.object);
     }
 }

@@ -1,4 +1,4 @@
-import { CanvasGradientBase } from './canvas-plugin.common';
+import {CanvasGradientBase} from './canvas-plugin.common';
 
 export declare class CanvasGradient extends CanvasGradientBase {
     readonly nativeInstance: any;
@@ -6,7 +6,7 @@ export declare class CanvasGradient extends CanvasGradientBase {
 
     protected constructor(nativeInstance: any);
 
-    addColorStop(offset: number, color: any): void;
-
     static fromNative(nativeInstance: any): CanvasGradient;
+
+    addColorStop(offset: number, color: any): void;
 }

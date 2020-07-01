@@ -9,182 +9,9 @@ import {
     WebGLUniformLocation,
     WebGLVertexArrayObject
 } from './canvas-plugin.common';
-import { TNSWebGLRenderingContext } from './TNSWebGLRenderingContext';
+import {TNSWebGLRenderingContext} from './TNSWebGLRenderingContext';
 
 export declare class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext {
-    constructor(context: any);
-
-    beginQuery(target: number, query: WebGLQuery): void;
-
-    beginTransformFeedback(primitiveMode: number): void;
-
-    bindBufferBase(target: number, index: number, buffer: WebGLBuffer): void;
-
-    bindBufferRange(target: number, index: number, buffer: WebGLBuffer, offset: number, size: number): void;
-
-    bindSampler(unit: number, sampler: WebGLSampler): void;
-
-    bindTransformFeedback(target: number, transformFeedback: WebGLTransformFeedback): void;
-
-    bindVertexArray(vertexArray: WebGLVertexArrayObject): void;
-
-    blitFramebuffer(srcX0: number, srcY0: number, srcX1: number, srcY1: number, dstX0: number, dstY0: number, dstX1: number, dstY1: number, mask: number, filter: number): void;
-
-    clearBufferfi(buffer: WebGLBuffer, drawbuffer: number, depth: number, stencil: number): void;
-
-    clearBufferfv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Float32Array): void;
-
-    clearBufferiv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Int32Array): void;
-
-    clearBufferuiv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Uint32Array): void;
-
-    clientWaitSync(sync: WebGLSync, flags: number, timeout: number): number;
-
-    compressedTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, imageSize: number, offset: any): any;
-
-    copyBufferSubData(readTarget: number, writeTarget: number, readOffset: number, writeOffset: number, size: number): void;
-
-    copyTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, x: number, y: number, width: number, height: number): void;
-
-    createQuery(): WebGLQuery;
-
-    createSampler(): WebGLSampler;
-
-    createTransformFeedback(): WebGLTransformFeedback;
-
-    createVertexArray(): WebGLVertexArrayObject;
-
-    deleteQueryWithQuery(query: WebGLQuery): void;
-
-    deleteSamplerWithSampler(sampler: WebGLSampler): void;
-
-    deleteSyncWithSync(sync: WebGLSync): void;
-
-    deleteTransformFeedback(transformFeedback: WebGLTransformFeedback): void;
-
-    deleteVertexArrayWithVertexArray(vertexArray: WebGLVertexArrayObject): void;
-
-    drawArraysInstanced(mode: number, first: number, count: number, instanceCount: number): void;
-
-    drawBuffers(buffers: number[]): void;
-
-    drawElementsInstanced(mode: number, count: number, type: number, offset: number, instanceCount: number): void;
-
-    drawRangeElements(mode: number, start: number, end: number, count: number, type: number, offset: number): void;
-
-    endQuery(target: number): void;
-
-    endTransformFeedback(): void;
-
-    fenceSync(condition: number, flags: number): void;
-
-    framebufferTextureLayer(target: number, attachment: number, texture: WebGLTexture, level: number, layer: number): void;
-
-    getActiveUniformBlockName(program: WebGLProgram, uniformBlockIndex: number): string;
-
-    getActiveUniformBlockParameter(program: WebGLProgram, uniformBlockIndex: number, pname: number): any;
-
-    getActiveUniforms(program: WebGLProgram, uniformIndices: number[], pname: number): any;
-
-    getBufferSubData(target: number, srcByteOffset: number, dstData: ArrayBuffer, dstOffset?: number, length?: number): void;
-
-    getFragDataLocation(program: WebGLProgram, name: string): number;
-
-    getIndexedParameter(target: number, index: number): any;
-
-    getInternalformatParameter(target: number, internalformat: number, pname: number): any;
-
-    getQueryParameter(query: WebGLQuery, pname: number): any;
-
-    getQuery(target: number, pname: number): any;
-
-    getSamplerParameter(sampler: WebGLSampler, pname: number): any;
-
-    getSyncParameter(sync: WebGLSync, pname: number): any;
-
-    getTransformFeedbackVarying(program: WebGLProgram, index: number): any;
-
-    getUniformBlockIndex(program: WebGLProgram, uniformBlockName: string): number;
-
-    getUniformIndices(program: WebGLProgram, uniformNames: string[]): number[];
-
-    invalidateFramebuffer(target: number, attachments: number[]): void;
-
-    invalidateSubFramebuffer(target: number, attachments: number[], x: number, y: number, width: number, height: number): void;
-
-    isQuery(query: WebGLQuery): boolean;
-
-    isSampler(sampler: WebGLSampler): boolean;
-
-    isSync(sync: WebGLSync): boolean;
-
-    isTransformFeedback(transformFeedback: WebGLTransformFeedback): boolean;
-
-    isVertexArray(vertexArray: WebGLVertexArrayObject): boolean;
-
-    pauseTransformFeedback(): void;
-
-    readBuffer(src: number): void;
-
-    renderbufferStorageMultisample(target: number, samples: number, internalFormat: number, width: number, height: number): void;
-
-    resumeTransformFeedback(): void;
-
-    samplerParameterf(sampler: WebGLSampler, pname: number, param: number): void;
-
-    samplerParameteri(sampler: WebGLSampler, pname: number, param: number): void;
-
-    texImage3D(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, format: number, type: number, offset: any): any;
-
-    texStorage2D(target: number, levels: number, internalformat: number, width: number, height: number): void;
-
-    texStorage3D(target: number, levels: number, internalformat: number, width: number, height: number, depth: number): void;
-
-    texSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, offset: any): any;
-    texSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, srcData: any): any;
-
-    transformFeedbackVaryings(program: WebGLProgram, varyings: string[], bufferMode: number): void;
-
-    uniform1ui(location: number, v0: number): void;
-
-    uniform1uiv(location: number, data: Uint32Array): void;
-
-    uniform2ui(location: number, v0: number, v1: number): void;
-
-    uniform2uiv(location: number, data: Uint32Array): void;
-
-    uniform3ui(location: number, v0: number, v1: number, v2: number): void;
-
-    uniform3uiv(location: number, data: Uint32Array): void;
-
-    uniform4ui(location: number, v0: number, v1: number, v2: number, v3: number): void;
-
-    uniform4uiv(location: number, data: Uint32Array): void;
-
-    uniformBlockBinding(program: WebGLProgram, uniformBlockIndex: number, uniformBlockBinding: number): void;
-
-    uniformMatrix2x3fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    uniformMatrix2x4fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    uniformMatrix3x2fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    uniformMatrix3x4fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    uniformMatrix4x2fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    uniformMatrix4x3fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
-
-    vertexAttribDivisor(index: number, divisor: number): void;
-
-    vertexAttribI4i(index: number, v0: number, v1: number, v2: number, v3: number): void;
-
-    vertexAttribI4iv(index: number, value: number[] | Int32Array): void;
-
-    vertexAttribI4ui(index: number, v0: number, v1: number, v2: number, v3: number): void;
-
-    vertexAttribI4uiv(index: number, value: number[] | Uint32Array): void;
-
     readonly READ_BUFFER: number;
     readonly UNPACK_ROW_LENGTH: number;
     readonly UNPACK_SKIP_ROWS: number;
@@ -450,4 +277,178 @@ export declare class TNSWebGL2RenderingContext extends TNSWebGLRenderingContext 
     readonly INVALID_INDEX: number;
     readonly TIMEOUT_IGNORED: number;
     readonly MAX_CLIENT_WAIT_TIMEOUT_WEBGL: number;
+
+    constructor(context: any);
+
+    beginQuery(target: number, query: WebGLQuery): void;
+
+    beginTransformFeedback(primitiveMode: number): void;
+
+    bindBufferBase(target: number, index: number, buffer: WebGLBuffer): void;
+
+    bindBufferRange(target: number, index: number, buffer: WebGLBuffer, offset: number, size: number): void;
+
+    bindSampler(unit: number, sampler: WebGLSampler): void;
+
+    bindTransformFeedback(target: number, transformFeedback: WebGLTransformFeedback): void;
+
+    bindVertexArray(vertexArray: WebGLVertexArrayObject): void;
+
+    blitFramebuffer(srcX0: number, srcY0: number, srcX1: number, srcY1: number, dstX0: number, dstY0: number, dstX1: number, dstY1: number, mask: number, filter: number): void;
+
+    clearBufferfi(buffer: WebGLBuffer, drawbuffer: number, depth: number, stencil: number): void;
+
+    clearBufferfv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Float32Array): void;
+
+    clearBufferiv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Int32Array): void;
+
+    clearBufferuiv(buffer: WebGLBuffer, drawbuffer: number, values: number[] | Uint32Array): void;
+
+    clientWaitSync(sync: WebGLSync, flags: number, timeout: number): number;
+
+    compressedTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, imageSize: number, offset: any): any;
+
+    copyBufferSubData(readTarget: number, writeTarget: number, readOffset: number, writeOffset: number, size: number): void;
+
+    copyTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, x: number, y: number, width: number, height: number): void;
+
+    createQuery(): WebGLQuery;
+
+    createSampler(): WebGLSampler;
+
+    createTransformFeedback(): WebGLTransformFeedback;
+
+    createVertexArray(): WebGLVertexArrayObject;
+
+    deleteQueryWithQuery(query: WebGLQuery): void;
+
+    deleteSamplerWithSampler(sampler: WebGLSampler): void;
+
+    deleteSyncWithSync(sync: WebGLSync): void;
+
+    deleteTransformFeedback(transformFeedback: WebGLTransformFeedback): void;
+
+    deleteVertexArrayWithVertexArray(vertexArray: WebGLVertexArrayObject): void;
+
+    drawArraysInstanced(mode: number, first: number, count: number, instanceCount: number): void;
+
+    drawBuffers(buffers: number[]): void;
+
+    drawElementsInstanced(mode: number, count: number, type: number, offset: number, instanceCount: number): void;
+
+    drawRangeElements(mode: number, start: number, end: number, count: number, type: number, offset: number): void;
+
+    endQuery(target: number): void;
+
+    endTransformFeedback(): void;
+
+    fenceSync(condition: number, flags: number): void;
+
+    framebufferTextureLayer(target: number, attachment: number, texture: WebGLTexture, level: number, layer: number): void;
+
+    getActiveUniformBlockName(program: WebGLProgram, uniformBlockIndex: number): string;
+
+    getActiveUniformBlockParameter(program: WebGLProgram, uniformBlockIndex: number, pname: number): any;
+
+    getActiveUniforms(program: WebGLProgram, uniformIndices: number[], pname: number): any;
+
+    getBufferSubData(target: number, srcByteOffset: number, dstData: ArrayBuffer, dstOffset?: number, length?: number): void;
+
+    getFragDataLocation(program: WebGLProgram, name: string): number;
+
+    getIndexedParameter(target: number, index: number): any;
+
+    getInternalformatParameter(target: number, internalformat: number, pname: number): any;
+
+    getQueryParameter(query: WebGLQuery, pname: number): any;
+
+    getQuery(target: number, pname: number): any;
+
+    getSamplerParameter(sampler: WebGLSampler, pname: number): any;
+
+    getSyncParameter(sync: WebGLSync, pname: number): any;
+
+    getTransformFeedbackVarying(program: WebGLProgram, index: number): any;
+
+    getUniformBlockIndex(program: WebGLProgram, uniformBlockName: string): number;
+
+    getUniformIndices(program: WebGLProgram, uniformNames: string[]): number[];
+
+    invalidateFramebuffer(target: number, attachments: number[]): void;
+
+    invalidateSubFramebuffer(target: number, attachments: number[], x: number, y: number, width: number, height: number): void;
+
+    isQuery(query: WebGLQuery): boolean;
+
+    isSampler(sampler: WebGLSampler): boolean;
+
+    isSync(sync: WebGLSync): boolean;
+
+    isTransformFeedback(transformFeedback: WebGLTransformFeedback): boolean;
+
+    isVertexArray(vertexArray: WebGLVertexArrayObject): boolean;
+
+    pauseTransformFeedback(): void;
+
+    readBuffer(src: number): void;
+
+    renderbufferStorageMultisample(target: number, samples: number, internalFormat: number, width: number, height: number): void;
+
+    resumeTransformFeedback(): void;
+
+    samplerParameterf(sampler: WebGLSampler, pname: number, param: number): void;
+
+    samplerParameteri(sampler: WebGLSampler, pname: number, param: number): void;
+
+    texImage3D(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, format: number, type: number, offset: any): any;
+
+    texStorage2D(target: number, levels: number, internalformat: number, width: number, height: number): void;
+
+    texStorage3D(target: number, levels: number, internalformat: number, width: number, height: number, depth: number): void;
+
+    texSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, offset: any): any;
+
+    texSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, srcData: any): any;
+
+    transformFeedbackVaryings(program: WebGLProgram, varyings: string[], bufferMode: number): void;
+
+    uniform1ui(location: number, v0: number): void;
+
+    uniform1uiv(location: number, data: Uint32Array): void;
+
+    uniform2ui(location: number, v0: number, v1: number): void;
+
+    uniform2uiv(location: number, data: Uint32Array): void;
+
+    uniform3ui(location: number, v0: number, v1: number, v2: number): void;
+
+    uniform3uiv(location: number, data: Uint32Array): void;
+
+    uniform4ui(location: number, v0: number, v1: number, v2: number, v3: number): void;
+
+    uniform4uiv(location: number, data: Uint32Array): void;
+
+    uniformBlockBinding(program: WebGLProgram, uniformBlockIndex: number, uniformBlockBinding: number): void;
+
+    uniformMatrix2x3fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    uniformMatrix2x4fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    uniformMatrix3x2fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    uniformMatrix3x4fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    uniformMatrix4x2fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    uniformMatrix4x3fv(location: WebGLUniformLocation, transpose: boolean, data: Float32Array): void;
+
+    vertexAttribDivisor(index: number, divisor: number): void;
+
+    vertexAttribI4i(index: number, v0: number, v1: number, v2: number, v3: number): void;
+
+    vertexAttribI4iv(index: number, value: number[] | Int32Array): void;
+
+    vertexAttribI4ui(index: number, v0: number, v1: number, v2: number, v3: number): void;
+
+    vertexAttribI4uiv(index: number, value: number[] | Uint32Array): void;
 }

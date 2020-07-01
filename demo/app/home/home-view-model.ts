@@ -1,6 +1,6 @@
-import { Observable } from "tns-core-modules/data/observable";
+import { Observable } from "@nativescript/core/data/observable";
 
-import { ObservableArray } from "tns-core-modules/data/observable-array";
+import { ObservableArray } from "@nativescript/core/data/observable-array";
 
 export class HomeViewModel extends Observable {
     show: boolean = true;

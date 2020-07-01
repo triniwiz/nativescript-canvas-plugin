@@ -1,4 +1,4 @@
-import { ImageDataBase } from './canvas-plugin.common';
+import {ImageDataBase} from './canvas-plugin.common';
 
 export declare class ImageData extends ImageDataBase {
     protected constructor(nativeInstance: any);

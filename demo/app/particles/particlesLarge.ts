@@ -135,6 +135,7 @@ export function particlesLarge(canvas) {
         var self = this,
             ctx = self.ctx;
 
+            const doDrawing =
     LAF =  setInterval(function(){
             //clears canvas
             self.clearCanvas();

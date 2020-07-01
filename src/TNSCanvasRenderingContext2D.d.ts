@@ -1,14 +1,11 @@
-import { TNSCanvasRenderingContext2DBase } from './canvas-plugin.common';
-import { CanvasGradient } from './CanvasGradient';
-import { TNSPath2D } from './TNSPath2D';
-import { ImageData } from './ImageData';
-import { TextMetrics } from './TextMetrics';
+import {TNSCanvasRenderingContext2DBase} from './canvas-plugin.common';
+import {CanvasGradient} from './CanvasGradient';
+import {TNSPath2D} from './TNSPath2D';
+import {ImageData} from './ImageData';
+import {TextMetrics} from './TextMetrics';
+import {CanvasPattern} from './CanvasPattern';
 
 export declare class TNSCanvasRenderingContext2D extends TNSCanvasRenderingContext2DBase {
-    private context;
-
-    constructor(context: any);
-
     readonly native;
     shadowColor: string;
     globalAlpha: number;
@@ -23,13 +20,16 @@ export declare class TNSCanvasRenderingContext2D extends TNSCanvasRenderingConte
     shadowOffsetY: number;
     textAlign: string;
     globalCompositeOperation: string;
-    fillStyle: string | CanvasGradient;
-    strokeStyle: string | CanvasGradient;
+    fillStyle: string | CanvasGradient | CanvasPattern;
+    strokeStyle: string | CanvasGradient | CanvasPattern;
     lineWidth: number;
+    private context;
+
+    constructor(context: any);
 
     addHitRegion(region: any): void;
 
-    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
 
     arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
 
@@ -52,7 +52,7 @@ export declare class TNSCanvasRenderingContext2D extends TNSCanvasRenderingConte
 
     createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient;
 
-    createPattern(image: any, repetition: string): void;
+    createPattern(image: any, repetition: string): CanvasPattern | null;
 
     createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): CanvasGradient;
 
@@ -63,7 +63,7 @@ export declare class TNSCanvasRenderingContext2D extends TNSCanvasRenderingConte
     drawImage(image: any, dx: number, dy: number, dWidth: number, dHeight: number): void;
     drawImage(image: any, sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: number): void;
 
-    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise: boolean): void;
+    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void;
 
     fill(): void;
     fill(fillRule: string): void;

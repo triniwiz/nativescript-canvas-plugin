@@ -1,4 +1,4 @@
-import { ImageSource } from 'tns-core-modules/image-source';
+import { ImageSource } from '@nativescript/core/image-source';
 
 export function flappyBird(canvas){
     var ctx,

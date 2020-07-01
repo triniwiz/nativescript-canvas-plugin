@@ -1,4 +1,4 @@
-import { TNSImageAssetBase, TNSImageAssetSaveFormat, } from './canvas-plugin.common';
+import {TNSImageAssetBase, TNSImageAssetSaveFormat,} from './canvas-plugin.common';
 import * as fs from '@nativescript/core/file-system';
 
 declare var ImageAsset;
@@ -10,8 +10,16 @@ export class TNSImageAsset extends TNSImageAssetBase {
         super(ImageAsset.alloc().init());
     }
 
-    private _createQueue() {
-        return dispatch_queue_create('TNSImageAsset', null);
+    get width() {
+        return this.native.width;
+    }
+
+    get height() {
+        return this.native.height;
+    }
+
+    get error(): string {
+        return this.native.error;
     }
 
     loadFile(path: string): boolean {
@@ -83,14 +91,6 @@ export class TNSImageAsset extends TNSImageAssetBase {
         });
     }
 
-    get width() {
-        return this.native.width;
-    }
-
-    get height() {
-        return this.native.height;
-    }
-
     scale(x: number, y: number) {
         this.native.scaleWithXY(x, y);
     }
@@ -120,7 +120,7 @@ export class TNSImageAsset extends TNSImageAssetBase {
         this.native.flipY();
     }
 
-    get error(): string {
-        return this.native.error;
+    private _createQueue() {
+        return dispatch_queue_create('TNSImageAsset', null);
     }
 }

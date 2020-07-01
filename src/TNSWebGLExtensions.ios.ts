@@ -1,4 +1,4 @@
-import { WebGLVertexArrayObject } from './canvas-plugin.common';
+import {WebGLVertexArrayObject} from './canvas-plugin.common';
 
 export class EXT_blend_minmax {
     MAX_EXT: number;
@@ -11,8 +11,8 @@ export class EXT_blend_minmax {
 }
 
 export class ANGLE_instanced_arrays {
-    private nativeInstance;
     VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE: number;
+    private nativeInstance;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -153,8 +153,8 @@ export class OES_texture_half_float_linear {
 }
 
 export class OES_vertex_array_object {
-    private nativeInstance: any;
     VERTEX_ARRAY_BINDING_OES: number;
+    private nativeInstance: any;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -291,8 +291,6 @@ export class WEBGL_lose_context {
 }
 
 export class EXT_disjoint_timer_query {
-    private nativeInstance: any;
-
     QUERY_COUNTER_BITS_EXT;
     CURRENT_QUERY_EXT;
     QUERY_RESULT_EXT;
@@ -300,6 +298,7 @@ export class EXT_disjoint_timer_query {
     TIME_ELAPSED_EXT;
     TIMESTAMP_EXT;
     GPU_DISJOINT_EXT;
+    private nativeInstance: any;
 
     constructor(nativeInstance) {
         this.nativeInstance = nativeInstance;
@@ -346,10 +345,10 @@ export class EXT_disjoint_timer_query {
 
 
 export class WEBGL_compressed_texture_atc {
-    private nativeInstance: any;
     COMPRESSED_RGB_ATC_WEBGL;
     COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL;
     COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL;
+    private nativeInstance: any;
 
     constructor(nativeInstance) {
         this.COMPRESSED_RGB_ATC_WEBGL = nativeInstance.COMPRESSED_RGB_ATC_WEBGL;
