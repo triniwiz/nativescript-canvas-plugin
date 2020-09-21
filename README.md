@@ -5,6 +5,8 @@
 [![Build Status](https://travis-ci.org/triniwiz/nativescript-canvas.svg?branch=master)](https://travis-ci.org/triniwiz/nativescript-canvas)
 
 
+**The source is now managed at https://github.com/NativeScript/canvas**
+
 **Powered by**
 * [CanvasNative](https://github.com/triniwiz/canvas-native) - Rust
 * [CanvasNative](https://github.com/triniwiz/canvas-native-ios) - IOS
