@@ -23,7 +23,7 @@
     "nativescript-canvas-plugin": "file:../src",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-videoplayer": "^4.2.1",
-    "npm": "^6.14.5",
+    "npm": "^6.14.6",
     "phaser": "^3.22.0",
     "phaser-ce": "^2.15.0"
   },
